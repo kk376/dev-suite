@@ -25,9 +25,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
 alias ls='eza --group-directories-first --classify --icons --git'
 alias cat='batcat --paging=never --style=plain'
 
-# Browser Integration
-export BROWSER='/mnt/c/Users/$WIN_USER/AppData/Local/BraveSoftware/Brave-Browser/Application/brave.exe'
-
 # ===== Antigravity IDE (WSL Remote) =====
 anti() {
   if [[ -z "$WSL_DISTRO_NAME" ]]; then
