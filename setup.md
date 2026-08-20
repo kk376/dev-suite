@@ -325,13 +325,44 @@ rm -rf /tmp/aur-ferrisfetch
 
 ### E. Disaster Recovery: Backup & Restore Keys
 
-#### To Backup Credentials to Password-Protected Zip:
-```bash
-bash $HOME/code/backup_packaging_keys.sh
-```
-*(Uploads `~/code/packaging-backup.zip` to Google Drive).*
+Helper scripts are tracked in [`dotfiles/scripts/`](scripts/):
 
-#### To Restore on a Brand New Machine:
+#### 1. Backup Credentials (Automated):
 ```bash
-bash $HOME/code/restore_packaging_keys.sh ~/code/packaging-backup.zip
+# Creates password-protected packaging-backup.zip (GPG key, Copr config, SSH keys)
+bash ~/.dotfiles/scripts/backup_packaging_keys.sh
+# 👉 Action: Upload ~/code/packaging-backup.zip to Google Drive or Bitwarden
 ```
+
+#### 2. Restore Credentials on a New Machine (Automated):
+```bash
+# 1. Download packaging-backup.zip from your cloud storage
+# 2. Run the restore script
+bash ~/.dotfiles/scripts/restore_packaging_keys.sh ~/code/packaging-backup.zip
+```
+
+#### 3. Manual Step-by-Step Recovery Reference:
+If you do not have the restore script, run these commands manually after unzipping `packaging-backup.zip`:
+
+```bash
+# A. Import GPG private signing key
+gpg --import ferrisfetch-gpg-key.asc
+
+# B. Restore Copr API configuration
+mkdir -p ~/.config
+cp copr-config.backup ~/.config/copr
+chmod 600 ~/.config/copr
+
+# C. Restore SSH keys for AUR and GitHub
+mkdir -p ~/.ssh
+cp id_ed25519 ~/.ssh/id_ed25519
+cp id_ed25519.pub ~/.ssh/id_ed25519.pub
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+
+# D. Install essential packaging tools
+sudo apt update && sudo apt install -y debhelper devscripts dput git
+pipx install copr-cli
+```
+
