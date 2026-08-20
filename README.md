@@ -7,9 +7,7 @@ Personal configuration and dotfiles.
 - `.zshrc` — Zsh configuration with Starship prompt, custom aliases, Antigravity IDE remote launcher, and plugins.
 - `starship.toml` — Starship prompt theme configuration.
 - `.gemini/config/skills/` — Antigravity / Gemini CLI custom skills:
-  - `master-protocol` — Master engineering craftsmanship, Linux systems architecture, multi-distro packaging rules, bug diagnosis loops, and pair-programming protocol.
-  - `engineering-craft` — Unified engineering craftsmanship standards and humanized writing system.
-  - `humanizer` — Wikipedia-derived AI writing cleanup checklist.
+  - `master-protocol` — Unified master engineering craftsmanship, deep module design, multi-distro packaging (PPA/Copr/AUR/Brew), bug diagnosis loops, and authentic humanized communication.
 
 ## Quick Setup
 ```bash
