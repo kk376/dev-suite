@@ -275,24 +275,35 @@ When cutting a new release (e.g. `v0.6.0`):
 #### 1. Ubuntu Launchpad PPA
 ```bash
 BUILD_DIR=$(mktemp -d)
-mkdir -p "$BUILD_DIR/ferrisfetch-0.6.0"
-cp -r src completions Cargo.toml Cargo.lock LICENSE README.md vendor "$BUILD_DIR/ferrisfetch-0.6.0/"
-mkdir -p "$BUILD_DIR/ferrisfetch-0.6.0/.cargo"
-cat > "$BUILD_DIR/ferrisfetch-0.6.0/.cargo/config.toml" << 'CARGO_CONFIG'
+mkdir -p "$BUILD_DIR/ferrisfetch-0.5.0.4"
+cp -r src completions Cargo.toml Cargo.lock LICENSE README.md vendor "$BUILD_DIR/ferrisfetch-0.5.0.4/"
+mkdir -p "$BUILD_DIR/ferrisfetch-0.5.0.4/.cargo"
+cat > "$BUILD_DIR/ferrisfetch-0.5.0.4/.cargo/config.toml" << 'CARGO_CONFIG'
 [source.crates-io]
 replace-with = "vendored-sources"
 
 [source.vendored-sources]
 directory = "vendor/"
 CARGO_CONFIG
-cp -r packaging/debian "$BUILD_DIR/ferrisfetch-0.6.0/debian"
+cp -r packaging/debian "$BUILD_DIR/ferrisfetch-0.5.0.4/debian"
+
+# Strip file-level checksums so dh_clean *.orig pruning does not break cargo offline build
+python3 -c '
+import glob, json
+for p in glob.glob("'"$BUILD_DIR"'/ferrisfetch-0.5.0.4/vendor/*/.cargo-checksum.json"):
+    with open(p, "r") as f:
+        data = json.load(f)
+    data["files"] = {}
+    with open(p, "w") as f:
+        json.dump(data, f)
+'
 
 cd "$BUILD_DIR"
-tar -czf ferrisfetch_0.6.0.orig.tar.gz ferrisfetch-0.6.0
+tar -czf ferrisfetch_0.5.0.4.orig.tar.gz ferrisfetch-0.5.0.4
 
-cd "$BUILD_DIR/ferrisfetch-0.6.0"
+cd "$BUILD_DIR/ferrisfetch-0.5.0.4"
 dpkg-buildpackage -S -d -k<gpg-signing-fingerprint>
-dput ppa:<launchpad-username>/ferrisfetch "$BUILD_DIR"/ferrisfetch_0.6.0-1~ppa1~noble_source.changes
+dput ppa:<launchpad-username>/ferrisfetch "$BUILD_DIR"/ferrisfetch_0.5.0.4-1~ppa1~noble_source.changes
 rm -rf "$BUILD_DIR"
 ```
 
