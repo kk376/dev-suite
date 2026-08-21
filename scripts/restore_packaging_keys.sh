@@ -9,6 +9,7 @@ if [ ! -f "$ZIP_FILE" ]; then
     exit 1
 fi
 
+# Decrypt into an ephemeral sandbox directory to avoid leaving unencrypted artifacts on disk on error
 RESTORE_DIR=$(mktemp -d)
 trap 'rm -rf "$RESTORE_DIR"' EXIT
 
@@ -16,13 +17,13 @@ echo "=== FerrisFetch Packaging Keys Restore Helper ==="
 echo "Unzipping $ZIP_FILE..."
 unzip "$ZIP_FILE" -d "$RESTORE_DIR"
 
-# 1. Restore GPG Key
+# 1. Restore GPG Key: imports and merges private/public keys directly into ~/.gnupg keyrings without overwriting unrelated keys
 if [ -f "$RESTORE_DIR/ferrisfetch-gpg-key.asc" ]; then
     echo "Importing GPG signing key..."
     gpg --import "$RESTORE_DIR/ferrisfetch-gpg-key.asc"
 fi
 
-# 2. Restore Copr Config
+# 2. Restore Copr Config: enforce user-only read/write (0600) mask to prevent local multi-user token disclosure
 if [ -f "$RESTORE_DIR/copr-config.backup" ]; then
     echo "Restoring Copr API config to ~/.config/copr..."
     mkdir -p "$HOME/.config"
@@ -30,7 +31,8 @@ if [ -f "$RESTORE_DIR/copr-config.backup" ]; then
     chmod 600 "$HOME/.config/copr"
 fi
 
-# 3. Restore SSH Keys
+# 3. Restore SSH Keys: OpenSSH client enforces strict POSIX file permissions (rejects keys if group/world accessible)
+# Directory requires 0700 (rwx------), private key requires 0600 (rw-------), public key requires 0644 (rw-r--r--)
 if [ -f "$RESTORE_DIR/id_ed25519" ]; then
     echo "Restoring SSH keys to ~/.ssh/..."
     mkdir -p "$HOME/.ssh"
@@ -44,3 +46,4 @@ fi
 echo ""
 echo "✅ All packaging keys and credentials restored successfully!"
 echo "Run 'copr-cli whoami' and 'gpg -K' to verify."
+

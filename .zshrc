@@ -3,14 +3,16 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
+# Write each command immediately upon execution and import from other concurrent shells in real-time
 setopt APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
+# Suppress duplicate consecutive entries, leading whitespace commands (prevents secret leakage), and extra internal spaces
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 
-# Ctrl + Left / Right navigation
+# Ctrl + Left / Right navigation (xterm-256color CSI sequences for word jumps)
 bindkey '^[[;5D' backward-word
 bindkey '^[[;5C' forward-word
 
@@ -18,6 +20,7 @@ bindkey '^[[;5C' forward-word
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
 
 # ===== Zsh plugins (manual) =====
+# Sourced manually to avoid overhead of heavyweight plugin managers
 [[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 [[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -26,12 +29,14 @@ alias ls='eza --group-directories-first --classify --icons --git'
 alias cat='batcat --paging=never --style=plain'
 
 # ===== Antigravity IDE (WSL Remote) =====
+# Interop bridge: spawns Windows-native GUI from inside WSL2 without X11/Wayland server forwarding
 anti() {
   if [[ -z "$WSL_DISTRO_NAME" ]]; then
     echo "❌ anti: This command must be run inside WSL"
     return 1
   fi
 
+  # Query Windows host environment variable to locate user profile path across arbitrary username schemes
   local WIN_USER
   WIN_USER=$(cmd.exe /c "echo %USERNAME%" 2>/dev/null | tr -d '\r')
 
@@ -47,7 +52,7 @@ anti() {
   local LINUX_PATH
   LINUX_PATH="$(realpath "${1:-.}")"
 
-  # Launch Antigravity IDE connected to WSL
+  # Pass WSL remote connection target and workspace directory; detach from shell process group to avoid hang
   "$IDE_EXE" --remote "wsl+$WSL_DISTRO_NAME" "$LINUX_PATH" &>/dev/null &
   disown
 }
@@ -61,4 +66,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # ===== Starship (ALWAYS LAST) =====
+# Initialized last so prompt hooks (precmd/preexec) wrap all loaded shell plugins and environment variables
 eval "$(starship init zsh)"
+
