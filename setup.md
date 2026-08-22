@@ -98,9 +98,9 @@ sudo dnf install -y ferrisfetch
    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/plugins/zsh-syntax-highlighting
    ```
 
-2. **Deploy Dotfiles**:
+2. **Deploy Configurations**:
    ```bash
-   # From ~/code/dotfiles:
+   # From ~/code/dev-suite:
    cp .zshrc ~/.zshrc
    mkdir -p ~/.config
    cp starship.toml ~/.config/starship.toml
@@ -117,7 +117,7 @@ sudo dnf install -y ferrisfetch
 
 ### A. Resource Allocation & Performance Tuning (`.wslconfig`)
 
-Create or edit `C:\Users\<WindowsUser>\.wslconfig` on the Windows host (or apply from `dotfiles/.wslconfig`):
+Create or edit `C:\Users\<WindowsUser>\.wslconfig` on the Windows host (or apply from `dev-suite/.wslconfig`):
 
 ```ini
 # %USERPROFILE%\.wslconfig - Global WSL2 Resource Configuration
@@ -154,7 +154,7 @@ sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 
 ### B. WSL System Configuration (`/etc/wsl.conf`)
 
-Add the following to `/etc/wsl.conf` inside Linux (or apply from `dotfiles/wsl.conf`):
+Add the following to `/etc/wsl.conf` inside Linux (or apply from `dev-suite/wsl.conf`):
 
 ```ini
 # /etc/wsl.conf - Distribution-level WSL2 Configuration
@@ -446,18 +446,18 @@ wingetcreate update <Publisher>.<PackageName> --version <version> --urls https:/
 
 ### E. Disaster Recovery: Backup & Restore Keys
 
-Helper scripts tracked in [`dotfiles/scripts/`](scripts/):
+Helper scripts tracked in [`dev-suite/scripts/`](scripts/):
 
 #### 1. Backup Credentials (Automated):
 ```bash
 # Generates encrypted packaging-backup.zip (GPG keys, Copr API config, SSH keys)
-bash ~/.dotfiles/scripts/backup_packaging_keys.sh
+bash ~/code/dev-suite/scripts/backup_packaging_keys.sh
 # Save packaging-backup.zip to secure secondary storage (Bitwarden or encrypted cloud storage)
 ```
 
 #### 2. Restore Credentials on a New Machine (Automated):
 ```bash
-bash ~/.dotfiles/scripts/restore_packaging_keys.sh ~/code/packaging-backup.zip
+bash ~/code/dev-suite/scripts/restore_packaging_keys.sh ~/code/packaging-backup.zip
 ```
 
 #### 3. Manual Step-by-Step Recovery Reference:

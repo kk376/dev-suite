@@ -1,6 +1,6 @@
-# Dotfiles
+# Dev Suite
 
-Personal configuration and dotfiles.
+Personal developer suite, environment configurations, multi-distro packaging automation, and autonomous agent engineering & design skills.
 
 ## Files
 - `setup.md` — Complete developer environment setup, CLI toolchain installation, WSL2 optimizations, and packaging master guide (Ubuntu PPA, Fedora Copr, Homebrew Tap, Arch AUR).
@@ -15,14 +15,14 @@ Personal configuration and dotfiles.
 
 ## Quick Setup
 ```bash
-# Clone and symlink/sync to home directory
-git clone git@github.com:<github-user>/dotfiles.git ~/.dotfiles
+# Clone and deploy to home directory
+git clone git@github.com:kk376/dev-suite.git ~/code/dev-suite
 mkdir -p ~/.gemini/config/skills
-cp -r ~/.dotfiles/.gemini/config/skills/* ~/.gemini/config/skills/
-cp ~/.dotfiles/.zshrc ~/.zshrc
-mkdir -p ~/.config && cp ~/.dotfiles/starship.toml ~/.config/starship.toml
+cp -r ~/code/dev-suite/.gemini/config/skills/* ~/.gemini/config/skills/
+cp ~/code/dev-suite/.zshrc ~/.zshrc
+mkdir -p ~/.config && cp ~/code/dev-suite/starship.toml ~/.config/starship.toml
 
 # Apply WSL configs
-sudo cp ~/.dotfiles/wsl.conf /etc/wsl.conf
-cp ~/.dotfiles/.wslconfig /mnt/c/Users/$USER/.wslconfig 2>/dev/null || true
+sudo cp ~/code/dev-suite/wsl.conf /etc/wsl.conf
+cp ~/code/dev-suite/.wslconfig /mnt/c/Users/$USER/.wslconfig 2>/dev/null || true
 ```
