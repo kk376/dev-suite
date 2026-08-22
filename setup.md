@@ -256,6 +256,10 @@ GPG_KEY="<gpg-signing-fingerprint>" # GPG signing key fingerprint
    - Declare `debhelper-compat (= 13)` in `debian/control` and delete legacy `debian/compat` files.
 8. **Protect Signing Keys and API Tokens**:
    - Never commit private keys or API tokens to Git. Store credential backups in encrypted archives.
+9. **Account for Launchpad Repository Publishing Latency (FULLYBUILT_PENDING)**:
+   - After a package builds successfully on the buildd daemon, Launchpad does not immediately make the `.deb` installable via `apt`.
+   - The package enters the **`FULLYBUILT_PENDING`** state while awaiting Launchpad's periodic repository index publisher cron job (which runs every 10–15 minutes).
+   - Once the publisher signs the repository `Packages.gz` and `InRelease` files (status transitions to **`Published`**), `sudo apt update && sudo apt install <pkg>` will resolve and install the package.
 
 ---
 
