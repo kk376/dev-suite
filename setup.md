@@ -115,17 +115,32 @@ sudo dnf install -y ferrisfetch
 
 ## 2. WSL2 Host Performance & Integration
 
-### A. Memory Auto-Reclaim & Disk Shrink (`.wslconfig`)
+### A. Resource Allocation & Performance Tuning (`.wslconfig`)
 
-Create or edit `C:\Users\<WindowsUser>\.wslconfig` in Windows:
+Create or edit `C:\Users\<WindowsUser>\.wslconfig` on the Windows host (or apply from `dotfiles/.wslconfig`):
 
 ```ini
+# %USERPROFILE%\.wslconfig - Global WSL2 Resource Configuration
+
 [wsl2]
+# Caps WSL2 physical RAM allocation to 8GB (leaves 8GB for Windows host & GPU overhead on 16GB systems)
+memory=8GB
+
+# Allocates 4 dedicated CPU cores out of 12 (Ryzen 5 7535HS) to ensure smooth host UI during heavy compilation
+processors=4
+
+# Limits virtual swap file size on physical NVMe SSD
 swap=2GB
 
+# Automatically binds Linux listening ports (e.g., localhost:3000) to Windows localhost
+localhostForwarding=true
+
 [experimental]
-autoMemoryReclaim=gradual   # Automatically releases cached RAM back to Windows host
-sparseVhd=true             # Automatically shrinks virtual disk when files are deleted
+# Automatically and gradually frees idle Linux page cache RAM back to Windows
+autoMemoryReclaim=gradual
+
+# Automatically contracts the dynamic ext4.vhdx virtual disk size when files are deleted
+sparseVhd=true
 ```
 
 *Apply changes by running `wsl --shutdown` in Windows PowerShell.*
@@ -139,23 +154,33 @@ sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 
 ### B. WSL System Configuration (`/etc/wsl.conf`)
 
-Add the following to `/etc/wsl.conf` inside Linux:
+Add the following to `/etc/wsl.conf` inside Linux (or apply from `dotfiles/wsl.conf`):
 
 ```ini
+# /etc/wsl.conf - Distribution-level WSL2 Configuration
+
 [boot]
+# Enables systemd init for Docker daemon, background services, and socket activation
 systemd=true
 
+[user]
+# Sets default non-root user for login sessions
+default=<username>
+
 [automount]
+# Automatically mounts Windows drive letters (/mnt/c, /mnt/d)
 enabled=true
-options="metadata,umask=22,fmask=11"
+# metadata: Emulates POSIX permissions (chmod/chown) on Windows NTFS drives
+# case=off: Enables case-insensitive path lookup matching Windows filesystem behavior
+options="metadata,case=off"
+# Processes /etc/fstab entries on boot
 mountFsTab=true
 
 [interop]
+# Enables running Windows executables (.exe) from Linux shell
 enabled=true
+# Appends Windows host PATH to Linux PATH
 appendWindowsPath=true
-
-[user]
-default=<username>
 ```
 
 ---

@@ -1,9 +1,21 @@
+# %USERPROFILE%\.wslconfig - Global WSL2 Virtual Machine Resource Configuration
+
 [wsl2]
-swap=2GB
+# Caps WSL2 physical RAM allocation to 8GB (leaves 8GB for Windows host & GPU overhead on 16GB systems)
 memory=8GB
+
+# Allocates 4 dedicated CPU cores out of 12 (Ryzen 5 7535HS) to ensure smooth host UI during heavy compilation
 processors=4
+
+# Limits virtual swap file size on physical NVMe SSD
+swap=2GB
+
+# Automatically binds Linux listening ports (e.g., localhost:3000) to Windows localhost
 localhostForwarding=true
 
 [experimental]
+# Automatically and gradually frees idle Linux page cache RAM back to Windows
 autoMemoryReclaim=gradual
+
+# Automatically contracts the dynamic ext4.vhdx virtual disk size when files are deleted
 sparseVhd=true
