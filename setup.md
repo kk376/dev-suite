@@ -245,11 +245,15 @@ GPG_KEY="<gpg-signing-fingerprint>" # GPG signing key fingerprint
      find vendor/ -name "Cargo.toml*" -exec sed -i 's/edition = "2024"/edition = "2021"/g' {} +
      find vendor/ -name "Cargo.toml*" -exec sed -i '/rust-version/d' {} +
      ```
-5. **Configure Push Events for Fedora Copr Webhooks**:
+5. **Pin Dependencies to Match Target Distro MSRV**:
+   - Ubuntu LTS distributions ship fixed `rustc` versions in standard repos (e.g. Ubuntu 24.04 Noble ships `rustc 1.75.0`).
+   - Newer releases of dependencies often rely on recently stabilized standard library features (for example, `clap >= 4.6.0` adopted `Result::inspect_err()` which requires `rustc >= 1.76.0`, failing with `E0658: use of unstable library feature 'result_option_inspect'`).
+   - Pin crates to LTS-compatible series (e.g. `clap = { version = "~4.5.31", features = ["derive"] }` which has MSRV 1.74) before vendoring.
+6. **Configure Push Events for Fedora Copr Webhooks**:
    - Copr webhook triggers require **Push events** (commits and tags) enabled in GitHub repository settings. Do not select only "Releases".
-6. **Use Modern Debhelper Compatibility**:
+7. **Use Modern Debhelper Compatibility**:
    - Declare `debhelper-compat (= 13)` in `debian/control` and delete legacy `debian/compat` files.
-7. **Protect Signing Keys and API Tokens**:
+8. **Protect Signing Keys and API Tokens**:
    - Never commit private keys or API tokens to Git. Store credential backups in encrypted archives.
 
 ---
