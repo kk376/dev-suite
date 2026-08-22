@@ -276,14 +276,10 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
      ```
      If the source or vendoring changes after an upload attempt, bump the upstream version or increment the micro release (e.g. `0.8.5` → `0.8.6` or `0.8.5.1`) to generate a new source archive name.
 
-4. **Never Retain `"files"` Mappings in Vendored `.cargo-checksum.json` for Debian Packaging**:
-   - **Anti-Pattern**: Leaving original `.cargo-checksum.json` file mappings intact in the vendored crates directory.
-   - **Why It Fails**: Debian's `dh_clean` and `dpkg-source` automatically delete `*.orig` files (like `Cargo.toml.orig`) and dotfiles across the source tree before building. When `dh_auto_test` / `cargo build` executes offline, Cargo compares checksums and crashes with:
-     ```text
-     error: failed to verify the checksum of `...`
-     Caused by: the file `Cargo.toml.orig` is missing
-     ```
-   - **Rule**: Always strip the `"files"` dictionary to empty `{}` across all vendored `.cargo-checksum.json` files before building the Debian source package:
+4. **Never Retain `"files"` Mappings OR Delete `.cargo-checksum.json` Files in Vendored Crates**:
+   - **Anti-Pattern A (Retaining Mappings)**: Leaving original `.cargo-checksum.json` file mappings intact in the vendored crates directory. Debian's `dh_clean` and `dpkg-source` delete `*.orig` files (like `Cargo.toml.orig`), causing Cargo checksum verification to fail during offline builds.
+   - **Anti-Pattern B (Deleting the Checksum Files)**: Deleting `.cargo-checksum.json` entirely via `find vendor/ -name ".cargo-checksum.json" -delete`. Cargo strictly requires a `.cargo-checksum.json` file in every vendored package directory and will halt with `failed to read .../.cargo-checksum.json: No such file or directory (os error 2)`.
+   - **Rule**: Always keep the `.cargo-checksum.json` files intact, but strip the `"files"` dictionary to empty `{}` across all vendored crates:
      ```python
      import glob, json
      for p in glob.glob("vendor/**/.cargo-checksum.json", recursive=True):
@@ -347,6 +343,24 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
 12. **Never Ignore Launchpad Publishing Latency (FULLYBUILT_PENDING)**:
     - **Anti-Pattern**: Assuming `sudo apt update && sudo apt install <pkg>` works the second Launchpad finishes compiling.
     - **Rule**: Packages enter the `FULLYBUILT_PENDING` queue after compilation while awaiting Launchpad's periodic index publisher cron job (10–15 minute cadence). Wait for the repository status to reach `Published` before testing APT installs.
+
+13. **Never Push to Main Without Running All Three Local Quality Gates**:
+    - **Anti-Pattern**: Pushing commits after only running `cargo test`, bypassing linters and formatting checks.
+    - **Why It Fails**: GitHub Actions CI strictly enforces `-D warnings` and `cargo fmt --check`. Unchecked nested `if` statements (`clippy::collapsible_if`), unused variables, or formatting slips will fail CI on GitHub immediately.
+    - **Rule**: Always run the complete three-gate validation suite locally before pushing:
+      ```bash
+      cargo fmt --check && cargo clippy --all-targets --all-features -- -D warnings && cargo test
+      ```
+
+14. **Never Execute Uncached Subprocess Interop in High-Frequency CLI Commands**:
+    - **Anti-Pattern**: Calling Windows host binaries (`wsl.exe --version`, `powershell.exe`, `cmd.exe`) on every execution of a CLI tool.
+    - **Why It Fails**: Windows process creation through WSL interop incurs a 30–80 ms latency overhead, destroying sub-5ms fetch performance.
+    - **Rule**: Always implement a persistent fast disk cache (e.g. `~/.cache/<app>/wsl_version.cache`) to perform instant sub-millisecond file reads on subsequent runs.
+
+15. **Never Hardcode Brittle Test Counts in Documentation**:
+    - **Anti-Pattern**: Writing exact static test counts (e.g. *"Run all 186 tests"*) in public `README.md` or packaging documentation.
+    - **Why It Fails**: As tests are added or refactored (186 → 187 → 188), the count becomes stale immediately, signaling lack of maintenance to contributors.
+    - **Rule**: Use durable phrasing such as *"Run the comprehensive test suite (unit, integration, CLI snapshot, and completion tests)"* or reference the CI test badge.
 
 ---
 
