@@ -256,35 +256,97 @@ GPG_KEY="<gpg-signing-fingerprint>" # GPG signing key fingerprint
 
 ---
 
-### B. Critical Rules & Edge Cases
+### B. Critical "What NOT To Do" Rules & Anti-Patterns
 
-1. **Never Re-Upload a Modified `.orig.tar.gz` with the Same Version**:
-   - Launchpad source archives are immutable. If package contents or vendored files change after an upload attempt, bump the version or increment the micro release (e.g. `1.0.0.1`) to generate a new source archive.
-2. **Never Rely on Online Builds on Launchpad**:
-   - Launchpad build containers run with zero network access. Always vendor all dependencies offline (e.g. `cargo vendor vendor/`) and configure offline mirrors (`.cargo/config.toml`).
-3. **Handle Debhelper `dh_clean` File Pruning**:
-   - `dh_clean` deletes all `*.orig` files across the source tree before building. For vendored Rust crates containing `Cargo.toml.orig`, strip the `"files"` dictionary from `vendor/*/.cargo-checksum.json` so Cargo does not halt on missing file hashes.
-4. **Strip Incompatible Toolchain Directives for LTS Distros**:
-   - Ubuntu 24.04 (`noble`) defaults to `rustc 1.75.0`. Strip `edition = "2024"` and `rust-version` constraints from vendored manifests when targeting older toolchains:
+A comprehensive collection of hard-earned packaging, release, and developer environment traps that must **never** be repeated:
+
+1. **Never Partial-Bump a Release (The Whole Codebase Must Resonate with the Version)**:
+   - **Anti-Pattern**: Bumping `Cargo.toml` and Debian manifests while leaving old version strings in `README.md` (quick-start commands, download links, latest changes header) or `.github/ISSUE_TEMPLATE/*` (version placeholders).
+   - **Rule**: Every release version bump is an **atomic codebase-wide operation**. Every single file, installation snippet, download link, issue template, packaging recipe, and release manifest must be updated simultaneously in the same release transaction.
+
+2. **Never Leave Stale or Outdated Artifacts in `releases/`**:
+   - **Anti-Pattern**: Retaining older binary packages, `.deb`, `.pkg.tar.zst`, or spec files from previous versions (e.g. leaving `v0.5.0` or `v0.8.6` files when cutting `v0.9.0`).
+   - **Rule**: Purge stale release packages from `releases/` before generating new artifacts. Recompute `releases/SHA256SUMS.txt` against only the current active release packages and verify with `sha256sum -c SHA256SUMS.txt`.
+
+3. **Never Attempt to Re-Upload a Modified `.orig.tar.gz` with the Same Version to Launchpad**:
+   - **Anti-Pattern**: Modifying vendored dependencies, source code, or Debian patches and re-running `dput` with the same `_X.Y.Z.orig.tar.gz`.
+   - **Rule**: Launchpad source tarballs are immutable once received. Launchpad will instantly reject the upload with:
+     ```text
+     Rejected: File <pkg>_<ver>.orig.tar.gz already exists in PPA, but uploaded version has different contents.
+     ```
+     If the source or vendoring changes after an upload attempt, bump the upstream version or increment the micro release (e.g. `0.8.5` → `0.8.6` or `0.8.5.1`) to generate a new source archive name.
+
+4. **Never Retain `"files"` Mappings in Vendored `.cargo-checksum.json` for Debian Packaging**:
+   - **Anti-Pattern**: Leaving original `.cargo-checksum.json` file mappings intact in the vendored crates directory.
+   - **Why It Fails**: Debian's `dh_clean` and `dpkg-source` automatically delete `*.orig` files (like `Cargo.toml.orig`) and dotfiles across the source tree before building. When `dh_auto_test` / `cargo build` executes offline, Cargo compares checksums and crashes with:
+     ```text
+     error: failed to verify the checksum of `...`
+     Caused by: the file `Cargo.toml.orig` is missing
+     ```
+   - **Rule**: Always strip the `"files"` dictionary to empty `{}` across all vendored `.cargo-checksum.json` files before building the Debian source package:
+     ```python
+     import glob, json
+     for p in glob.glob("vendor/**/.cargo-checksum.json", recursive=True):
+         with open(p, "r") as f:
+             data = json.load(f)
+         data["files"] = {}
+         with open(p, "w") as f:
+             json.dump(data, f)
+     ```
+
+5. **Never Use Unpinned Crates or Newer Rust Editions (`edition = 2024`) on Ubuntu LTS**:
+   - **Anti-Pattern**: Vendoring modern transitive dependencies (e.g. `clap_lex 0.7.4+`) that declare `edition = "2024"` or require `rust-version >= 1.76+`.
+   - **Why It Fails**: Ubuntu 24.04 LTS (Noble) ships fixed `cargo 1.75.0`, which halts with:
+     ```text
+     error: feature `edition2024` is required
+     this Cargo does not support the 2024 edition, but the crate `clap_lex` requires it
+     ```
+   - **Rule**: Patch all vendored crate `Cargo.toml` files to `edition = "2021"` and remove `rust-version` constraints:
      ```bash
      find vendor/ -name "Cargo.toml*" -exec sed -i 's/edition = "2024"/edition = "2021"/g' {} +
      find vendor/ -name "Cargo.toml*" -exec sed -i '/rust-version/d' {} +
      ```
-5. **Pin Both Production and Dev-Dependencies to Match Target Distro MSRV**:
-   - Ubuntu LTS distributions ship fixed `rustc` versions in standard repos (e.g. Ubuntu 24.04 Noble ships `rustc 1.75.0`).
-   - When Debian package builders execute `dh_auto_test` (`cargo test`), Cargo compiles `[dev-dependencies]`.
-   - Newer versions of transitive test dependencies often pull compiler-breaking crates (for example, `tempfile >= 3.12` pulls `getrandom 0.4.x` which uses `c"..."` string literals, `ptr::dangling_mut`, and `core::error::Error` requiring Rust 1.84+; `clap >= 4.6.0` adopted `Result::inspect_err()` requiring Rust 1.76+).
-   - Pin both production and dev-dependencies to LTS-safe series (e.g. `tempfile = "=3.10.1"`, `clap = "~4.5.31"`, `assert_cmd = "~2.0.14"`, `predicates = "~3.1.0"`) before vendoring.
-6. **Configure Push Events for Fedora Copr Webhooks**:
-   - Copr webhook triggers require **Push events** (commits and tags) enabled in GitHub repository settings. Do not select only "Releases".
-7. **Use Modern Debhelper Compatibility**:
-   - Declare `debhelper-compat (= 13)` in `debian/control` and delete legacy `debian/compat` files.
-8. **Protect Signing Keys and API Tokens**:
-   - Never commit private keys or API tokens to Git. Store credential backups in encrypted archives.
-9. **Account for Launchpad Repository Publishing Latency (FULLYBUILT_PENDING)**:
-   - After a package builds successfully on the buildd daemon, Launchpad does not immediately make the `.deb` installable via `apt`.
-   - The package enters the **`FULLYBUILT_PENDING`** state while awaiting Launchpad's periodic repository index publisher cron job (which runs every 10–15 minutes).
-   - Once the publisher signs the repository `Packages.gz` and `InRelease` files (status transitions to **`Published`**), `sudo apt update && sudo apt install <pkg>` will resolve and install the package.
+
+6. **Never Expect GPG Signing to Work in Automated / Non-Interactive Background Subshells**:
+   - **Anti-Pattern**: Running automated background commands with `dpkg-buildpackage -S -k<KEY>` or `debsign` without an interactive terminal.
+   - **Why It Fails**: GPG pinentry requires an interactive TTY to securely prompt the user for the GPG private key passphrase. Automated background agents will hang indefinitely waiting on pinentry.
+   - **Rule**: Stage the full vendored source package tree and provide an interactive executable shell script (e.g. `upload_ppa.sh`) for the user to execute directly in their terminal.
+
+7. **Never Forget to Re-Calculate Homebrew Formula SHA256 After Force-Pushing Git Tags**:
+   - **Anti-Pattern**: Force-updating a git release tag (`git tag -f -a vX.Y.Z`) without updating the `sha256` in `Formula/<pkg>.rb`.
+   - **Why It Fails**: GitHub dynamically generates tarballs from commit trees. A different commit hash under the same tag produces a different archive hash, breaking Homebrew installation with a SHA256 mismatch error.
+   - **Rule**: Always curl the live archive and compute the exact hash immediately after pushing the tag:
+     ```bash
+     curl -sL https://github.com/<user>/<repo>/archive/refs/tags/v<version>.tar.gz | sha256sum
+     ```
+
+8. **Never Assume Fedora Copr Builds Trigger Automatically on Release**:
+   - **Anti-Pattern**: Pushing git tags to GitHub and assuming Copr has built the RPM without verification.
+   - **Rule**: Always explicitly trigger and monitor the Copr build via CLI:
+     ```bash
+     copr-cli build-package <user>/<repo> --name <repo> --nowait
+     copr-cli status <build-id>
+     ```
+     Verify the state transitions from `importing` → `pending` → `succeeded`.
+
+9. **Never Display Virtualized Network Storage Filesystems (`9p` / `drvfs`) in WSL2**:
+   - **Anti-Pattern**: Reporting Windows host drive partitions (`/mnt/c`, `/mnt/d`) as `9p` or `drvfs` in system fetch tools or disk analyzers.
+   - **Rule**: In WSL2, Windows filesystems are mounted through the Plan 9 / DrvFS network file protocol driver. Always normalize `9p`, `drvfs`, and `9pnet_virtio` to **`ntfs`** (or `vfat` for removable FAT drives) for accurate system reporting.
+
+10. **Never Use Unreadable Dual-Tone Coloring Without High-Contrast Framing**:
+    - **Anti-Pattern**: Coloring ASCII art lines with clashing or overly subtle dual-tone foreground codes that become unreadable against certain terminal background themes.
+    - **Rule**: Always structure terminal ASCII art with clear separation:
+      - **Outer Framing & Boundary Outlines**: Crisp high-contrast white (`\x1b[38;5;231m`).
+      - **Inner Emblem & Focal Glyphs**: Distro brand signature colors (Ubuntu Orange, Fedora Blue, Debian Red, Arch Cyan, Mint Green, etc.).
+      - Always include single-line ANSI resets (`\x1b[0m`) and clean non-color fallback paths.
+
+11. **Never Depend on Network Access in Launchpad Build Environments**:
+    - **Anti-Pattern**: Relying on `cargo build`, `npm install`, or `curl` during the Debian packaging build stage on Launchpad.
+    - **Rule**: Launchpad builddaemons have no internet connectivity. All dependencies must be strictly vendored in `debian/vendor` or `vendor/`, with `.cargo/config.toml` configuring offline source replacement.
+
+12. **Never Ignore Launchpad Publishing Latency (FULLYBUILT_PENDING)**:
+    - **Anti-Pattern**: Assuming `sudo apt update && sudo apt install <pkg>` works the second Launchpad finishes compiling.
+    - **Rule**: Packages enter the `FULLYBUILT_PENDING` queue after compilation while awaiting Launchpad's periodic index publisher cron job (10–15 minute cadence). Wait for the repository status to reach `Published` before testing APT installs.
 
 ---
 
