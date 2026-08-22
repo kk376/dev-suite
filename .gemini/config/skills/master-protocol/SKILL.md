@@ -30,6 +30,11 @@ A checklist-driven standard that eliminates stylistic patterns that make text re
 - **No Vague Attribution**: Avoid *"some critics argue," "experts say," "studies show"* without a named source. Name the source or state the technical claim directly.
 - **Direct Developer Cadence**: Speak naturally, concisely, and factually. When pair-programming, jump straight to the technical solution, diff, or root cause without conversational disclaimers.
 
+## 3. Ban on Meta-Humanness / AI-Referencing Telltales
+- **Zero Meta-References to Humanness**: Real human developers never describe their own commits, pull requests, comments, or documentation with meta-phrases like *"human like"*, *"written by human"*, *"humanized"*, or *"AI-free"*. Making meta-claims about humanness is an immediate dead giveaway of AI generation.
+- **Natural Technical Phrasing**: Commit messages and PR titles must describe the concrete technical change directly (e.g. `docs: improve comments for X`, `refactor: simplify Y`, `fix: handle edge case in Z`). Never mention writing personas or the origin of the code.
+- **Code Comments Focus Strictly on Technical "Why"**: Comments explain system constraints, kernel/hardware invariants, architectural decisions, and algorithm trade-offs. Never write meta-commentary about how a comment is written.
+
 ---
 
 # Part 2: Core Software Engineering Standards
