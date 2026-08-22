@@ -129,3 +129,100 @@ export const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> 
   );
 };
 ```
+
+---
+
+## 4. Documentation Platform Layout (3-Column Architecture)
+
+```tsx
+import React from "react";
+
+export const DocsLayout: React.FC<{
+  sidebar: React.ReactNode;
+  toc: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ sidebar, toc, children }) => {
+  return (
+    <div className="min-h-screen bg-canvas text-text-primary">
+      <div className="max-w-7xl mx-auto flex">
+        {/* Left Sidebar: Navigation Hierarchy */}
+        <aside className="w-64 shrink-0 hidden md:block sticky top-0 h-screen overflow-y-auto border-r border-border p-6">
+          {sidebar}
+        </aside>
+
+        {/* Center: Main Reading Flow */}
+        <main className="flex-1 min-w-0 px-6 py-10 lg:px-12 max-w-4xl">
+          <article className="prose prose-slate dark:prose-invert max-w-none">
+            {children}
+          </article>
+        </main>
+
+        {/* Right Sidebar: Sticky Table of Contents */}
+        <aside className="w-56 shrink-0 hidden xl:block sticky top-0 h-screen overflow-y-auto p-6 text-sm">
+          <div className="font-semibold text-xs tracking-wider uppercase text-text-muted mb-4">
+            On this page
+          </div>
+          {toc}
+        </aside>
+      </div>
+    </div>
+  );
+};
+```
+
+---
+
+## 5. Desktop Window Manager Simulator (React + State Machine)
+
+```tsx
+import React, { useState } from "react";
+
+export interface WindowState {
+  id: string;
+  title: string;
+  isOpen: boolean;
+  isMinimized: boolean;
+  zIndex: number;
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+}
+
+export const WindowSimulator: React.FC<{
+  win: WindowState;
+  onFocus: (id: string) => void;
+  onClose: (id: string) => void;
+  children: React.ReactNode;
+}> = ({ win, onFocus, onClose, children }) => {
+  if (!win.isOpen || win.isMinimized) return null;
+
+  return (
+    <div
+      onMouseDown={() => onFocus(win.id)}
+      style={{
+        zIndex: win.zIndex,
+        transform: `translate(${win.position.x}px, ${win.position.y}px)`,
+        width: `${win.size.width}px`,
+        height: `${win.size.height}px`,
+      }}
+      className="absolute top-0 left-0 bg-surface border border-border rounded-xl shadow-2xl overflow-hidden flex flex-col transition-shadow"
+    >
+      {/* Header bar */}
+      <div className="h-10 bg-surface-header border-b border-border px-4 flex items-center justify-between select-none cursor-move">
+        <span className="text-xs font-semibold text-text-primary truncate">{win.title}</span>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={(e) => { e.stopPropagation(); onClose(win.id); }}
+            className="w-3.5 h-3.5 rounded-full bg-red-500 hover:bg-red-600 transition-colors"
+            aria-label="Close"
+          />
+        </div>
+      </div>
+
+      {/* Window Body */}
+      <div className="flex-1 overflow-auto p-4 bg-surface-body">
+        {children}
+      </div>
+    </div>
+  );
+};
+```

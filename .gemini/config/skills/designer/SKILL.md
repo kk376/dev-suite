@@ -78,3 +78,4 @@ Every interactive component or data-fetching view must implement all 5 states:
 - [`10_component_blueprints_and_recipes.md`](./references/10_component_blueprints_and_recipes.md) - Production-ready component recipes (Buttons, Inputs, Cards, Modals, Navbars).
 - [`11_motion_and_microinteractions.md`](./references/11_motion_and_microinteractions.md) - Spring physics, easing curves, and Framer Motion code.
 - [`12_accessibility_and_performance.md`](./references/12_accessibility_and_performance.md) - WCAG AAA rules, contrast verification, and performance checklist.
+- [`13_terminal_ui_and_cli_geometry.md`](./references/13_terminal_ui_and_cli_geometry.md) - Terminal UI, ANSI visible width calculations, 2-column layout engines, and zero-fork kernel probers.

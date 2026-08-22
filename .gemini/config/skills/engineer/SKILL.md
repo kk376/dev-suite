@@ -71,6 +71,7 @@ When approaching any task, route to the appropriate discipline:
 | "Handoff to next agent / Compact context" | Context Serialization | `handoff` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Explain / Re-pitch confusing concept" | Cognitive Reset | `wait-what` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Interactive manual steps (OAuth, CI, AWS)" | Bash Wizard Generator | `wizard` | [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) |
+| "Package release (PPA, Copr, AUR, Brew, WinGet)" | Multi-Platform Packaging | `packaging` / `release` | [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) |
 
 ---
 
