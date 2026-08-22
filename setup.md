@@ -269,12 +269,14 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
    - **Rule**: Purge stale release packages from `releases/` before generating new artifacts. Recompute `releases/SHA256SUMS.txt` against only the current active release packages and verify with `sha256sum -c SHA256SUMS.txt`.
 
 3. **Never Attempt to Re-Upload a Modified `.orig.tar.gz` with the Same Version to Launchpad**:
-   - **Anti-Pattern**: Modifying vendored dependencies, source code, or Debian patches and re-running `dput` with the same `_X.Y.Z.orig.tar.gz`.
-   - **Rule**: Launchpad source tarballs are immutable once received. Launchpad will instantly reject the upload with:
+   - **Anti-Pattern**: Modifying source code or vendored dependencies and re-running `dput` with a new `.orig.tar.gz` under an already uploaded upstream version.
+   - **Why It Fails**: Launchpad source tarballs are immutable once accepted into the archive. Uploading a different tarball under the same name triggers an instant rejection:
      ```text
      Rejected: File <pkg>_<ver>.orig.tar.gz already exists in PPA, but uploaded version has different contents.
      ```
-     If the source or vendoring changes after an upload attempt, bump the upstream version or increment the micro release (e.g. `0.8.5` → `0.8.6` or `0.8.5.1`) to generate a new source archive name.
+   - **Rule**:
+     - **If Upstream Source Changed**: Bump the upstream version (e.g. `0.9.5` → `0.9.6`) across the codebase to generate a fresh, pristine `.orig.tar.gz` name.
+     - **If Only Debian Packaging / Patches Changed**: Increment the Debian package revision (e.g. `0.9.6-1~ppa1~noble` → `0.9.6-1~ppa2~noble`) and build using **`dpkg-buildpackage -S -sd`** (diff-only upload). This instructs `dput` to upload only the updated `.debian.tar.xz`, `.dsc`, and `.changes` without re-uploading `.orig.tar.gz`, allowing Launchpad to build the new revision using the existing accepted orig archive.
 
 4. **Never Retain `"files"` Mappings OR Delete `.cargo-checksum.json` Files in Vendored Crates**:
    - **Anti-Pattern A (Retaining Mappings)**: Leaving original `.cargo-checksum.json` file mappings intact in the vendored crates directory. Debian's `dh_clean` and `dpkg-source` delete `*.orig` files (like `Cargo.toml.orig`), causing Cargo checksum verification to fail during offline builds.
