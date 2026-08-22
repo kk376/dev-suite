@@ -407,6 +407,16 @@ git push origin master
 rm -rf "${AUR_DIR}"
 ```
 
+#### 5. Windows WinGet
+
+When publishing a new release for a registered package on WinGet:
+
+```powershell
+wingetcreate update <Publisher>.<PackageName> --version <version> --urls https://github.com/<github-user>/<package-name>/releases/download/v<version>/<package-name>-windows-x86_64.zip
+```
+
+`wingetcreate` will download the new zip, calculate the SHA256 checksum, update the manifest version, and open the update PR to `microsoft/winget-pkgs` automatically.
+
 ---
 
 ### E. Disaster Recovery: Backup & Restore Keys
