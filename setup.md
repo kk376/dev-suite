@@ -312,7 +312,11 @@ replace-with = "vendored-sources"
 directory = "vendor/"
 CARGO_CONFIG
 
-    # Strip individual file checksums so dh_clean does not cause verification failures
+    # Strip edition 2024 and rust-version constraints for Ubuntu LTS toolchain compatibility
+    find "${BUILD_DIR}/${PKG_NAME}-${PKG_VER}/vendor/" -name "Cargo.toml*" -exec sed -i 's/edition = "2024"/edition = "2021"/g' {} +
+    find "${BUILD_DIR}/${PKG_NAME}-${PKG_VER}/vendor/" -name "Cargo.toml*" -exec sed -i '/rust-version/d' {} +
+
+    # Strip individual file checksums so dh_clean *.orig deletion does not cause verification failures
     python3 -c '
 import glob, json
 for p in glob.glob("'"${BUILD_DIR}/${PKG_NAME}-${PKG_VER}"'/vendor/*/.cargo-checksum.json"):
