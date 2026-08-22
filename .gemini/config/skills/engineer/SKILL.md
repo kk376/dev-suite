@@ -137,3 +137,4 @@ Explore the deep operational references in the [`references/`](./references/) fo
 - [`11_merge_conflicts_and_git_guardrails.md`](./references/11_merge_conflicts_and_git_guardrails.md) - Hunk-by-hunk conflict resolution and git safety guardrails.
 - [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) - Handoffs, questionnaires, wait-what, teaching, writing beats/shapes.
 - [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) - Interactive bash wizards, secret entry, toolchain automation.
+- [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) - Multi-distro release pipelines (PPA, Copr, AUR, Homebrew, WinGet), disaster recovery key management, and quality gates.
