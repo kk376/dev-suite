@@ -1,249 +1,253 @@
 ---
 name: master-design
 description: >-
-  The Master System Information Fetch & Terminal UI Architecture Standard.
-  Synthesizes lessons, archetypes, hardware probers, rendering engines,
-  low-latency kernel interfaces, and distribution pipelines from the global
-  awesome-fetch ecosystem (Fastfetch, Ferrisfetch, Macchina, Onefetch,
-  Cpufetch, Nitch).
+  Universal Master Design & UI/UX Architecture Standard. Comprehensive
+  protocol for web applications, design systems, responsive layouts,
+  interactive desktop simulations, documentation sites, typography,
+  micro-interactions, accessibility (WCAG AAA), and Core Web Vitals performance.
 ---
 
-# Master Design: Terminal System Fetch & CLI Architecture Protocol
+# Master Design: Universal UI/UX & Web Architecture Protocol
 
-A unified engineering, architecture, and design standard for building high-performance system information fetch tools, hardware probers, and terminal user interfaces.
+A unified engineering, architecture, and design standard for building modern web applications, design systems, documentation platforms, portfolio architectures, and interactive digital interfaces.
 
 ---
 
-# Part 1: Archetypes & Architectural Philosophies
+# Part 1: Design Tokens & System Foundations
 
-Derived from the analysis of the global terminal fetch ecosystem (`awesome-fetch`):
+A robust design system begins with mathematically sound, semantic tokens defined at the root layer.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                          FETCH TOOL ARCHETYPES                              │
+│                          DESIGN TOKEN HIERARCHY                             │
 ├───────────────────────┬──────────────────────────┬──────────────────────────┤
-│ 1. Full System Fetch  │ 2. Hardware-Specialized  │ 3. Domain & Repository   │
-│ (fastfetch, ferris-   │ (cpufetch, gpufetch,     │ (onefetch, ghfetch,      │
-│  fetch, macchina)     │  ramfetch, batfetch)     │  gitfetch, tinyfetch)    │
-│ Complete hardware, OS,│ Deep microarchitectures, │ Git commits, authorship, │
-│ packages, and desktop │ AVX/NEON instruction set,│ programming languages,   │
-│ environment probes.   │ VRAM clocks, power curves│ repo health, LOC stats.  │
-├───────────────────────┼──────────────────────────┼──────────────────────────┤
-│ 4. Ultra-Fast Minimal │ 5. Aesthetic & Themed    │ 6. Daemonized & Remote   │
-│ (nitch, pfetch, rfetch│ (hyfetch, cutefetch,     │ (hayabusa, webfetch,     │
-│  noorfetch, ufetch)   │  bunnyfetch, songfetch)  │  so-sysinfo)             │
-│ Sub-millisecond exec, │ Custom ASCII art, pride  │ Background caching,      │
-│ zero dependencies.    │ flags, media/widgets.    │ web server endpoints.    │
+│ 1. Global / Primitive │ 2. Semantic / Purpose    │ 3. Component-Scoped      │
+│ --blue-500: #3b82f6   │ --color-primary: ...     │ --button-bg: ...         │
+│ --space-4: 1rem (16px)│ --bg-surface: ...        │ --card-padding: ...      │
+│ Raw values & scales.  │ Meaning & theme bindings.│ Concrete element tokens. │
 └───────────────────────┴──────────────────────────┴──────────────────────────┘
 ```
 
-## Core Design Tenets
-1. **Zero Subprocess Spawning in Hot Paths**:
-   Never spawn shell processes (`sh -c`, `uname`, `grep`, `awk`, `which`, `lscpu`) to collect system metrics. Shell forks introduce 10–50ms overhead per invocation. Always read virtual filesystems (`/proc`, `/sys`) or invoke OS C-FFI directly.
-2. **Sub-10 Millisecond Execution Budget**:
-   System fetch tools are frequently placed in `.zshrc` / `.bashrc` and run on every terminal startup. Total execution time must remain under **10ms** (and ideally under **3ms** on modern hardware).
-3. **Resilient Cascade Degradation**:
-   Every probe must degrade gracefully without panicking or failing when optional hardware, virtual environments (WSL, Docker, KVM), or metadata files are missing.
-4. **Deep Module Boundary**:
-   Each collector implements a clean trait or interface (`Collector::collect(&Context) -> Option<ModuleOutput>`). Callers never manage OS-specific probe logic directly.
+## 1. Typography Engine & Fluid Scales
+- **Fluid Type Scaling**: Avoid rigid pixel breakpoints for headers and hero typography. Use CSS `clamp()` to scale smoothly between mobile and ultra-wide viewports:
+  ```css
+  :root {
+    --font-hero: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+    --font-h1: clamp(2.0rem, 3vw + 1rem, 3.0rem);
+    --font-h2: clamp(1.5rem, 2vw + 0.75rem, 2.25rem);
+    --font-body: clamp(1.0rem, 0.5vw + 0.875rem, 1.125rem);
+  }
+  ```
+- **Font Pairing & Metrics**:
+  - *Display / Headings*: High-character geometric or editorial sans (e.g. Inter, Outfit, Plus Jakarta Sans, General Sans).
+  - *Body / Long-form*: High-legibility neutral sans with open apertures (e.g. Inter, Public Sans, System UI).
+  - *Monospace / Code*: Tabular figures with clear glyph distinction (`0` vs `O`, `1` vs `l`, `I`) (e.g. JetBrains Mono, Fira Code).
+- **Line Heights & Tracking**:
+  - Headings: Tight line-height (`leading-tight`: `1.1`–`1.25`) with negative letter-spacing (`tracking-tight`: `-0.02em` to `-0.03em`).
+  - Body: Relaxed line-height (`leading-relaxed`: `1.6`–`1.75`) with normal tracking (`0em`) for reading ergonomics.
+
+## 2. Color Spaces, Dark Mode & Contrast
+- **Modern Color Spaces (OKLCH / HSL)**: Prefer OKLCH for predictable perceived lightness across hue shifts:
+  ```css
+  :root {
+    --color-primary: oklch(65% 0.22 260);
+    --bg-canvas: oklch(98% 0.01 260);
+    --bg-surface: oklch(100% 0 0);
+    --text-primary: oklch(20% 0.02 260);
+  }
+  [data-theme="dark"], .dark {
+    --bg-canvas: oklch(14% 0.01 260);
+    --bg-surface: oklch(18% 0.015 260);
+    --text-primary: oklch(95% 0.01 260);
+  }
+  ```
+- **WCAG 2.1 AAA Contrast Target**:
+  - Normal text ($< 18\text{pt}$): Contrast ratio $\ge 7:1$ against background.
+  - Large text ($\ge 18\text{pt}$ or bold $\ge 14\text{pt}$): Contrast ratio $\ge 4.5:1$.
+  - Interactive boundaries & focus rings: Contrast ratio $\ge 3:1$.
+
+## 3. Spatial Rhythm & Spacing Scales
+- Use an **8-point spatial grid** (with 4-point half-steps for compact micro-UI):
+  - `4px` (half), `8px` (1), `12px` (1.5), `16px` (2), `24px` (3), `32px` (4), `48px` (6), `64px` (8), `96px` (12).
+- Apply **layout breathing room**: Containers must have comfortable internal padding so content never crowds viewport boundaries.
 
 ---
 
-# Part 2: Kernel Probing & Hardware Detection Matrix
+# Part 2: Layout Engines & Modern CSS Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                       CROSS-PLATFORM PROBE TARGETS                          │
-├───────────────┬────────────────────────────┬────────────────────────────────┤
-│ Subsystem     │ Linux / POSIX Interface    │ Windows NT Win32 / Registry    │
-├───────────────┼────────────────────────────┼────────────────────────────────┤
-│ OS Info       │ /etc/os-release, uname     │ HKLM\...\CurrentVersion        │
-│ Kernel        │ /proc/version, uname       │ RtlGetVersion / Win32 Build    │
-│ Host / Model  │ /sys/class/dmi/id/*        │ HKLM\...\System\BIOS           │
-│ CPU           │ /proc/cpuinfo, sysfs hwmon │ CentralProcessor registry keys │
-│ Memory / Swap │ /proc/meminfo, sysinfo()   │ GlobalMemoryStatusEx()         │
-│ GPU & VRAM    │ /sys/class/drm/card*, lspci│ Class\{4d36e968...} registry   │
-│ Disks         │ /proc/mounts, statvfs()    │ GetDiskFreeSpaceExW()          │
-│ Battery       │ /sys/class/power_supply/*  │ GetSystemPowerStatus()         │
-│ Uptime        │ /proc/uptime, clock_gettime│ GetTickCount64()               │
-│ Install Date  │ statx(stx_btime) on /      │ InstallDate registry timestamp │
-│ Timezone      │ localtime_r(tm_gmtoff)     │ GetTimeZoneInformation()       │
-│ Desktop / WM  │ $XDG_CURRENT_DESKTOP, X11  │ Desktop Window Manager (DWM)   │
-│ Display / Hz  │ DRM sysfs, wlr-randr, X11  │ EnumDisplaySettingsW()         │
-└───────────────┴────────────────────────────┴────────────────────────────────┘
+│                          MODERN LAYOUT TOOLBOX                              │
+├───────────────────────┬──────────────────────────┬──────────────────────────┤
+│ CSS Grid              │ Flexbox                  │ Container Queries        │
+│ 2D layouts, auto-fit  │ 1D distribution, inline  │ Component-level adaptive │
+│ card grids, subgrids. │ alignments, navbars.     │ resizing without @media. │
+└───────────────────────┴──────────────────────────┴──────────────────────────┘
 ```
 
-## 1. Linux & POSIX Direct Probers
-- **CPU & Cores**: Read `/proc/cpuinfo`. Extract `model name` / `Hardware` and count unique `processor` entries. Probing maximum clock frequencies via `/sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq`.
-- **Memory & Swap**: Parse `/proc/meminfo` line-by-line using zero-allocation byte prefix matching (`MemTotal:`, `MemAvailable:`, `MemFree:`, `Buffers:`, `Cached:`, `SwapTotal:`, `SwapFree:`).
-- **GPU Discovery**: Read `/sys/class/drm/card*/device/vendor` and `device`. Map PCI IDs directly or parse `/sys/class/drm/card*/gt_max_freq_mhz` for clock frequencies.
-- **System Installation Time**: Call `statx(AT_FDCWD, "/", AT_SYMLINK_NOFOLLOW, STATX_BTIME, &mut stx)` to query raw filesystem creation time (`stx_btime`).
-- **Local Timezone Resolution**: Pass UTC epoch seconds to `libc::localtime_r(&epoch, &mut tm)` to resolve `tm.tm_gmtoff` and format local wall-clock dates with daylight saving time adjustments.
-
-## 2. Windows NT Direct Probers
-- **Windows OS & Version**: Read `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion` (`ProductName`, `DisplayVersion`, `CurrentBuildNumber`). When build $\ge 22000$, identify as Windows 11 regardless of legacy branding strings.
-- **Physical Memory**: Allocate `MEMORYSTATUSEX` and call `GlobalMemoryStatusEx(&mut status)` to query total physical RAM and available RAM.
-- **Drive Enumeration**: Call `GetLogicalDrives()`, iterate active bitmasks (`C:\`, `D:\`), verify drive type with `GetDriveTypeW()`, and query capacity with `GetDiskFreeSpaceExW()`.
-- **Uptime**: Query `GetTickCount64() / 1000` to avoid 32-bit millisecond rollover after 49.7 days.
-- **Local Timezone Conversion**: Call `GetTimeZoneInformation(&mut tzi)` to compute total bias in minutes: `-(tzi.Bias + Daylight/Standard Bias) * 60`.
-
----
-
-# Part 3: Package Database Direct Parsers
-
-Avoid executing package manager binaries (`dpkg -l`, `pacman -Q`, `rpm -qa`). Parse on-disk metadata stores directly:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                       PACKAGE DATABASE PARSING RULES                        │
-├──────────────┬───────────────────────────────┬──────────────────────────────┤
-│ Manager      │ File / Directory Path         │ Fast Counting Strategy       │
-├──────────────┼───────────────────────────────┼──────────────────────────────┤
-│ dpkg / APT   │ /var/lib/dpkg/status          │ Count lines matching         │
-│              │                               │ "^Status: install ok inst"   │
-│ pacman       │ /var/lib/pacman/local/        │ Count subdirectories (excl.  │
-│              │                               │ ALPM lock files and ./)      │
-│ rpm / dnf    │ /var/lib/rpm or rpmdb query   │ Direct SQLite / BDB header   │
-│              │                               │ query without locking lockdb │
-│ apk          │ /lib/apk/db/installed         │ Count lines matching "^P:"   │
-│ flatpak      │ /var/lib/flatpak/app/ + user  │ Count directories in app/    │
-│ snap         │ /var/lib/snapd/snaps/         │ Count *.snap files           │
-│ cargo        │ ~/.cargo/.crates.toml         │ Parse TOML table headers     │
-│ npm          │ <global-prefix>/lib/node_mods │ Count directories in global  │
-│ pip          │ <python-site-packages>        │ Count *.dist-info / *.egg    │
-│ winget       │ %LOCALAPPDATA%\Microsoft\     │ Count entries in packages    │
-│              │ WinGet\Packages               │ directory                    │
-│ chocolatey   │ C:\ProgramData\chocolatey\lib │ Count subdirectories         │
-└──────────────┴───────────────────────────────┴──────────────────────────────┘
+## 1. Dynamic Auto-Fit Grid (Zero Media Queries)
+Avoid fragile fixed-column breakpoints for product/card grids. Use `auto-fit` and `minmax()`:
+```css
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1.5rem;
+}
 ```
 
----
+## 2. Container Queries for Modular Components
+Components should adapt based on their parent container's width, not the whole viewport:
+```css
+.card-container {
+  container-type: inline-size;
+}
 
-# Part 4: Terminal Typography, Geometry & ANSI Engine
-
-## 1. Visible Width Calculation (ANSI & Unicode Aware)
-Standard `string.len()` counts bytes, and `string.chars().count()` counts code points. Neither represents terminal column width.
-
-```
-Visible Terminal Width = ∑ char_width(c) - ANSI_Escape_Sequences
-```
-
-- **ANSI Escape Sequences**: Zero width (`\x1b[...m` sequences consume 0 columns).
-- **Double-Width Characters**: CJK ideographs, full-width kana, and certain emojis occupy **2 columns**.
-- **Zero-Width Characters**: Combining marks, zero-width joiners (ZWJ), and soft hyphens occupy **0 columns**.
-- **Enforcement**: Always strip or skip ANSI control characters before computing padding and alignment widths.
-
-## 2. Dynamic Side-by-Side Layout Engine
-
-```
- ┌────────────────┐  ┌──────────────────────────────────────────────┐
- │   ASCII LOGO   │  │ INFO BLOCK                                   │
- │                │  │                                              │
- │    .--.        │  │ user@hostname                                │
- │   |o_o |       │  │ -------------                                │
- │   |:_/ |       │  │ OS: Ubuntu 24.04 LTS x86_64                  │
- │  //   \ \      │  │ Kernel: 6.8.0-40-generic                     │
- │ (|     | )     │  │ Uptime: 3 hours, 12 mins                     │
- │/'\_   _/`\     │  │ Memory: 4.12 GiB / 15.21 GiB (27%)           │
- │\___)=(___/     │  │                                              │
- └────────────────┘  └──────────────────────────────────────────────┘
+@container (min-width: 480px) {
+  .card {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
 ```
 
-- **Two-Column Pairing**: Line $i$ of the ASCII logo is padded to `logo_max_width` and concatenated with line $i$ of the info lines with a configurable margin (e.g. 2–3 spaces).
-- **Unequal Row Counts**: When the logo has fewer lines than info output, pad logo lines with empty spaces. When the logo has more lines, emit logo trailing lines without info text.
-- **Narrow Terminal Fallback**: Query terminal column width via `ioctl(TIOCGWINSZ)` or `GetConsoleScreenBufferInfo()`. If width $< 60$ columns or `--no-logo` is passed, automatically fallback to vertical stacked rendering (logo on top or omitted).
-
-## 3. Color Blocks & Palette Visualization
-Render standard 8-color and 16-color swatches using Unicode full block (`\u{2588}`) or circles (`\u{25CF}`):
-
-```rust
-// Standard 8-color palette bar:
-"\x1b[30m███\x1b[31m███\x1b[32m███\x1b[33m███\x1b[34m███\x1b[35m███\x1b[36m███\x1b[37m███\x1b[0m"
-```
-
----
-
-# Part 5: Performance Budgets & Systems Engineering
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           PERFORMANCE TARGETS                               │
-├───────────────────────┬─────────────────────────┬───────────────────────────┤
-│ Metric                │ Maximum Threshold       │ Ideal Target              │
-├───────────────────────┼─────────────────────────┼───────────────────────────┤
-│ Execution Latency     │ < 10 ms                 │ 1.5 ms – 3.0 ms           │
-│ Process Spawns        │ 0 subprocesses          │ 0 subprocesses            │
-│ Memory Allocations    │ < 2 MB RSS              │ < 500 KB RSS              │
-│ File Descriptors      │ Closed immediately      │ Streamed in small buffers │
-└───────────────────────┴─────────────────────────┴───────────────────────────┘
-```
-
-1. **Stack Allocation Over Heap**: Reuse static buffers or small `Vec` with pre-allocated capacity for parsing `/proc` lines.
-2. **Short-Circuit Streaming**: Break file reading as soon as target keys are discovered (e.g. read only the first 50 lines of `/proc/cpuinfo` instead of reading entire multi-socket records).
-3. **No Unbounded Globbing**: Never traverse recursive filesystem trees when counting packages or fonts. Target exact database directories.
-
----
-
-# Part 6: CLI UX & Structured Output Standard
-
-## 1. Standard CLI Command Flags
-Every master fetch CLI must support:
-- `-c, --config <PATH>`: Custom configuration file (TOML, YAML, JSON).
-- `-l, --logo <NAME>`: Explicit ASCII logo override (e.g. `arch`, `ubuntu`, `windows`, `fedora`, `none`).
-- `-m, --modules <LIST>`: Comma-separated list of enabled modules.
-- `-d, --disable <LIST>`: Comma-separated list of disabled modules.
-- `--no-logo`: Render only information block.
-- `--no-color`: Disable all ANSI styles and color escapes (respecting `$NO_COLOR`).
-- `--json`: Emit complete structured machine-readable JSON telemetry.
-- `-h, --help`: Formatted usage and module listing.
-- `-V, --version`: Version string matching repository tags.
-
-## 2. Structured JSON Output Schema
-When `--json` is specified, emit a validated, machine-parsable object:
-
-```json
-{
-  "title": { "user": "<username>", "hostname": "<hostname>" },
-  "os": { "name": "Ubuntu", "version": "24.04.4 LTS", "arch": "x86_64" },
-  "kernel": "6.18.33.2-microsoft-standard-WSL2",
-  "uptime": { "seconds": 11040, "formatted": "3 hours, 4 mins" },
-  "memory": { "used_bytes": 1610612736, "total_bytes": 7902597120, "percentage": 20.3 },
-  "installed": { "timestamp": 1769127720, "formatted": "23 Jan 2026, 12:22 AM" }
+## 3. Hierarchical Z-Index Scale
+Prevent z-index wars with an explicit system scale:
+```css
+:root {
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-sticky: 100;
+  --z-drawer: 500;
+  --z-modal-backdrop: 900;
+  --z-modal: 1000;
+  --z-popover: 1100;
+  --z-toast: 1200;
+  --z-tooltip: 1300;
 }
 ```
 
 ---
 
-# Part 7: Cross-Platform Packaging & Distribution Matrix
+# Part 3: Component Architecture & State Modeling
 
-A tier-1 system fetch tool must maintain active distribution channels across all major ecosystem repositories:
+## 1. Deep Component Design
+- **Single Seam Principle**: A component exposes a small, intuitive prop interface while encapsulating layout calculations, keyboard events, and theme variations.
+- **Composition Over Boolean Explosion**: Use compound components (`<Card>`, `<Card.Header>`, `<Card.Body>`) instead of passing 20 boolean flags to one monolithic component.
+
+## 2. Five Essential UI States
+Every interactive component or data-fetching view must implement all 5 states:
+1. **Initial / Idle**: Clean, uncluttered starting view.
+2. **Loading / Skeleton**: Layout-preserving shimmer skeletons that match the final content dimensions exactly (prevents Cumulative Layout Shift).
+3. **Success / Populated**: Rendered data with optimal spacing and typography.
+4. **Empty**: Clear visual illustration, helpful message, and an immediate primary call-to-action button.
+5. **Error**: User-friendly explanation, non-technical recovery instruction, and a "Retry" trigger.
+
+---
+
+# Part 4: Micro-Interactions, Motion & Canvas
+
+## 1. Animation Physics & Timing
+- **Hardware Acceleration**: Animate only `transform` and `opacity`. Never animate layout properties (`width`, `height`, `margin`, `top`, `left`) in interactive loops.
+- **Natural Easing Curves**:
+  - *Enter / Entrance*: `cubic-bezier(0.16, 1, 0.3, 1)` (snappy ease-out, duration 200–300ms).
+  - *Exit / Dismiss*: `cubic-bezier(0.7, 0, 0.84, 0)` (accelerating ease-in, duration 150–200ms).
+  - *Spring Physics* (Framer Motion): `stiffness: 400`, `damping: 30`, `mass: 1`.
+
+## 2. Reduced Motion Accessibility
+Always respect user system settings for vestibular safety:
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+## 3. Interactive Canvas & Background Systems
+When rendering background particle fields, graphs, or interactive canvases:
+- Use `requestAnimationFrame` with delta time calculation.
+- Clean up animation frames, event listeners, and resize observers in component unmount / `useEffect` teardown.
+- Pause canvas rendering when the tab is hidden (`document.visibilityState === 'hidden'`).
+
+---
+
+# Part 5: Web Applications & Desktop Simulators
+
+For complex interactive applications (e.g. desktop environments, window managers, terminal emulators, dashboards):
+
+## 1. Window Manager State Machine
+- **Window Stack**: Array of open window objects `{ id, title, icon, zIndex, isMinimized, isMaximized, position, size }`.
+- **Active Focus**: Clicking any window promotes its `zIndex` to the top of the stack.
+- **Drag & Resize Boundaries**: Keep window headers inside viewport bounds (`Math.max(0, Math.min(x, window.innerWidth - width))`).
+
+## 2. Terminal Emulation Architecture
+- Clean command parser separating command name and flags.
+- Command registry mapping input strings to pure handler functions returning rendered JSX output.
+- History navigation via Up/Down arrow keys with a circular history buffer.
+
+---
+
+# Part 6: Documentation & Content Platforms
+
+For documentation systems, knowledge bases, and content-driven web platforms:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                       DISTRIBUTION CHANNELS MATRIX                          │
+│                       DOCUMENTATION PLATFORM LAYOUT                         │
+├─────────────────┬─────────────────────────────────────────┬─────────────────┤
+│ Left Sidebar    │ Main Reading Flow                       │ Right Sidebar   │
+│ Category tree,  │ Breadcrumbs, H1 Title, Metadata badge,  │ "On this page"  │
+│ search trigger, │ Content blocks, Code blocks with copy,  │ sticky TOC,     │
+│ active page.    │ Callout alerts (Note/Tip/Warning).      │ feedback links. │
+└─────────────────┴─────────────────────────────────────────┴─────────────────┤
+│ Footer: Previous Page / Next Page pagination controls                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **Algorithmic Client-Side Search**: Instant fuzzy searching over indexed headings and body paragraphs.
+2. **Code Snippets with 1-Click Copy**: Copy-to-clipboard button with visual checkmark feedback and clear language badges.
+3. **Structured GitHub-Style Callouts**: Semantic styling for `Note`, `Tip`, `Important`, `Warning`, and `Caution` blocks.
+
+---
+
+# Part 7: Performance & Core Web Vitals Standard
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          CORE WEB VITALS TARGETS                            │
 ├───────────────────────┬─────────────────────────┬───────────────────────────┤
-│ Ecosystem             │ Manifest Location       │ Automation Pipeline       │
+│ Metric                │ Target Threshold        │ Optimization Strategy     │
 ├───────────────────────┼─────────────────────────┼───────────────────────────┤
-│ Ubuntu / Debian       │ packaging/debian/       │ Launchpad PPA (debuild +  │
-│                       │ (control, rules)        │ dput)                     │
-│ Fedora / RHEL         │ packaging/rpm/          │ Fedora Copr (copr-cli)    │
-│                       │ (ferrisfetch.spec)      │                           │
-│ Arch Linux            │ packaging/arch/         │ AUR (makepkg, .SRCINFO)   │
-│                       │ (PKGBUILD)              │                           │
-│ macOS / Linux         │ packaging/homebrew/     │ Homebrew Tap Formula      │
-│                       │ (ferrisfetch.rb)        │                           │
-│ Windows 10/11         │ packaging/winget/       │ Microsoft WinGet PKGs     │
-│                       │ (*.yaml)                │ (wingetcreate)            │
-│ Android               │ packaging/termux/       │ Termux Packages Repo      │
-│                       │ (build.sh)              │                           │
-│ Alpine Linux          │ packaging/alpine/       │ Alpine aports (APKBUILD)  │
-│ Nix / NixOS           │ packaging/nix/          │ Nixpkgs / Flakes          │
+│ LCP (Largest Paint)   │ < 1.2 seconds           │ Preload critical fonts,   │
+│                       │                         │ fetchpriority="high" hero │
+│ INP (Interaction)     │ < 100 milliseconds      │ Offload heavy tasks to    │
+│                       │                         │ Web Workers or transitions│
+│ CLS (Layout Shift)    │ 0.00 (Zero Shift)       │ Explicit width/height on  │
+│                       │                         │ images, skeleton loaders  │
+│ Lighthouse Score      │ 100 / 100 across all    │ Minified assets, modern   │
+│                       │ Performance & SEO axes  │ formats, zero unused CSS  │
 └───────────────────────┴─────────────────────────┴───────────────────────────┘
 ```
 
-## Quality Gate Checklist Before Any Release
-1. `cargo check --target x86_64-unknown-linux-gnu` & `cargo check --target x86_64-pc-windows-gnu`: 0 errors.
-2. `cargo clippy --all-targets --all-features -- -D warnings`: 0 warnings.
-3. `cargo fmt --check`: 100% compliant.
-4. `cargo test`: 100% passing across all units and fixtures.
-5. Multi-platform release assets compiled and published with SHA256 checksums.
+## Asset Optimization Protocols
+- **Images**: Serve modern WebP / AVIF formats with responsive `srcset` and `sizes` attributes. Use `loading="lazy"` on below-the-fold images and `loading="eager"` + `fetchpriority="high"` on hero images.
+- **Fonts**: Use modern `woff2` format with `font-display: swap`. Preload the primary regular and bold weights in the HTML `<head>`.
+- **Bundle Splitting**: Split vendor bundles, route-level chunks, and dynamically import heavy components (modals, syntax highlighters, chart engines).
+
+---
+
+# Part 8: Universal Quality Gate Checklist
+
+Before shipping any web application, page, or design system component:
+
+- [ ] **Accessibility**: Full keyboard navigation (Tab, Shift+Tab, Enter, Escape, Arrow keys) with visible focus rings.
+- [ ] **Contrast**: WCAG 2.1 AAA contrast verified across both Light and Dark themes.
+- [ ] **Responsive**: Tested at 360px (mobile), 768px (tablet), 1280px (laptop), and 1920px+ (desktop).
+- [ ] **Layout Shifts**: Zero Cumulative Layout Shift (CLS) during page loading and font swaps.
+- [ ] **State Coverage**: Loading, Empty, Populated, and Error states designed and verified.
+- [ ] **SEO & Meta**: Title tags, OpenGraph images, Twitter cards, canonical links, and semantic HTML5 headings.
+- [ ] **Console Cleanliness**: Zero JavaScript errors, zero unhandled promise rejections, zero CSS layout warnings.

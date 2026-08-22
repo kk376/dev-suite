@@ -11,7 +11,7 @@ Personal configuration and dotfiles.
 - `scripts/` — Packaging credential backup and restore helpers (`backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
 - `.gemini/config/skills/` — Antigravity / Gemini CLI custom skills:
   - `master-protocol` — Unified master engineering craftsmanship, deep module design, multi-distro packaging (PPA/Copr/AUR/Brew), bug diagnosis loops, and authentic humanized communication.
-  - `master-design` — Terminal system information fetch & CLI architecture protocol, low-latency kernel interfaces (`/proc`, `/sys`, Win32 FFI), ANSI layout engines, and cross-platform packaging standards.
+  - `master-design` — Universal UI/UX, design system, and modern web application architecture protocol covering responsive layouts, fluid typography, state modeling, micro-interactions, WCAG AAA accessibility, and Core Web Vitals optimization.
 
 ## Quick Setup
 ```bash
