@@ -245,10 +245,11 @@ GPG_KEY="<gpg-signing-fingerprint>" # GPG signing key fingerprint
      find vendor/ -name "Cargo.toml*" -exec sed -i 's/edition = "2024"/edition = "2021"/g' {} +
      find vendor/ -name "Cargo.toml*" -exec sed -i '/rust-version/d' {} +
      ```
-5. **Pin Dependencies to Match Target Distro MSRV**:
+5. **Pin Both Production and Dev-Dependencies to Match Target Distro MSRV**:
    - Ubuntu LTS distributions ship fixed `rustc` versions in standard repos (e.g. Ubuntu 24.04 Noble ships `rustc 1.75.0`).
-   - Newer releases of dependencies often rely on recently stabilized standard library features (for example, `clap >= 4.6.0` adopted `Result::inspect_err()` which requires `rustc >= 1.76.0`, failing with `E0658: use of unstable library feature 'result_option_inspect'`).
-   - Pin crates to LTS-compatible series (e.g. `clap = { version = "~4.5.31", features = ["derive"] }` which has MSRV 1.74) before vendoring.
+   - When Debian package builders execute `dh_auto_test` (`cargo test`), Cargo compiles `[dev-dependencies]`.
+   - Newer versions of transitive test dependencies often pull compiler-breaking crates (for example, `tempfile >= 3.12` pulls `getrandom 0.4.x` which uses `c"..."` string literals, `ptr::dangling_mut`, and `core::error::Error` requiring Rust 1.84+; `clap >= 4.6.0` adopted `Result::inspect_err()` requiring Rust 1.76+).
+   - Pin both production and dev-dependencies to LTS-safe series (e.g. `tempfile = "=3.10.1"`, `clap = "~4.5.31"`, `assert_cmd = "~2.0.14"`, `predicates = "~3.1.0"`) before vendoring.
 6. **Configure Push Events for Fedora Copr Webhooks**:
    - Copr webhook triggers require **Push events** (commits and tags) enabled in GitHub repository settings. Do not select only "Releases".
 7. **Use Modern Debhelper Compatibility**:
