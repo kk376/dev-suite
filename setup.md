@@ -364,15 +364,21 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
     - **Why It Fails**: As tests are added or refactored (186 → 187 → 188), the count becomes stale immediately, signaling lack of maintenance to contributors.
     - **Rule**: Use durable phrasing such as *"Run the comprehensive test suite (unit, integration, CLI snapshot, and completion tests)"* or reference the CI test badge.
 
-16. **Never Use Unescaped `{}` in `find -exec` When Normalizing `.cargo-checksum.json`**:
-    - **Anti-Pattern**: Using `find vendor/ -name ".cargo-checksum.json" -type f -exec bash -c 'echo "{\"files\":{}}" > "$1"' _ {} \;`.
-    - **Why It Fails**: `find` automatically substitutes the literal `{}` inside `{"files":{}}` with the matched path, creating corrupted, unparseable JSON like `{"files":vendor/pkg/.cargo-checksum.json}`. Cargo will fail during build with `failed to decode .cargo-checksum.json: expected value at line 1 column 10`.
-    - **Rule**: Always normalize checksum files using an explicit `for` loop:
-      ```bash
-      for f in $(find vendor/ -name ".cargo-checksum.json" -type f); do
-          printf '{"files":{}}\n' > "$f"
-      done
-      ```
+16. **Preserve `"package"` Checksum When Normalizing Vendored `.cargo-checksum.json`**:
+    - **Anti-Pattern A (Find-Exec Substitution Trap)**: Using `find vendor/ -name ".cargo-checksum.json" -type f -exec bash -c 'echo "{\"files\":{}}" > "$1"' _ {} \;` where `find` substitutes `{}` with the path.
+    - **Anti-Pattern B (Discarding `"package"` Hash)**: Overwriting `.cargo-checksum.json` with only `{"files":{}}` without `"package": "<hash>"`. Cargo strictly checks the crate tarball hash against `Cargo.lock` during offline builds and will fail with `checksum for <crate> could not be calculated, but a checksum is listed in the existing lock file`.
+    - **Rule**: Always preserve `"package": "<pkg_hash>"` and set `"files": {}` using a Python or jq script:
+      ```python
+      import glob, json
+
+      for f in glob.glob("vendor/**/.cargo-checksum.json", recursive=True):
+        with open(f, "r") as fp:
+          data = json.load(fp)
+        pkg_hash = data.get("package", None)
+        new_data = {"package": pkg_hash, "files": {}}
+        with open(f, "w") as fp:
+          json.dump(new_data, fp)
+```
 
 ---
 
