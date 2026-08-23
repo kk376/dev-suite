@@ -385,6 +385,29 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
     - **Why It Fails**: Pollutes the clean commit history with ephemeral scratch files and creates dirty working tree states when scripts are deleted afterwards.
     - **Rule**: Always create and execute temporary preparation scripts strictly inside the agent's persistent scratch directory (`~/.gemini/antigravity-cli/brain/<conv-id>/scratch/`) or `/tmp/`, and add `*.sh`, `prep_*.sh`, and `build_*.sh` to the project's `.gitignore`.
 
+18. **Never Mismatch Launchpad Changelog Email with GPG Signer / Registered PPA Email**:
+    - **Anti-Pattern**: Using a generic GitHub no-reply email (e.g. `user@users.noreply.github.com`) in `packaging/debian/changelog` while signing `.changes` with a GPG key registered under your Launchpad account (e.g. `<maintainer-email@domain.com>`).
+    - **Why It Fails**: Launchpad's incoming Soylent processor strictly verifies that the submitter email declared in `debian/changelog` (`Changed-By`) is associated with the Launchpad account that owns the PPA. If they mismatch, Launchpad silently rejects the upload at the processing gate before adding it to the build queue.
+    - **Rule**: Always ensure `debian/changelog` and `debian/control` maintainer/changed-by fields match the exact user email registered on Launchpad (`<Maintainer Name> <<maintainer-email@domain.com>>`).
+
+19. **Never Modify Vendored Dependencies in Source Tree When Building Subsequent PPA Revisions**:
+    - **Anti-Pattern**: Modifying vendored `Cargo.toml` files or source code in the working tree when building subsequent Debian package revisions (`ppa2`, `ppa3`) and re-generating `orig.tar.gz`.
+    - **Why It Fails**: Launchpad enforces strict immutability on upstream source tarballs (`<pkg>_<ver>.orig.tar.gz`) once accepted into the archive pool. Generating a new `orig.tar.gz` with modified content causes Launchpad to reject the upload with `File <pkg>_<ver>.orig.tar.gz already exists in PPA, but uploaded version has different contents`.
+    - **Rule**: Always apply vendor edition, MSRV, and source patches dynamically inside `override_dh_auto_build` in `debian/rules`:
+      ```makefile
+      override_dh_auto_build:
+      	mkdir -p .cargo
+      	cp debian/vendor-config.toml .cargo/config.toml
+      	find vendor -name Cargo.toml -exec sed -i -e 's/edition = "2024"/edition = "2021"/' -e 's/rust-version = "1.85"/rust-version = "1.74"/' {} +
+      	cargo build --release --offline
+      ```
+      This allows building clean diff-only (`dpkg-buildpackage -S -sd`) source packages against the existing immutable `orig.tar.gz` in Launchpad.
+
+20. **Beware of `rust-version = "1.85"` MSRV Constraints in Cargo 1.75.0**:
+    - **Anti-Pattern**: Normalizing only `edition = "2024"` ➔ `"2021"` in vendored crates without stripping or downgrading `rust-version = "1.85"`.
+    - **Why It Fails**: Cargo 1.75.0 on Ubuntu Noble buildd parses `rust-version` and aborts if `active_rustc (1.75.0) < rust-version (1.85)` with `error: package <pkg> cannot be built because it requires rustc 1.85 or newer, while the currently active rustc version is 1.75.0`.
+    - **Rule**: Always patch both `edition = "2024"` ➔ `"2021"` AND downgrade `rust-version = "1.85"` ➔ `"1.74"` across all vendored crate manifests.
+
 ---
 
 ### C. Multi-Platform Release Workflow

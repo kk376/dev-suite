@@ -10,8 +10,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `.wslconfig` — Windows-side global WSL2 resource configuration (`%USERPROFILE%\.wslconfig`) with RAM caps, CPU allocation, sparse VHD, and gradual memory reclaim.
 - `scripts/` — Packaging credential backup and restore helpers (`backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
 - `.gemini/config/skills/` — Antigravity / Gemini CLI custom skills:
-  - `engineer` — Universal software engineering standard and workflow system incorporating the full 35-skill engineering and productivity suite (deep modules, TDD, bug diagnostics, frontier grilling, to-spec, to-tickets, two-axis code review, wayfinding, merge conflict resolution, multi-platform packaging, interactive wizards).
-  - `designer` — Universal master design and UI/UX architecture standard incorporating 74 production design systems across 8 archetypes, universal design token engines (OKLCH, CSS, Tailwind v3/v4), component blueprints, terminal UI geometry, animation physics, WCAG AAA accessibility, and Core Web Vitals performance.
+  - `engineer` — Universal Master Engineering Craftsmanship & UI/UX Architecture Standard. Synthesizes deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling, spec slicing, two-axis code review, and multi-platform packaging, alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
 
 ## Quick Setup
 ```bash
