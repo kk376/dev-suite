@@ -23,20 +23,20 @@ format = "[$symbol]($style) "
 
 [os.symbols]
 Windows = " "
-Ubuntu = "󰕈 "
+Ubuntu = " "
 SUSE = " "
-Raspbian = "󰐿 "
+Raspbian = " "
 Mint = "󰣭 "
-Macos = "󰀵 "
+Macos = " "
 Manjaro = " "
 Linux = "󰌽 "
 Gentoo = "󰣨 "
-Fedora = "󰣛 "
+Fedora = " "
 Alpine = " "
 Amazon = " "
 Android = " "
 Arch = "󰣇 "
-Debian = "󰣚 "
+Debian = " "
 Redhat = "󱄛 "
 
 [username]
@@ -52,11 +52,11 @@ truncation_length = 0
 truncate_to_repo = false
 
 [directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = "󰝚 "
-"Pictures" = " "
-"Developer" = "󰲋 "
+"Documents" = "󰈙 Documents"
+"Downloads" = " Downloads"
+"Music" = "󰝚 Music"
+"Pictures" = " Pictures"
+"Developer" = "󰲋 Developer"
 
 [git_branch]
 symbol = " "
