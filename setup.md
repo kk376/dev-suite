@@ -364,6 +364,16 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
     - **Why It Fails**: As tests are added or refactored (186 → 187 → 188), the count becomes stale immediately, signaling lack of maintenance to contributors.
     - **Rule**: Use durable phrasing such as *"Run the comprehensive test suite (unit, integration, CLI snapshot, and completion tests)"* or reference the CI test badge.
 
+16. **Never Use Unescaped `{}` in `find -exec` When Normalizing `.cargo-checksum.json`**:
+    - **Anti-Pattern**: Using `find vendor/ -name ".cargo-checksum.json" -type f -exec bash -c 'echo "{\"files\":{}}" > "$1"' _ {} \;`.
+    - **Why It Fails**: `find` automatically substitutes the literal `{}` inside `{"files":{}}` with the matched path, creating corrupted, unparseable JSON like `{"files":vendor/pkg/.cargo-checksum.json}`. Cargo will fail during build with `failed to decode .cargo-checksum.json: expected value at line 1 column 10`.
+    - **Rule**: Always normalize checksum files using an explicit `for` loop:
+      ```bash
+      for f in $(find vendor/ -name ".cargo-checksum.json" -type f); do
+          printf '{"files":{}}\n' > "$f"
+      done
+      ```
+
 ---
 
 ### C. Multi-Platform Release Workflow
