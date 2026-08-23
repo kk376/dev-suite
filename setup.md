@@ -378,7 +378,12 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
         new_data = {"package": pkg_hash, "files": {}}
         with open(f, "w") as fp:
           json.dump(new_data, fp)
-```
+      ```
+
+17. **Never Create Temporary Build Scripts Inside the Git Repository**:
+    - **Anti-Pattern**: Generating temporary packaging/build helper scripts (e.g. `prep_ppa_*.sh`, `build_releases_*.sh`) directly in the project root or tracked subdirectories. When `git add -A` is run, temporary scripts accidentally get committed and pushed to public GitHub repositories.
+    - **Why It Fails**: Pollutes the clean commit history with ephemeral scratch files and creates dirty working tree states when scripts are deleted afterwards.
+    - **Rule**: Always create and execute temporary preparation scripts strictly inside the agent's persistent scratch directory (`~/.gemini/antigravity-cli/brain/<conv-id>/scratch/`) or `/tmp/`, and add `*.sh`, `prep_*.sh`, and `build_*.sh` to the project's `.gitignore`.
 
 ---
 
