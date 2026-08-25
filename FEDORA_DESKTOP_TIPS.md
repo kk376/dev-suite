@@ -95,7 +95,8 @@ To automatically mount Windows partitions and external USB/HDD drives on boot wi
 ### Key Mount Flags for Zero Issues:
 - **`UUID=...`**: Identifies filesystem uniquely across drive letter shifts.
 - **`ntfs-3g`**: Full read/write driver.
-- **`uid=1000,gid=1000,umask=022`**: Grants current user full read/write ownership.
+- **`uid=1000,gid=1000,umask=022`**: Grants current user full read/write ownership without `sudo`.
+- **`sync`**: Windows-style **"Quick Removal"** policy for external USB drives. Flushes writes directly to physical storage so you can unplug safely without manually clicking Eject (as long as no active copy is running).
 - **`nofail`**: Prevents systemd from halting boot into emergency mode if the external drive is unplugged.
 - **`x-systemd.device-timeout=5s`**: Caps boot delay to 5s if removable drive is missing.
 - **`windows_names`**: Enforces Windows filename compatibility.
@@ -105,8 +106,8 @@ To automatically mount Windows partitions and external USB/HDD drives on boot wi
 # Windows C: Partition (NVMe Partition 3)
 UUID=D2CCBEB9CCBE9767  /media/Windows  ntfs-3g  defaults,uid=1000,gid=1000,umask=022,nofail,windows_names  0  0
 
-# External Backup HDD
-UUID=B0CECB18CECAD62E  /media/Backup   ntfs-3g  defaults,uid=1000,gid=1000,umask=022,nofail,x-systemd.device-timeout=5s  0  0
+# External Backup HDD (with sync for Windows-style Quick Removal)
+UUID=B0CECB18CECAD62E  /media/Backup   ntfs-3g  defaults,sync,uid=1000,gid=1000,umask=022,nofail,x-systemd.device-timeout=5s  0  0
 ```
 
 ### Reload & Mount Verification:
