@@ -27,6 +27,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
 # ===== Aliases =====
 alias ls='eza --group-directories-first --classify --icons --git'
 alias cat='bat --paging=never --style=plain'
+alias dnf-terra='sudo dnf --enablerepo=terra'
 
 # ===== Antigravity IDE (WSL Remote) =====
 # Interop bridge: spawns Windows-native GUI from inside WSL2 without X11/Wayland server forwarding
