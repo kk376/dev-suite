@@ -166,7 +166,7 @@ sudo kill -9 <PID>
 ### 3. PostgreSQL Service Commands Quick Reference
 ```bash
 # Check service status
-sudo systemctl status postgresql-18
+sudo systemctl status postgresql-18 -l --no-pager
 
 # Start / Stop / Restart service
 sudo systemctl start postgresql-18
