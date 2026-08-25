@@ -1,6 +1,6 @@
 # PostgreSQL 18 & pgAdmin 4 Setup Guide for Fedora Workstation
 
-A comprehensive, production-grade guide for installing, initializing, and configuring **PostgreSQL 18** (via the official PGDG repository) and **pgAdmin 4 Desktop** on **Fedora Linux**.
+A comprehensive, production-grade guide for installing, initializing, configuring, and daily workflows with **PostgreSQL 18** (via the official PGDG repository) and **pgAdmin 4 Desktop** on **Fedora Linux**.
 
 ---
 
@@ -9,7 +9,7 @@ A comprehensive, production-grade guide for installing, initializing, and config
 | Component | Source Repository | Package Names | Notes |
 | :--- | :--- | :--- | :--- |
 | **PostgreSQL 18 Server** | Official PostgreSQL PGDG RPM Repo | `postgresql18-server`, `postgresql18`, `postgresql18-libs` | Upstream builds with latest point releases, isolated `/usr/pgsql-18/` directory structure, and independent systemd service (`postgresql-18.service`). |
-| **pgAdmin 4 Desktop** | Official pgAdmin RPM Repo (`ftp.postgresql.org`) | `pgadmin4-fedora-repo`, `pgadmin4-desktop` | Standalone Qt/Python desktop application for database management and query analysis. |
+| **pgAdmin 4 Desktop** | Official pgAdmin RPM Repo (`ftp.postgresql.org`) | `pgadmin4-fedora-repo`, `pgadmin4-desktop` | Standalone Qt/Python desktop application for database management and visual query analysis. |
 
 ---
 
@@ -60,9 +60,11 @@ systemctl status postgresql-18 --no-pager
 
 ---
 
-### Step 3: Add PostgreSQL 18 to System `$PATH`
+### Step 3: Add PostgreSQL 18 to System `$PATH` (Optional / Verified)
 
-The PGDG package places binaries under `/usr/pgsql-18/bin/` (e.g., `psql`, `pg_dump`, `createdb`). Add this path to your shell configuration so commands work directly:
+Fedora automatically links client binaries (`/usr/bin/psql`, `pg_dump`) via the Linux `alternatives` system (`/usr/bin/psql -> /etc/alternatives/pgsql-psql -> /usr/pgsql-18/bin/psql`).
+
+To ensure all server administration tools (like `initdb`, `pg_ctl`, `pg_waldump`) are also globally accessible:
 
 #### For User Shell (`~/.zshrc` / `~/.bashrc`):
 ```bash
@@ -80,14 +82,14 @@ PEOF
 Verify your terminal can invoke `psql`:
 ```bash
 psql --version
-# Output: psql (PostgreSQL) 18.x
+# Output: psql (PostgreSQL) 18.6
 ```
 
 ---
 
 ### Step 4: Set the `postgres` Superuser Password
 
-By default, PostgreSQL allows local peer authentication for the system `postgres` user. Set a password for your superuser account:
+By default, PostgreSQL allows local peer authentication for the system `postgres` user. Set a password for your root superuser account:
 
 ```bash
 # 1. Switch to the postgres system user
@@ -110,7 +112,30 @@ exit
 
 ---
 
-### Step 5: Install pgAdmin 4 Desktop Client
+### Step 5: ⭐ Provision Your Personal Developer Account (Frictionless `psql` CLI)
+
+In professional Linux development environments, you should create a PostgreSQL superuser role matching your Linux OS username. This provides instant, zero-password, zero-flag access when running `psql` in your terminal.
+
+```bash
+# 1. Create a superuser matching your Linux username (e.g. <username>)
+sudo -u postgres createuser -s $(whoami)
+
+# 2. Create a default database for your user
+sudo -u postgres createdb $(whoami)
+
+# 3. Set a password for your user (useful if connecting from pgAdmin or external tools)
+sudo -u postgres psql -c "ALTER USER $(whoami) WITH PASSWORD 'your_secure_password';"
+```
+
+#### 🚀 Test Instant Terminal Access:
+```bash
+psql
+```
+*You are instantly dropped into your PostgreSQL interactive shell! No `sudo`, no `-U postgres`, no host flags, and no password prompts needed.*
+
+---
+
+### Step 6: Install pgAdmin 4 Desktop Client
 
 pgAdmin 4 provides a full graphical UI for SQL queries, database design, schema inspection, and performance monitoring.
 
@@ -129,7 +154,7 @@ pgadmin4
 
 ---
 
-### Step 6: Connect pgAdmin 4 to Local PostgreSQL 18
+### Step 7: Connect pgAdmin 4 to Local PostgreSQL 18
 
 When opening pgAdmin 4 on Linux for the first time, the `Servers` group in the left sidebar will be empty. Follow these steps to register your local PostgreSQL database:
 
@@ -141,13 +166,59 @@ When opening pgAdmin 4 on Linux for the first time, the `Servers` group in the l
    - **Host name/address**: `localhost` *(or `127.0.0.1`)*
    - **Port**: `5432`
    - **Maintenance database**: `postgres`
-   - **Username**: `postgres`
-   - **Password**: `<your_secure_password>` *(the password set in Step 4)*
+   - **Username**: `postgres` *(or your user `<username>`)*
+   - **Password**: `<your_secure_password>`
    - **Save password?**: **ON / Checked**
    - **Role & Service**: *Leave completely empty*
 5. Click **`Save`**.
 
 Your `PostgreSQL 18` server will now appear in your left sidebar tree with full access to databases, schemas, tables, and the Query Tool (`Alt + Shift + Q` or Tools ➔ Query Tool).
+
+---
+
+## 🔄 Dual-Workflow: Terminal CLI & pgAdmin GUI in Harmony
+
+```
+                  ┌────────────────────────────────────────┐
+                  │          PostgreSQL 18 Engine          │
+                  │   (All databases, tables & schemas)    │
+                  └───────────────┬────────────────────────┘
+                                  │
+                 ┌────────────────┴────────────────┐
+                 │                                 │
+                 ▼                                 ▼
+         [ Terminal / CLI ]               [ pgAdmin 4 GUI ]
+       Fast Unix Socket (`psql`)         TCP Network Loopback
+        Logged in as: `<username>`           Logged in as: `postgres`
+          (0s friction)                 (Visual inspector & ERD)
+```
+
+Both tools interact with the exact same live database instance simultaneously:
+- **Terminal (`psql`)**: Ideal for rapid queries, running migrations (`alembic`, `prisma migrate`, `diesel`), and pipeline scripts.
+- **pgAdmin 4**: Ideal for visual schema exploration, query execution plans (`EXPLAIN ANALYZE`), table data editing, and ER diagrams.
+
+---
+
+## 🔍 Understanding PostgreSQL Authentication (Peer vs TCP)
+
+### Why does `psql -U postgres` fail with `FATAL: Peer authentication failed for user "postgres"`?
+- When you run `psql` without a host flag (`-h`), it connects via the **Unix domain socket** (`/run/postgresql/.s.PGSQL.5432`).
+- Unix sockets use **`peer` authentication**: PostgreSQL verifies that your Linux OS username matches the PostgreSQL username.
+- If your Linux login is `<username>` and you run `psql -U postgres`, PostgreSQL sees `<username> != postgres` and refuses connection.
+
+### How to connect as `postgres` if ever needed:
+1. **Via TCP Loopback (Password Auth)**:
+   ```bash
+   psql -U postgres -h localhost
+   ```
+2. **Via OS User Switch (Peer Auth)**:
+   ```bash
+   sudo -u postgres psql
+   ```
+3. **Daily Recommended (Personal User)**:
+   ```bash
+   psql
+   ```
 
 ---
 
@@ -166,7 +237,7 @@ sudo kill -9 <PID>
 ### 3. PostgreSQL Service Commands Quick Reference
 ```bash
 # Check service status
-sudo systemctl status postgresql-18 -l --no-pager
+sudo systemctl status postgresql-18
 
 # Start / Stop / Restart service
 sudo systemctl start postgresql-18
