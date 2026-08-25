@@ -38,7 +38,8 @@ Terra provides thousands of modern packages and bleeding-edge CLI tools not avai
 
 ## 🚀 1-Minute Setup Instructions
 
-Run this single command in your terminal to create the hardened `/etc/yum.repos.d/terra.repo`:
+### Step 1: Create the Hardened Repository Configuration
+Run this command in your terminal to create `/etc/yum.repos.d/terra.repo`:
 
 ```bash
 sudo tee /etc/yum.repos.d/terra.repo > /dev/null <<'EOF'
@@ -57,23 +58,39 @@ metadata_expire=4h
 EOF
 ```
 
+### Step 2: Install the System-Wide `dnf-terra` Command
+Deploy `/usr/local/bin/dnf-terra` so `sudo dnf-terra` works anywhere:
+
+```bash
+sudo tee /usr/local/bin/dnf-terra > /dev/null <<'EOF'
+#!/bin/bash
+exec dnf --enablerepo=terra "$@"
+EOF
+sudo chmod +x /usr/local/bin/dnf-terra
+```
+
 ---
 
-## 🛠️ Intuitive CLI Usage via `dnf-terra`
+## 🛠️ Intuitive CLI Usage via `sudo dnf-terra`
 
-Instead of remembering verbose flags like `--enablerepo=terra`, use the built-in **`dnf-terra`** command:
+Instead of remembering verbose flags like `--enablerepo=terra`, use the built-in **`sudo dnf-terra`** command:
 
 ### 1. Install an App from Terra:
 ```bash
-dnf-terra install <package-name>
+sudo dnf-terra install <package-name>
 ```
 
-### 2. Search for Packages in Terra:
+### 2. Remove an App:
+```bash
+sudo dnf-terra remove <package-name>
+```
+
+### 3. Search for Packages in Terra:
 ```bash
 dnf-terra search <keyword>
 ```
 
-### 3. Check Package Information:
+### 4. Check Package Information:
 ```bash
 dnf-terra info <package-name>
 ```
@@ -86,3 +103,18 @@ dnf-terra info <package-name>
 sudo dnf upgrade
 ```
 *DNF only updates official Fedora and RPM Fusion packages. Terra is completely ignored.*
+
+---
+
+## 💡 Troubleshooting: `dnf5daemon-server` Offline Transaction Warning
+
+If you see:
+```text
+Warning: A pending offline transaction initiated by the following command will be invalidated: dnf5daemon-server
+```
+This is **100% harmless**. It means GNOME Software prepared a background update queue, but because you ran a live CLI install, DNF cleanly discarded the stale background cache.
+
+To manually clear the offline cache:
+```bash
+sudo dnf offline clean
+```
