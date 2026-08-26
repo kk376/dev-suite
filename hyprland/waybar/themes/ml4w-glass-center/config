@@ -1,0 +1,37 @@
+{
+    // General Settings
+    "layer": "top",
+    "position": "top",
+    "margin-top": 6,
+    "margin-bottom": 0,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+    
+    // Load Modules
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+    
+    // Modules Left
+    "modules-left": [
+        "custom/appmenu",
+        "clock"
+    ],
+    
+    // Modules Center
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    
+    // Modules Right    
+    "modules-right": [
+        "network",
+        "custom/cliphist",
+        "pulseaudio",
+        "bluetooth",
+        "battery",
+        "tray"
+    ]
+}

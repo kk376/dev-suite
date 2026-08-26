@@ -1,0 +1,78 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "python.defaultInterpreterPath": "/usr/bin/python3",
+    "python.autoSelectWorkspace": true,
+    "python.locator": "js",
+    "python-envs.globalSearchPaths": [
+        "/usr/bin",
+        "/usr/local/bin",
+        "$HOME/.local/bin"
+    ],
+    "python.venvFolders": [
+        "envs",
+        ".envs",
+        ".venv",
+        "env",
+        "venv"
+    ],
+    "python.analysis.autoSearchPaths": true,
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "editor.fontFamily": "'FiraCode Nerd Font', 'Fira Code', 'JetBrains Mono', monospace",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 16,
+    "editor.lineHeight": 1.5,
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.fontLigatures.enabled": true,
+    "window.zoomLevel": 0.5,
+    "terminal.external.linuxExec": "$HOME/.local/bin/kitty",
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.profiles.linux": {
+        "zsh": {
+            "path": "/usr/bin/zsh",
+            "icon": "terminal"
+        },
+        "bash": {
+            "path": "/usr/bin/bash",
+            "icon": "terminal-bash"
+        }
+    },
+    "code-runner.runInTerminal": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.saveAllFilesBeforeRun": false,
+    "code-runner.ignoreSelection": true,
+    "code-runner.executorMap": {
+        "python": "python3 -u",
+        "c": "cd $dir && gcc -Wall -O2 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++ -Wall -O2 -std=c++20 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "rust": "cd $dir && cargo run 2>/dev/null || (rustc $fileName && $dir$fileNameWithoutExt)",
+        "javascript": "node",
+        "typescript": "ts-node",
+        "shellscript": "bash",
+        "go": "go run"
+    },
+    "files.autoSave": "afterDelay",
+    "window.autoDetectColorScheme": false,
+    "window.controlsStyle": "custom",
+    "vscode_vibrancy.theme": "Dark (Only Subbar)",
+    "vscode_vibrancy.opacity": 0.85,
+    "vscode_vibrancy.preventFlash": true,
+    "vscode_vibrancy.blurRadius": 30,
+    "workbench.colorTheme": "Dark+",
+    "workbench.colorCustomizations": {
+        "sideBar.background": "#1e1e1ed9",
+        "sideBarTitle.background": "#1e1e1ed9",
+        "activityBar.background": "#1e1e1ed9",
+        "sideBarStickyScroll.background": "#1e1e1ed9",
+        "inlineChat.background": "#1e1e1ee6",
+        "editorWidget.background": "#1e1e1ee6",
+        "editorHoverWidget.background": "#1e1e1ee6",
+        "editorSuggestWidget.background": "#1e1e1ee6",
+        "notifications.background": "#1e1e1ee6",
+        "notificationCenterHeader.background": "#1e1e1ee6",
+        "menu.background": "#1e1e1ee6",
+        "quickInput.background": "#1e1e1ee6"
+    }
+}
