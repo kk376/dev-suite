@@ -1,7 +1,5 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-palette = "catppuccin_mocha"
-
 add_newline = false
 
 format = """
@@ -20,37 +18,9 @@ $cmd_duration\
 $time
 ╰─$character """
 
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
-
 [os]
 disabled = false
-style = "bold sapphire"
+style = "bold blue"
 format = "[$symbol]($style) "
 
 [os.symbols]
@@ -78,7 +48,7 @@ style_root = "bold red"
 format = '[$user]($style) in '
 
 [directory]
-style = "bold lavender"
+style = "bold cyan"
 format = "[$path]($style) "
 truncation_length = 0
 truncate_to_repo = false
@@ -92,7 +62,7 @@ truncate_to_repo = false
 
 [git_branch]
 symbol = " "
-style = "bold mauve"
+style = "bold purple"
 format = "on [$symbol$branch]($style) "
 
 [git_status]
@@ -112,7 +82,7 @@ deleted = "✘${count}"
 
 [rust]
 symbol = " "
-style = "bold peach"
+style = "bold red"
 format = "via [$symbol($version )]($style) "
 
 [python]
@@ -127,12 +97,12 @@ format = "via [$symbol($version )]($style) "
 
 [golang]
 symbol = " "
-style = "bold teal"
+style = "bold cyan"
 format = "via [$symbol($version )]($style) "
 
 [c]
 symbol = " "
-style = "bold sapphire"
+style = "bold blue"
 format = "via [$symbol($version )]($style) "
 
 [docker_context]
@@ -143,15 +113,15 @@ format = "via [$symbol$context]($style) "
 [cmd_duration]
 min_time = 2_000
 show_milliseconds = false
-style = "bold peach"
+style = "bold yellow"
 format = "took [$duration]($style) "
 
 [time]
 disabled = false
 time_format = "%R"
-style = "bold subtext0"
+style = "bold white"
 format = "at [$time]($style) "
 
 [character]
-success_symbol = "[❯](bold mauve)"
+success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
