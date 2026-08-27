@@ -15,6 +15,7 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt NO_SINGLE_LINE_ZLE
 setopt PROMPT_SUBST
+setopt MULTIBYTE
 setopt INTERACTIVE_COMMENTS
 
 # ===== Universal Terminal & Keybindings Support =====
@@ -36,7 +37,7 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 zle -N edit-command-line
 
-# Smart Multi-Line Navigation (Allows navigating pasted multi-line chats/prompts without wiping them!)
+# 1. Smart Multi-Line Navigation (Glides across multi-line pasted text without wiping it)
 function smart-up-line() {
     if [[ $LBUFFER == *$'\n'* ]]; then
         zle up-line
@@ -54,6 +55,13 @@ function smart-down-line() {
     fi
 }
 zle -N smart-down-line
+
+# 2. Paste Handler: Guarantees cursor is always placed at the ABSOLUTE END of pasted text
+function paste-to-end() {
+    zle .bracketed-paste
+    CURSOR=$#BUFFER
+}
+zle -N bracketed-paste paste-to-end
 
 # Arrow Keys (Multi-line prompt aware)
 bindkey "^[[A" smart-up-line
@@ -80,7 +88,7 @@ bindkey "^[[1;3C" forward-word
 bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 
-# Home / End
+# Home / End (Line & Buffer Navigation)
 bindkey "^[[H" beginning-of-line
 bindkey "^[[1~" beginning-of-line
 bindkey "^[[7~" beginning-of-line
@@ -89,6 +97,12 @@ bindkey "^[[F" end-of-line
 bindkey "^[[4~" end-of-line
 bindkey "^[[8~" end-of-line
 bindkey "^[OF" end-of-line
+
+# Ctrl+Home / Ctrl+End (Jump to Top/Bottom of entire multi-line block)
+bindkey "^[[1;5H" beginning-of-buffer-or-history
+bindkey "^[[1;5F" end-of-buffer-or-history
+bindkey "^[<" beginning-of-buffer-or-history
+bindkey "^[>" end-of-buffer-or-history
 
 # Delete / Backspace
 bindkey "^[[3~" delete-char
@@ -188,6 +202,7 @@ fi
 
 # ===== 3. ZSH Syntax Highlighting (MUST ALWAYS BE THE VERY LAST SOURCED SCRIPT) =====
 ZSH_HIGHLIGHT_MAXLENGTH=500
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 if [[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
