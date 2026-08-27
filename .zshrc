@@ -21,11 +21,16 @@ setopt INTERACTIVE_COMMENTS
 # Disable automatic visual selection region on paste (stops cursor from snapping to Line 1!)
 zle_highlight=(paste:none)
 
-# Clean paste handler: keeps cursor at end of paste and unsets active selection
+# Clean paste handler: normalizes Unicode narrow/no-break spaces & keeps cursor at end
 function bracketed-paste-clean() {
-    zle .bracketed-paste
+    local paste_data
+    zle .bracketed-paste paste_data
+    # Replace U+202F (Narrow No-Break Space from WhatsApp/Telegram) and U+00A0 with standard ASCII space
+    paste_data="${paste_data//$'\u202f'/ }"
+    paste_data="${paste_data//$'\u00a0'/ }"
+    paste_data="${paste_data//$'\u200b'/}"
+    LBUFFER+="$paste_data"
     unset REGION_ACTIVE
-    CURSOR=$#BUFFER
 }
 zle -N bracketed-paste bracketed-paste-clean
 
