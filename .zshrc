@@ -14,9 +14,50 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 
-# ===== Navigation & Keybindings =====
-bindkey '^[[;5D' backward-word
-bindkey '^[[;5C' forward-word
+# ===== Navigation & Keybindings (Universal Terminal Support) =====
+# Standard Arrow Keys & Navigation
+bindkey "^[[A" up-line-or-history
+bindkey "^[OA" up-line-or-history
+bindkey "^[[B" down-line-or-history
+bindkey "^[OB" down-line-or-history
+bindkey "^[[C" forward-char
+bindkey "^[OC" forward-char
+bindkey "^[[D" backward-char
+bindkey "^[OD" backward-char
+
+# Ctrl + Left / Right (Word Navigation Across Terminals)
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^[[5D" backward-word
+bindkey "^[[5C" forward-word
+bindkey "^[^[[D" backward-word
+bindkey "^[^[[C" forward-word
+
+# Alt + Left / Right (Word Navigation)
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
+bindkey "^[b" backward-word
+bindkey "^[f" forward-word
+
+# Home / End
+bindkey "^[[H" beginning-of-line
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[7~" beginning-of-line
+bindkey "^[OH" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[4~" end-of-line
+bindkey "^[[8~" end-of-line
+bindkey "^[OF" end-of-line
+
+# Delete / Backspace
+bindkey "^[[3~" delete-char
+bindkey "^?" backward-delete-char
+
+# Edit massive multiline prompts in full editor ($EDITOR / nvim) with Ctrl+X Ctrl+E
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+bindkey '^Xe' edit-command-line
 
 # ===== Environment & PATH =====
 export EDITOR=nvim
