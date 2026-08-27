@@ -18,8 +18,18 @@ setopt PROMPT_SUBST
 setopt MULTIBYTE
 setopt INTERACTIVE_COMMENTS
 
-# ===== Universal Terminal & Keybindings Support =====
-# Put terminal into application cursor mode when zle is active so arrow keys always match
+# Disable automatic visual selection region on paste (stops cursor from snapping to Line 1!)
+zle_highlight=(paste:none)
+
+# Clean paste handler: keeps cursor at end of paste and unsets active selection
+function bracketed-paste-clean() {
+    zle .bracketed-paste
+    unset REGION_ACTIVE
+    CURSOR=$#BUFFER
+}
+zle -N bracketed-paste bracketed-paste-clean
+
+# Put terminal into application cursor mode when zle is active
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
     function zle-line-init() {
         echoti smkx
@@ -37,76 +47,50 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 zle -N edit-command-line
 
-# 1. Smart Multi-Line Navigation (Glides across multi-line pasted text without wiping it)
-function smart-up-line() {
-    if [[ $LBUFFER == *$'\n'* ]]; then
-        zle up-line
-    else
-        zle up-line-or-beginning-search
-    fi
-}
-zle -N smart-up-line
-
-function smart-down-line() {
-    if [[ $RBUFFER == *$'\n'* ]]; then
-        zle down-line
-    else
-        zle down-line-or-beginning-search
-    fi
-}
-zle -N smart-down-line
-
-# 2. Paste Handler: Guarantees cursor is always placed at the ABSOLUTE END of pasted text
-function paste-to-end() {
-    zle .bracketed-paste
-    CURSOR=$#BUFFER
-}
-zle -N bracketed-paste paste-to-end
-
-# Arrow Keys (Multi-line prompt aware)
-bindkey "^[[A" smart-up-line
-bindkey "^[OA" smart-up-line
-bindkey "^[[B" smart-down-line
-bindkey "^[OB" smart-down-line
-bindkey "^[[C" forward-char
-bindkey "^[OC" forward-char
-bindkey "^[[D" backward-char
-bindkey "^[OD" backward-char
+# Arrow Keys (Native C multi-line navigation)
+bindkey "^[[A" .up-line-or-history
+bindkey "^[OA" .up-line-or-history
+bindkey "^[[B" .down-line-or-history
+bindkey "^[OB" .down-line-or-history
+bindkey "^[[C" .forward-char
+bindkey "^[OC" .forward-char
+bindkey "^[[D" .backward-char
+bindkey "^[OD" .backward-char
 
 # Ctrl + Left / Right (Word Skipping across Kitty, VS Codium, Alacritty)
-bindkey "^[[1;5D" backward-word
-bindkey "^[[1;5C" forward-word
-bindkey "^[[5D" backward-word
-bindkey "^[[5C" forward-word
-bindkey "^[^[[D" backward-word
-bindkey "^[^[[C" forward-word
-bindkey "^W" backward-kill-word
+bindkey "^[[1;5D" .backward-word
+bindkey "^[[1;5C" .forward-word
+bindkey "^[[5D" .backward-word
+bindkey "^[[5C" .forward-word
+bindkey "^[^[[D" .backward-word
+bindkey "^[^[[C" .forward-word
+bindkey "^W" .backward-kill-word
 
 # Alt + Left / Right
-bindkey "^[[1;3D" backward-word
-bindkey "^[[1;3C" forward-word
-bindkey "^[b" backward-word
-bindkey "^[f" forward-word
+bindkey "^[[1;3D" .backward-word
+bindkey "^[[1;3C" .forward-word
+bindkey "^[b" .backward-word
+bindkey "^[f" .forward-word
 
 # Home / End (Line & Buffer Navigation)
-bindkey "^[[H" beginning-of-line
-bindkey "^[[1~" beginning-of-line
-bindkey "^[[7~" beginning-of-line
-bindkey "^[OH" beginning-of-line
-bindkey "^[[F" end-of-line
-bindkey "^[[4~" end-of-line
-bindkey "^[[8~" end-of-line
-bindkey "^[OF" end-of-line
+bindkey "^[[H" .beginning-of-line
+bindkey "^[[1~" .beginning-of-line
+bindkey "^[[7~" .beginning-of-line
+bindkey "^[OH" .beginning-of-line
+bindkey "^[[F" .end-of-line
+bindkey "^[[4~" .end-of-line
+bindkey "^[[8~" .end-of-line
+bindkey "^[OF" .end-of-line
 
 # Ctrl+Home / Ctrl+End (Jump to Top/Bottom of entire multi-line block)
-bindkey "^[[1;5H" beginning-of-buffer-or-history
-bindkey "^[[1;5F" end-of-buffer-or-history
-bindkey "^[<" beginning-of-buffer-or-history
-bindkey "^[>" end-of-buffer-or-history
+bindkey "^[[1;5H" .beginning-of-buffer-or-history
+bindkey "^[[1;5F" .end-of-buffer-or-history
+bindkey "^[<" .beginning-of-buffer-or-history
+bindkey "^[>" .end-of-buffer-or-history
 
 # Delete / Backspace
-bindkey "^[[3~" delete-char
-bindkey "^?" backward-delete-char
+bindkey "^[[3~" .delete-char
+bindkey "^?" .backward-delete-char
 
 # Edit huge multi-line prompts in Neovim with Ctrl+X Ctrl+E
 bindkey '^X^E' edit-command-line
