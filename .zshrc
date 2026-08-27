@@ -1,5 +1,5 @@
 # ==============================================================================
-# ZSH CONFIGURATION (Fedora + Hyprland + Starship)
+# ZSH CONFIGURATION (Fedora + Starship)
 # ==============================================================================
 
 # ===== Zsh Options & History =====
@@ -84,25 +84,9 @@ alias v='$EDITOR'
 alias vim='$EDITOR'
 alias wifi='nmtui'
 
-# ML4W Hyprland Helpers
 alias nf='fastfetch'
 alias pf='fastfetch'
 alias ff='fastfetch'
-alias apps='~/.config/ml4w/bin/ml4w-apps'
-alias screenshot='~/.config/ml4w/bin/ml4w-screenshot'
-alias updates='~/.config/ml4w/scripts/ml4w-install-system-updates'
-alias filemanager='~/.config/ml4w/settings/filemanager'
-alias autostart='~/.config/ml4w/scripts/ml4w-autostart'
-alias lock='hyprlock'
-alias system='~/.config/ml4w/settings/systemmonitor'
-alias quick='~/.config/ml4w/bin/ml4w-quicklinks'
-alias wallpaper='~/.config/ml4w/bin/ml4w-wallpaper'
-alias settings='ml4w-dotfiles-settings com.ml4w.dotfiles'
-alias ml4w='qs ipc call welcome toggle'
-alias ml4w-settings='qs -p ~/.local/share/ml4w-dotfiles-settings/quickshell ipc call settings toggle'
-alias ml4w-calendar='qs ipc call calendar toggle'
-alias ml4w-hyprland='flatpak run com.ml4w.hyprlandsettings'
-alias ml4w-sidebar='qs ipc call sidebar toggle'
 
 # Git Aliases
 alias gs="git status"
@@ -115,20 +99,6 @@ alias gsp="git stash; git pull"
 alias gfo="git fetch origin"
 alias gcheck="git checkout"
 alias gcredential="git config credential.helper store"
-
-# ===== ML4W Interactive Finder Function =====
-finder() {
-    local result=$($HOME/.config/ml4w/bin/ml4w-finder 2>/dev/null)
-    if [[ "$result" == TYPE_DIR:* ]]; then
-        local target_dir="${result#TYPE_DIR:}"
-        cd "$target_dir" && ls
-    elif [[ "$result" == TYPE_FILE:* ]]; then
-        ${EDITOR:-nano} "${result#TYPE_FILE:}"
-    elif [[ -n "$result" ]]; then
-        echo "Could not read $result" >&2
-        return 1
-    fi
-}
 
 # ===== 1. Starship Prompt Initialization =====
 if command -v starship &>/dev/null; then
