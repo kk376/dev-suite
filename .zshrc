@@ -2,7 +2,7 @@
 # ZSH CONFIGURATION (Fedora + Hyprland + Starship)
 # ==============================================================================
 
-# ===== Zsh History =====
+# ===== Zsh Options & History =====
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -13,27 +13,49 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
+setopt NO_SINGLE_LINE_ZLE
+setopt PROMPT_SUBST
+setopt INTERACTIVE_COMMENTS
 
-# ===== Navigation & Keybindings (Universal Terminal Support) =====
-# Standard Arrow Keys & Navigation
-bindkey "^[[A" up-line-or-history
-bindkey "^[OA" up-line-or-history
-bindkey "^[[B" down-line-or-history
-bindkey "^[OB" down-line-or-history
+# ===== Universal Terminal & Keybindings Support =====
+# Put terminal into application cursor mode when zle is active so arrow keys always match
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+    function zle-line-init() {
+        echoti smkx
+    }
+    function zle-line-finish() {
+        echoti rmkx
+    }
+    zle -N zle-line-init
+    zle -N zle-line-finish
+fi
+
+# Load multi-line search widgets
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search edit-command-line
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+zle -N edit-command-line
+
+# Arrow Keys (Multi-line prompt aware)
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
 bindkey "^[[C" forward-char
 bindkey "^[OC" forward-char
 bindkey "^[[D" backward-char
 bindkey "^[OD" backward-char
 
-# Ctrl + Left / Right (Word Navigation Across Terminals)
+# Ctrl + Left / Right (Word Skipping across Kitty, VS Codium, Alacritty)
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[5D" backward-word
 bindkey "^[[5C" forward-word
 bindkey "^[^[[D" backward-word
 bindkey "^[^[[C" forward-word
+bindkey "^W" backward-kill-word
 
-# Alt + Left / Right (Word Navigation)
+# Alt + Left / Right
 bindkey "^[[1;3D" backward-word
 bindkey "^[[1;3C" forward-word
 bindkey "^[b" backward-word
@@ -53,9 +75,7 @@ bindkey "^[OF" end-of-line
 bindkey "^[[3~" delete-char
 bindkey "^?" backward-delete-char
 
-# Edit massive multiline prompts in full editor ($EDITOR / nvim) with Ctrl+X Ctrl+E
-autoload -Uz edit-command-line
-zle -N edit-command-line
+# Edit huge multi-line prompts in Neovim with Ctrl+X Ctrl+E
 bindkey '^X^E' edit-command-line
 bindkey '^Xe' edit-command-line
 
@@ -133,12 +153,21 @@ finder() {
     fi
 }
 
-# ===== Plugins (Autosuggestions & Syntax Highlighting) =====
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
-[[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-[[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# ===== Starship Prompt (ALWAYS LAST) =====
+# ===== 1. Starship Prompt Initialization (MUST BE BEFORE SYNTAX HIGHLIGHTING) =====
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
+fi
+
+# ===== 2. ZSH Autosuggestions (Loaded before Syntax Highlighting) =====
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=60
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+if [[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# ===== 3. ZSH Syntax Highlighting (MUST ALWAYS BE THE VERY LAST SOURCED SCRIPT) =====
+if [[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
