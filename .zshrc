@@ -13,91 +13,46 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
-setopt NO_SINGLE_LINE_ZLE
 setopt PROMPT_SUBST
 setopt MULTIBYTE
 setopt INTERACTIVE_COMMENTS
 
-# Disable automatic visual selection region on paste (stops cursor from snapping to Line 1!)
-zle_highlight=(paste:none)
+# Use standard Emacs keybindings mode
+bindkey -e
 
-# Clean paste handler: normalizes Unicode narrow/no-break spaces & keeps cursor at end
-function bracketed-paste-clean() {
-    local paste_data
-    zle .bracketed-paste paste_data
-    # Replace U+202F (Narrow No-Break Space from WhatsApp/Telegram) and U+00A0 with standard ASCII space
-    paste_data="${paste_data//$'\u202f'/ }"
-    paste_data="${paste_data//$'\u00a0'/ }"
-    paste_data="${paste_data//$'\u200b'/}"
-    LBUFFER+="$paste_data"
-    unset REGION_ACTIVE
-}
-zle -N bracketed-paste bracketed-paste-clean
+# ===== Keybindings (Universal Terminal Support) =====
+# Word navigation (Ctrl + Left/Right across Kitty, VS Codium, Alacritty)
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^[[5D" backward-word
+bindkey "^[[5C" forward-word
+bindkey "^[^[[D" backward-word
+bindkey "^[^[[C" forward-word
+bindkey "^W" backward-kill-word
 
-# Put terminal into application cursor mode when zle is active
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-    function zle-line-init() {
-        echoti smkx
-    }
-    function zle-line-finish() {
-        echoti rmkx
-    }
-    zle -N zle-line-init
-    zle -N zle-line-finish
-fi
+# Alt + Left/Right
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
+bindkey "^[b" backward-word
+bindkey "^[f" forward-word
 
-# Load multi-line search widgets
-autoload -Uz up-line-or-beginning-search down-line-or-beginning-search edit-command-line
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-zle -N edit-command-line
-
-# Arrow Keys (Native C multi-line navigation)
-bindkey "^[[A" .up-line-or-history
-bindkey "^[OA" .up-line-or-history
-bindkey "^[[B" .down-line-or-history
-bindkey "^[OB" .down-line-or-history
-bindkey "^[[C" .forward-char
-bindkey "^[OC" .forward-char
-bindkey "^[[D" .backward-char
-bindkey "^[OD" .backward-char
-
-# Ctrl + Left / Right (Word Skipping across Kitty, VS Codium, Alacritty)
-bindkey "^[[1;5D" .backward-word
-bindkey "^[[1;5C" .forward-word
-bindkey "^[[5D" .backward-word
-bindkey "^[[5C" .forward-word
-bindkey "^[^[[D" .backward-word
-bindkey "^[^[[C" .forward-word
-bindkey "^W" .backward-kill-word
-
-# Alt + Left / Right
-bindkey "^[[1;3D" .backward-word
-bindkey "^[[1;3C" .forward-word
-bindkey "^[b" .backward-word
-bindkey "^[f" .forward-word
-
-# Home / End (Line & Buffer Navigation)
-bindkey "^[[H" .beginning-of-line
-bindkey "^[[1~" .beginning-of-line
-bindkey "^[[7~" .beginning-of-line
-bindkey "^[OH" .beginning-of-line
-bindkey "^[[F" .end-of-line
-bindkey "^[[4~" .end-of-line
-bindkey "^[[8~" .end-of-line
-bindkey "^[OF" .end-of-line
-
-# Ctrl+Home / Ctrl+End (Jump to Top/Bottom of entire multi-line block)
-bindkey "^[[1;5H" .beginning-of-buffer-or-history
-bindkey "^[[1;5F" .end-of-buffer-or-history
-bindkey "^[<" .beginning-of-buffer-or-history
-bindkey "^[>" .end-of-buffer-or-history
+# Home / End
+bindkey "^[[H" beginning-of-line
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[7~" beginning-of-line
+bindkey "^[OH" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[4~" end-of-line
+bindkey "^[[8~" end-of-line
+bindkey "^[OF" end-of-line
 
 # Delete / Backspace
-bindkey "^[[3~" .delete-char
-bindkey "^?" .backward-delete-char
+bindkey "^[[3~" delete-char
+bindkey "^?" backward-delete-char
 
 # Edit huge multi-line prompts in Neovim with Ctrl+X Ctrl+E
+autoload -Uz edit-command-line
+zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 bindkey '^Xe' edit-command-line
 
@@ -175,23 +130,19 @@ finder() {
     fi
 }
 
-# ===== 1. Starship Prompt Initialization (MUST BE BEFORE SYNTAX HIGHLIGHTING) =====
+# ===== 1. Starship Prompt Initialization =====
 if command -v starship &>/dev/null; then
     eval "$(starship init zsh)"
 fi
 
-# ===== 2. ZSH Autosuggestions (Loaded before Syntax Highlighting) =====
+# ===== 2. ZSH Autosuggestions (Right Arrow Autocompletion) =====
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=60
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 if [[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-# ===== 3. ZSH Syntax Highlighting (MUST ALWAYS BE THE VERY LAST SOURCED SCRIPT) =====
-ZSH_HIGHLIGHT_MAXLENGTH=500
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+# ===== 3. ZSH Syntax Highlighting (Must be the very last line) =====
 if [[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
