@@ -1,12 +1,13 @@
 # ==============================================================================
-# ZSH CONFIGURATION (Fedora + Starship)
+# ZSH CONFIGURATION (Fedora Workstation + Starship)
 # ==============================================================================
 
-# ===== Zsh Options & History =====
+# ===== Zsh History =====
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
+# Write each command immediately upon execution and import from concurrent shells
 setopt APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
@@ -15,46 +16,26 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt PROMPT_SUBST
 setopt MULTIBYTE
-setopt INTERACTIVE_COMMENTS
 
-# Use standard Emacs keybindings mode
+# Emacs keymap with word navigation
 bindkey -e
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey '^[[5D' backward-word
+bindkey '^[[5C' forward-word
+bindkey '^W' backward-kill-word
 
-# ===== Keybindings (Universal Terminal Support) =====
-# Word navigation (Ctrl + Left/Right across Kitty, VS Codium, Alacritty)
-bindkey "^[[1;5D" backward-word
-bindkey "^[[1;5C" forward-word
-bindkey "^[[5D" backward-word
-bindkey "^[[5C" forward-word
-bindkey "^[^[[D" backward-word
-bindkey "^[^[[C" forward-word
-bindkey "^W" backward-kill-word
-
-# Alt + Left/Right
-bindkey "^[[1;3D" backward-word
-bindkey "^[[1;3C" forward-word
-bindkey "^[b" backward-word
-bindkey "^[f" forward-word
-
-# Home / End
-bindkey "^[[H" beginning-of-line
-bindkey "^[[1~" beginning-of-line
-bindkey "^[[7~" beginning-of-line
-bindkey "^[OH" beginning-of-line
-bindkey "^[[F" end-of-line
-bindkey "^[[4~" end-of-line
-bindkey "^[[8~" end-of-line
-bindkey "^[OF" end-of-line
-
-# Delete / Backspace
-bindkey "^[[3~" delete-char
-bindkey "^?" backward-delete-char
-
-# Edit huge multi-line prompts in Neovim with Ctrl+X Ctrl+E
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^X^E' edit-command-line
-bindkey '^Xe' edit-command-line
+# Home / End / Delete
+bindkey '^[[H' beginning-of-line
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[7~' beginning-of-line
+bindkey '^[OH' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[4~' end-of-line
+bindkey '^[[8~' end-of-line
+bindkey '^[OF' end-of-line
+bindkey '^[[3~' delete-char
+bindkey '^?' backward-delete-char
 
 # ===== Environment & PATH =====
 export EDITOR=nvim
@@ -84,10 +65,6 @@ alias v='$EDITOR'
 alias vim='$EDITOR'
 alias wifi='nmtui'
 
-alias nf='fastfetch'
-alias pf='fastfetch'
-alias ff='fastfetch'
-
 # Git Aliases
 alias gs="git status"
 alias ga="git add"
@@ -100,19 +77,13 @@ alias gfo="git fetch origin"
 alias gcheck="git checkout"
 alias gcredential="git config credential.helper store"
 
-# ===== 1. Starship Prompt Initialization =====
-if command -v starship &>/dev/null; then
-    eval "$(starship init zsh)"
-fi
-
-# ===== 2. ZSH Autosuggestions (Right Arrow Autocompletion) =====
+# ===== Zsh Autosuggestions & Syntax Highlighting =====
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8a8a8a"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-if [[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
+[[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# ===== 3. ZSH Syntax Highlighting (Must be the very last line) =====
-if [[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# ===== Starship Prompt (ALWAYS LAST) =====
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
 fi
