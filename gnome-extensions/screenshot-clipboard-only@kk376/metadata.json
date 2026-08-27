@@ -1,0 +1,14 @@
+{
+  "name": "Screenshot to RAM / Clipboard Only",
+  "description": "Redirects screenshot saves from disk to /tmp RAM-disk so ~/Pictures/Screenshots is never cluttered.",
+  "uuid": "screenshot-clipboard-only@kk376",
+  "shell-version": [
+    "45",
+    "46",
+    "47",
+    "48",
+    "49",
+    "50"
+  ],
+  "version": 1
+}
