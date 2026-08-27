@@ -36,11 +36,30 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 zle -N edit-command-line
 
+# Smart Multi-Line Navigation (Allows navigating pasted multi-line chats/prompts without wiping them!)
+function smart-up-line() {
+    if [[ $LBUFFER == *$'\n'* ]]; then
+        zle up-line
+    else
+        zle up-line-or-beginning-search
+    fi
+}
+zle -N smart-up-line
+
+function smart-down-line() {
+    if [[ $RBUFFER == *$'\n'* ]]; then
+        zle down-line
+    else
+        zle down-line-or-beginning-search
+    fi
+}
+zle -N smart-down-line
+
 # Arrow Keys (Multi-line prompt aware)
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[OA" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
-bindkey "^[OB" down-line-or-beginning-search
+bindkey "^[[A" smart-up-line
+bindkey "^[OA" smart-up-line
+bindkey "^[[B" smart-down-line
+bindkey "^[OB" smart-down-line
 bindkey "^[[C" forward-char
 bindkey "^[OC" forward-char
 bindkey "^[[D" backward-char
@@ -168,6 +187,7 @@ if [[ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
 fi
 
 # ===== 3. ZSH Syntax Highlighting (MUST ALWAYS BE THE VERY LAST SOURCED SCRIPT) =====
+ZSH_HIGHLIGHT_MAXLENGTH=500
 if [[ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
     source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
