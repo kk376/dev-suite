@@ -1,17 +1,17 @@
 ---
 name: engineer
 description: >-
-  Universal Master Engineering Craftsmanship & UI/UX Architecture Standard. Synthesizes
-  deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling,
-  spec slicing, two-axis code review, multi-platform packaging, alongside 74 production
-  design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component
-  blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility,
-  and Core Web Vitals performance.
+  Universal Master Engineering Craftsmanship, UI/UX Architecture & Zero-Trust Security Standard.
+  Synthesizes deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling,
+  spec slicing, two-axis code review, 17-category vibe-check defensive security audits, multi-platform
+  packaging, alongside 74 production design systems across 8 archetypes, OKLCH token engines,
+  Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics,
+  WCAG AAA accessibility, and Core Web Vitals performance.
 ---
 
 # Universal Master Engineering & Design Skill
 
-A unified, production-grade standard for software engineering craftsmanship, deep system architecture, and UI/UX design excellence. Synthesizes decades of software design principles (Ousterhout, Beck, Evans, Pragmatic Programmer) with **74 real-world production design systems** across 8 archetypes.
+A unified, production-grade standard for software engineering craftsmanship, deep system architecture, defensive zero-trust security, and UI/UX design excellence. Synthesizes decades of software design principles (Ousterhout, Beck, Evans, Pragmatic Programmer) with **74 real-world production design systems** across 8 archetypes and the **17-category Vibe-Check defensive security standard**.
 
 ---
 
@@ -40,13 +40,16 @@ Every feature, interface, and system follows a disciplined, traceable progressio
                                            ▼                      ▼
                                  [diagnosing-bugs] (6-Phase Diagnostic Loop)
                                            │
-  4. Review, Polish & Accessibility        ▼
+  4. Defensive Security & Auditing         ▼
+                                 [security-audit / vibe-check] (17 Guardrails)
+                                           │
+  5. Review, Polish & Accessibility        ▼
                                     [code-review] (Standards Axis + Spec & WCAG Axis)
                                            │
                                            ▼
                             [improve-codebase-architecture] (Deep Modules)
                                            │
-  5. Packaging, Merge & Distribution       ▼
+  6. Packaging, Merge & Distribution       ▼
                               [packaging / release] ─────► [Ship / Production]
 ```
 
@@ -65,6 +68,8 @@ Route incoming requests to their targeted operational discipline:
 | "Break this spec/plan into tickets" | Tracer-Bullet Slicing | `to-tickets` | [`05_spec_and_ticket_slicing.md`](./references/05_spec_and_ticket_slicing.md) |
 | "Implement ticket #N / Build this feature" | Implementation Loop | `implement` + `tdd` | [`06_tdd_and_implementation.md`](./references/06_tdd_and_implementation.md) |
 | "There is a bug / Test failing / Heisenbug" | 6-Phase Bug Diagnosis | `diagnosing-bugs` | [`08_bug_diagnostics_protocol.md`](./references/08_bug_diagnostics_protocol.md) |
+| "Run security audit / Vibe check / Security check" | 17-Category Security Audit | `security-audit` / `vibe-check` | [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) |
+| "Manual security check / Pen-test checklist" | Manual Penetration Probes | `manual-security-check` | [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) |
 | "Review this PR / Review git diff" | Two-Axis Code Review | `code-review` | [`07_two_axis_code_review.md`](./references/07_two_axis_code_review.md) |
 | "Analyze architecture / Clean up ball of mud" | Deep Module Survey | `improve-codebase-architecture` | [`04_deep_module_architecture.md`](./references/04_deep_module_architecture.md) |
 | "Git merge conflict / Rebase conflict" | Primary Source Resolution | `resolving-merge-conflicts` | [`11_merge_conflicts_and_git_guardrails.md`](./references/11_merge_conflicts_and_git_guardrails.md) |
@@ -141,20 +146,25 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Two-Axis Review**: Standards Axis (cleanliness, code smells) + Spec Axis (acceptance criteria verification).
 - **Packaging Integrity**: Multi-platform distribution pipelines (Launchpad PPA, Fedora Copr, Arch AUR, Homebrew Tap, WinGet, Gentoo, Nix, KISS, Alpine) with deterministic checksum normalization and offline build validation.
 
+### 9. Defensive Zero-Trust Architecture & Vibe-Check Security Standard (`vibe-check`)
+- **Fail-Closed by Default**: All access paths, middleware pipelines, and database endpoints must deny access unless explicitly granted.
+- **The 17 Defensive Invariants**: Zero committed secrets, Row-Level Security (RLS default-deny), early fail-closed auth middleware, IDOR/tenant boundary verification on all CRUD routes, client bundle secret isolation, SSRF pre-flight DNS filtering, SameSite/Anti-CSRF protection, mandatory security headers (CSP/HSTS/X-Frame), explicit CORS allowlists, auth rate limiting, 100% SQL parameterization, DOMPurify XSS defense, Stripe webhook cryptographic signatures & idempotency, magic-byte file upload validation, generic production error contracts, Argon2id/bcrypt password hashing, and supply chain slopsquatting auditing.
+- **5-Phase Security Audit Loop**: Systematic Investigation $\to$ `security/reports/{CATEGORY}_REPORT.md` $\to$ `security/plans/{CATEGORY}_PLAN.md` $\to$ Implementation $\to$ Automated Verification & `security/AUDIT_SUMMARY.md`.
+
 ---
 
 ## Detailed Reference Catalog
 
-Explore the full 28 operational references in the [`references/`](./references/) directory:
+Explore the full 29 operational references in the [`references/`](./references/) directory:
 
-### Engineering & Workflow Protocols
+### Engineering, Security & Workflow Protocols
 - [`01_lifecycle_and_routing.md`](./references/01_lifecycle_and_routing.md) - Master lifecycle, triage router, and setup.
 - [`02_grilling_and_discovery.md`](./references/02_grilling_and_discovery.md) - Grilling methodologies, frontier discovery, and prototyping spikes.
 - [`03_domain_modeling_and_adrs.md`](./references/03_domain_modeling_and_adrs.md) - Domain glossaries, `CONTEXT.md`, and 3-gate ADR rules.
 - [`04_deep_module_architecture.md`](./references/04_deep_module_architecture.md) - Deep vs shallow modules, seams, and adapters.
 - [`05_spec_and_ticket_slicing.md`](./references/05_spec_and_ticket_slicing.md) - Formal specs, tracer-bullet tickets, DAG dependencies, expand-contract.
 - [`06_tdd_and_implementation.md`](./references/06_tdd_and_implementation.md) - Red-green-refactor, seam testing, and implementation loop.
-- [`07_two_axis_code_review.md`](./references/07_two_axis_code_review.md) - Standards & Spec code review rubrics, Fowler smells catalog.
+- [`07_two_axis_code_review.md`](./references/07_two_axis_code_review.md) - Standards & Spec code review rubrics, 17-category security gate, Fowler smells catalog.
 - [`08_bug_diagnostics_protocol.md`](./references/08_bug_diagnostics_protocol.md) - 6-Phase systematic bug diagnosis and Heisenbug resolution.
 - [`09_architecture_survey_and_refactoring.md`](./references/09_architecture_survey_and_refactoring.md) - Architecture hotspot scanning and deletion tests.
 - [`10_wayfinder_and_triage.md`](./references/10_wayfinder_and_triage.md) - Wayfinding through foggy initiatives and issue triage state machines.
@@ -162,6 +172,7 @@ Explore the full 28 operational references in the [`references/`](./references/)
 - [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) - Handoffs, questionnaires, wait-what, teaching, and humanizer writing.
 - [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) - Interactive bash wizards, secret entry, toolchain automation.
 - [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) - Multi-distro release pipelines (PPA, Copr, AUR, Homebrew, WinGet) and offline verification.
+- [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) - Defensive zero-trust engineering, 17 vibe-check security invariants, automated audit loop, and manual penetration verification.
 
 ### Design Systems, UI/UX & Frontend Architecture
 - [`15_design_brand_index_and_archetypes.md`](./references/15_design_brand_index_and_archetypes.md) - Comprehensive index and matrix of all 74 design systems across 8 archetypes.

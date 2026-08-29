@@ -5,8 +5,9 @@
 2. **Architecture & Domain**: `domain-modeling`, `codebase-design`, `setup-ts-deep-modules`
 3. **Specification & Slicing**: `to-spec`, `to-tickets`, `wayfinder`
 4. **Implementation & Testing**: `implement`, `tdd`, `diagnosing-bugs`
-5. **Quality Gate & Review**: `code-review`, `improve-codebase-architecture`
-6. **Integration & Release**: `resolving-merge-conflicts`, `wizard`, `git-guardrails-claude-code`
+5. **Defensive Security & Audit**: `security-audit`, `vibe-check`, `security-check`
+6. **Quality Gate & Review**: `code-review`, `improve-codebase-architecture`
+7. **Integration & Release**: `packaging`, `release`, `resolving-merge-conflicts`, `wizard`, `git-guardrails-claude-code`
 
 ---
 
@@ -25,6 +26,10 @@ Are you looking at...
 ├── Building code right now?
 │   ├── Working on a ticket/spec? ───────────────────► /implement
 │   └── Writing tests / red-green loop? ─────────────► /tdd
+├── Security, Audits & Defensive Checks?
+│   ├── Full 17-category security audit? ────────────► /security-audit (or /vibe-check)
+│   ├── Fast pre-commit security verification? ──────► /security-check
+│   └── Manual penetration testing checklist? ───────► /manual-security-check
 ├── Reviewing or refactoring?
 │   ├── Reviewing diff before commit/PR? ────────────► /code-review
 │   └── Looking for architecture improvements? ──────► /improve-codebase-architecture
@@ -41,4 +46,4 @@ Are you looking at...
 Run setup once per repository to configure:
 1. **Issue Tracker**: GitHub Issues (`gh`), Linear (`linear`), or local markdown files (`.tickets/` or `TODO.md`).
 2. **Triage Labels**: Define the triage labels used in the repo (e.g. `triage:unreviewed`, `triage:ready`, `triage:blocked`).
-3. **Docs Directory**: Set the canonical documentation path (e.g. `docs/`, `docs/adr/`, `CONTEXT.md`).
+3. **Docs Directory**: Set the canonical documentation path (e.g. `docs/`, `docs/adr/`, `CONTEXT.md`, `security/`).
