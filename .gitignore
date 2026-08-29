@@ -1,0 +1,8 @@
+
+# Defensive Security: Secrets & Environment variables
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.secret
