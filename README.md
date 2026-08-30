@@ -10,6 +10,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `setup.md` — Complete developer environment setup, CLI toolchain installation, WSL2 optimizations, and packaging master guide (Ubuntu PPA, Fedora Copr, Homebrew Tap, Arch AUR).
 - `.zshrc` — Zsh configuration with Starship prompt, custom aliases, PATH exports, and plugins.
 - `starship.toml` — Starship prompt theme configuration.
+- `kitty/` — Kitty GPU-accelerated terminal configuration (`kitty.conf`) with Tokyo Night palette, FiraCode ligatures, and custom desktop launcher.
 - `zed/` — Zed Editor complete configuration:
   - `settings.json` — Catppuccin Mocha theme, FiraCode ligatures, minimap, autosave, and VS Code keymap base.
   - `keymap.json` — Code Runner keybindings (`Ctrl+Alt+N` and `F5` to trigger `Run current file`, `Ctrl+F5` for rerun).
