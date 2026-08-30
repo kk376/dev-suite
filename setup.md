@@ -85,6 +85,12 @@ sudo dnf install -y \
 # 3. FerrisFetch (Official Copr)
 sudo dnf copr enable -y <copr-user>/<package-name>
 sudo dnf install -y ferrisfetch
+
+# 4. Deploy Optimized ZRAM & Kernel Memory Tuning (100% RAM + zstd)
+sudo cp system/zram-generator.conf /etc/systemd/zram-generator.conf
+sudo cp system/99-zram.conf /etc/sysctl.d/99-zram.conf
+sudo systemctl restart systemd-zram-setup@zram0.service
+sudo sysctl --system
 ```
 
 ---
@@ -559,7 +565,7 @@ rm -rf "${AUR_DIR}"
 When publishing a new release for a registered package on WinGet:
 
 ```powershell
-wingetcreate update <Publisher>.<PackageName> --version <version> --urls https://github.com/<github-user>/<package-name>/releases/download/v<version>/<package-name>-windows-x86_64.zip
+wingetcreate update <Publisher>.<PackageName> --version <version> --urls https://github.com/<github-username>/<package-name>/releases/download/v<version>/<package-name>-windows-x86_64.zip
 ```
 
 `wingetcreate` will download the new zip, calculate the SHA256 checksum, update the manifest version, and open the update PR to `microsoft/winget-pkgs` automatically.
