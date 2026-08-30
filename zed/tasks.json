@@ -1,20 +1,8 @@
 [
   {
     "label": "Run current file",
-    "command": "sh",
-    "args": [
-      "-c",
-      "case \"$ZED_FILE\" in *.py) python3 \"$ZED_FILE\" ;; *.rs) if [ -f Cargo.toml ] || [ -f ../Cargo.toml ]; then cargo run; else rustc \"$ZED_FILE\" -o /tmp/rust_bin && /tmp/rust_bin; fi ;; *.c) gcc -O2 \"$ZED_FILE\" -o /tmp/c_bin && /tmp/c_bin ;; *.cpp|*.cc) g++ -O2 \"$ZED_FILE\" -o /tmp/cpp_bin && /tmp/cpp_bin ;; *.go) go run \"$ZED_FILE\" ;; *.js) node \"$ZED_FILE\" ;; *.ts) npx tsx \"$ZED_FILE\" 2>/dev/null || npx ts-node \"$ZED_FILE\" ;; *.sh) bash \"$ZED_FILE\" ;; *.lua) lua \"$ZED_FILE\" ;; *) echo \"[Zed Runner] No runner configured for file: $ZED_FILE\" ;; esac"
-    ],
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false,
-    "reveal": "always"
-  },
-  {
-    "label": "Run Python file",
-    "command": "python3",
+    "command": "zed-run",
     "args": ["$ZED_FILE"],
-    "tags": ["python-run"],
     "use_new_terminal": false,
     "allow_concurrent_runs": false,
     "reveal": "always"

@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -e
+
+FILE="$1"
+if [ -z "$FILE" ]; then
+    echo "[Zed Runner] No file provided."
+    exit 1
+fi
+
+EXT="${FILE##*.}"
+DIR="$(dirname "$FILE")"
+NAME="$(basename "$FILE")"
+BASE="${NAME%.*}"
+
+echo -e "\033[1;34m==>\033[0m \033[1;32mRunning:\033[0m $NAME"
+cd "$DIR"
+
+case "$EXT" in
+    py)
+        python3 "$FILE"
+        ;;
+    rs)
+        if [ -f "Cargo.toml" ] || [ -f "../Cargo.toml" ] || [ -f "../../Cargo.toml" ]; then
+            cargo run
+        else
+            rustc "$FILE" -o "/tmp/$BASE" && "/tmp/$BASE"
+        fi
+        ;;
+    c)
+        gcc -O2 "$FILE" -o "/tmp/$BASE" -lm && "/tmp/$BASE"
+        ;;
+    cpp|cc|cxx)
+        g++ -O2 "$FILE" -o "/tmp/$BASE" && "/tmp/$BASE"
+        ;;
+    go)
+        go run "$FILE"
+        ;;
+    js)
+        node "$FILE"
+        ;;
+    ts)
+        npx tsx "$FILE" 2>/dev/null || npx ts-node "$FILE"
+        ;;
+    sh|bash)
+        bash "$FILE"
+        ;;
+    lua)
+        lua "$FILE"
+        ;;
+    html)
+        xdg-open "$FILE"
+        ;;
+    *)
+        echo "[Zed Runner] Unsupported file type: .$EXT"
+        exit 1
+        ;;
+esac
