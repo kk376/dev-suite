@@ -15,3 +15,19 @@
   - `git clean -fd`
   - Direct commits to `main` / `master`
 - **Pre-commit Automation**: Husky + lint-staged running formatting (Prettier), typechecks (`tsc --noEmit`), and fast unit tests.
+- **Agent Hook Interceptor (`block-dangerous-git.sh`)**:
+  ```bash
+  #!/usr/bin/env bash
+  set -euo pipefail
+  INPUT=$(cat)
+  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+  DANGEROUS_PATTERNS=("git push" "git reset --hard" "git clean -fd" "git clean -f" "git branch -D" "push --force" "reset --hard")
+  for pattern in "${DANGEROUS_PATTERNS[@]}"; do
+    if echo "$COMMAND" | grep -qE "$pattern"; then
+      echo "BLOCKED: '$COMMAND' matches dangerous pattern '$pattern'." >&2
+      exit 2
+    fi
+  done
+  exit 0
+  ```
+

@@ -34,3 +34,68 @@ Based on John Ousterhout's *A Philosophy of Software Design*.
 - Use package-level or folder-level entry points (`index.ts` or `exports`).
 - Encapsulate private helpers without exporting them outside the module boundary.
 - Ban circular dependencies and deep relative imports into sibling module internals (`../../module/internal/helper.ts`).
+
+### Boundary Enforcement Configuration (`dependency-cruiser.config.cjs`)
+
+```javascript
+// @ts-check
+/** Where packages live. One immediate child dir per package (flat, no nesting). */
+const PACKAGES_ROOT = "src/packages";
+const R = PACKAGES_ROOT;
+const PACKAGE_INTERNALS = `^${R}/[^/]+/[^/]+/`;
+
+/** @type {import('dependency-cruiser').IConfiguration} */
+module.exports = {
+  forbidden: [
+    {
+      name: "entrypoint-boundary-from-app",
+      comment: "App/root code may import a package's entry points (its root files), but nothing inside its subfolders.",
+      severity: "error",
+      from: { pathNot: `^${R}/` },
+      to: { path: PACKAGE_INTERNALS },
+    },
+    {
+      name: "entrypoint-boundary-across-packages",
+      comment: "A package's own files import each other freely, but may reach OTHER packages only through their entry points, never their internals.",
+      severity: "error",
+      from: { path: `^${R}/([^/]+)/`, pathNot: `^${R}/[^/]+/tests/` },
+      to: {
+        path: PACKAGE_INTERNALS,
+        pathNot: `^${R}/$1/`,
+      },
+    },
+    {
+      name: "tests-through-entrypoints",
+      comment: "A package's tests exercise it through its entry points: never any package's internals, not even their own.",
+      severity: "error",
+      from: { path: `^${R}/([^/]+)/tests/` },
+      to: {
+        path: PACKAGE_INTERNALS,
+        pathNot: `^${R}/$1/tests/`,
+      },
+    },
+    {
+      name: "tests-folder-is-private",
+      comment: "A package's tests/ folder is reachable only from tests.",
+      severity: "error",
+      from: { pathNot: `^${R}/[^/]+/tests/` },
+      to: { path: `^${R}/[^/]+/tests/` },
+    },
+    {
+      name: "no-circular",
+      comment: "No dependency cycles.",
+      severity: "error",
+      from: {},
+      to: { circular: true },
+    },
+  ],
+  options: {
+    doNotFollow: { path: "node_modules" },
+    tsConfig: { fileName: "tsconfig.json" },
+    enhancedResolveOptions: {
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+    },
+  },
+};
+```
+
