@@ -11,6 +11,16 @@ DIR="$(dirname "$FILE")"
 NAME="$(basename "$FILE")"
 BASE="${NAME%.*}"
 
+# Trap Ctrl+C (SIGINT) and SIGTERM so the runner drops into the shell instead of aborting
+drop_to_shell() {
+    echo ""
+    echo -e "\033[1;30m----------------------------------------\033[0m"
+    echo -e "\033[1;33m[Program interrupted (Ctrl+C). Interactive terminal active:]\033[0m"
+    exec "${SHELL:-/bin/zsh}"
+}
+
+trap drop_to_shell INT TERM
+
 echo -e "\033[1;34m==>\033[0m \033[1;32mRunning:\033[0m $NAME"
 cd "$DIR"
 
