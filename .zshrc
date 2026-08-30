@@ -53,6 +53,12 @@ alias gundo='git reset --soft HEAD~1'
 
 # ===== Environment & PATH =====
 export EDITOR=nvim
+export PAGER=cat
+export SYSTEMD_PAGER=cat
+export MANPAGER=cat
+export BAT_PAGER=""
+export DELTA_PAGER=cat
+export LESS="-F -X -R"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
 
