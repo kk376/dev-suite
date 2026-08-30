@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-set -e
 
 FILE="$1"
 if [ -z "$FILE" ]; then
     echo "[Zed Runner] No file provided."
-    exit 1
+    exec "${SHELL:-/bin/zsh}"
 fi
 
 EXT="${FILE##*.}"
@@ -52,6 +51,10 @@ case "$EXT" in
         ;;
     *)
         echo "[Zed Runner] Unsupported file type: .$EXT"
-        exit 1
         ;;
 esac
+
+echo ""
+echo -e "\033[1;30m----------------------------------------\033[0m"
+echo -e "\033[1;36m[Program finished. Interactive terminal active:]\033[0m"
+exec "${SHELL:-/bin/zsh}"
