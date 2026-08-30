@@ -189,3 +189,12 @@ Explore the full 29 operational references in the [`references/`](./references/)
 - [`26_design_motion_and_microinteractions.md`](./references/26_design_motion_and_microinteractions.md) - Spring physics, easing curves, and Framer Motion code.
 - [`27_design_accessibility_and_performance.md`](./references/27_design_accessibility_and_performance.md) - WCAG AAA rules, contrast verification, and performance checklist.
 - [`28_design_terminal_ui_and_cli_geometry.md`](./references/28_design_terminal_ui_and_cli_geometry.md) - Terminal UI, ANSI visible width calculations, 2-column layout engines, and zero-fork kernel probers.
+
+---
+
+## Acknowledgements & Upstream Attribution
+
+The `engineer` standard synthesizes foundational protocols, design systems, and security guardrails from the open-source community:
+- **[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)** (MIT License) — Design system archetypes, brand tokens, and OKLCH palette formulas.
+- **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License) — Engineering lifecycle workflows, deep module discipline, frontier grilling, and two-axis code review.
+- **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License) — 17-category zero-trust defensive security invariants and automated audit loops.
