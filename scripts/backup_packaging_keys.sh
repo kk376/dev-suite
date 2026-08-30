@@ -10,7 +10,12 @@ echo "=== FerrisFetch Packaging Keys Backup Helper ==="
 echo "Exporting keys and credentials to temporary secure workspace..."
 
 # 1. Export ASCII-armored GPG secret subkeys used for RPM / Arch / Deb package signing
-gpg --export-secret-keys --armor <maintainer-email@domain.com> > "$BACKUP_DIR/ferrisfetch-gpg-key.asc"
+GPG_KEY_ID="${1:-$(gpg --list-secret-keys --with-colons 2>/dev/null | awk -F: '/^sec:/ {print $5; exit}')}"
+if [ -n "$GPG_KEY_ID" ]; then
+    gpg --export-secret-keys --armor "$GPG_KEY_ID" > "$BACKUP_DIR/packaging-gpg-keys.asc"
+else
+    gpg --export-secret-keys --armor > "$BACKUP_DIR/packaging-gpg-keys.asc"
+fi
 
 # 2. Back up Copr API credentials (required for remote Fedora Copr build authentication)
 if [ -f "$HOME/.config/copr" ]; then

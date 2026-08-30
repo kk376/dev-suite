@@ -238,15 +238,15 @@ PKG_NAME="<package-name>"          # e.g. ferrisfetch
 PKG_VER="<version>"                # e.g. 1.0.0
 DEB_DIST="noble"                   # Target Ubuntu release (noble, jammy)
 DEB_REL="1~ppa1~${DEB_DIST}"       # Debian release suffix
-GH_USER="<github-username>"                    # GitHub username
-LP_USER="<launchpad-username>"              # Launchpad username
-GPG_KEY="<gpg-signing-fingerprint>" # GPG signing key fingerprint
+GH_USER="<github-username>"        # e.g. your-github-handle
+LP_USER="<launchpad-username>"     # e.g. your-launchpad-handle
+GPG_KEY="<gpg-signing-fingerprint>" # Run: gpg --list-secret-keys --keyid-format LONG
 ```
 
 | Item | Identifier / Value | Usage |
 | :--- | :--- | :--- |
 | **GPG Key User ID** | `<Maintainer Name> <<maintainer-email@domain.com>>` | Debian source package signing (`dpkg-buildpackage`) |
-| **GPG Key Fingerprint** | `<gpg-signing-fingerprint>` | Source package signing key (`-k<KEY>`) |
+| **GPG Key Fingerprint** | `<40-character-gpg-fingerprint>` | Source package signing key (`-k<KEY>`) |
 | **GPG Short Key ID** | `<16-character-keyid>` | Public key verification on `keyserver.ubuntu.com` |
 | **Ubuntu Launchpad PPA** | `ppa:${LP_USER}/${PKG_NAME}` | `dput ppa:${LP_USER}/${PKG_NAME}` |
 | **Fedora Copr Project** | `${GH_USER}/${PKG_NAME}` | `copr-cli build-package ${GH_USER}/${PKG_NAME} --name ${PKG_NAME}` |
@@ -386,7 +386,7 @@ A comprehensive collection of hard-earned packaging, release, and developer envi
     - **Rule**: Always create and execute temporary preparation scripts strictly inside the agent's persistent scratch directory (`~/.gemini/antigravity-cli/brain/<conv-id>/scratch/`) or `/tmp/`, and add `*.sh`, `prep_*.sh`, and `build_*.sh` to the project's `.gitignore`.
 
 18. **Never Mismatch Launchpad Changelog Email with GPG Signer / Registered PPA Email**:
-    - **Anti-Pattern**: Using a generic GitHub no-reply email (e.g. `user@users.noreply.github.com`) in `packaging/debian/changelog` while signing `.changes` with a GPG key registered under your Launchpad account (e.g. `<maintainer-email@domain.com>`).
+    - **Anti-Pattern**: Using a generic GitHub no-reply email (e.g. `user@users.noreply.github.com`) in `packaging/debian/changelog` while signing `.changes` with a GPG key registered under your Launchpad account (e.g. `maintainer@example.com`).
     - **Why It Fails**: Launchpad's incoming Soylent processor strictly verifies that the submitter email declared in `debian/changelog` (`Changed-By`) is associated with the Launchpad account that owns the PPA. If they mismatch, Launchpad silently rejects the upload at the processing gate before adding it to the build queue.
     - **Rule**: Always ensure `debian/changelog` and `debian/control` maintainer/changed-by fields match the exact user email registered on Launchpad (`<Maintainer Name> <<maintainer-email@domain.com>>`).
 

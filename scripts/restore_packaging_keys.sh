@@ -18,10 +18,12 @@ echo "Unzipping $ZIP_FILE..."
 unzip "$ZIP_FILE" -d "$RESTORE_DIR"
 
 # 1. Restore GPG Key: imports and merges private/public keys directly into ~/.gnupg keyrings without overwriting unrelated keys
-if [ -f "$RESTORE_DIR/ferrisfetch-gpg-key.asc" ]; then
-    echo "Importing GPG signing key..."
-    gpg --import "$RESTORE_DIR/ferrisfetch-gpg-key.asc"
-fi
+for asc_file in "$RESTORE_DIR"/*.asc; do
+    if [ -f "$asc_file" ]; then
+        echo "Importing GPG signing key from $(basename "$asc_file")..."
+        gpg --import "$asc_file"
+    fi
+done
 
 # 2. Restore Copr Config: enforce user-only read/write (0600) mask to prevent local multi-user token disclosure
 if [ -f "$RESTORE_DIR/copr-config.backup" ]; then
