@@ -13,7 +13,6 @@ setopt HIST_REDUCE_BLANKS
 # Ctrl + Left / Right navigation
 bindkey '^[[;5D' backward-word
 bindkey '^[[;5C' forward-word
-
 bindkey '^L' clear-screen
 
 # ===== Zsh Autosuggestions color =====
@@ -30,6 +29,7 @@ alias ls='eza --group-directories-first --classify --icons --git'
 alias cat='bat --paging=never --style=plain'
 alias less='bat --paging=always --pager="less -R"'
 alias dnf-terra='sudo dnf --enablerepo=terra'
+alias la='ls -la'
 
 # --- Git Shortcuts ---
 alias gs='git status -sb'
