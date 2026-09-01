@@ -3,7 +3,6 @@
 Personal developer suite, environment configurations, multi-distro packaging automation, and autonomous agent engineering & design skills.
 
 ## Files & Modules
-- `TERRA_SAFE_SETUP.md` — Hardened, zero-shenanigans guide and CLI wrapper (`dnf-terra`) for Terra repository.
 - `POSTGRES_PGADMIN_GUIDE.md` — Complete setup guide for PostgreSQL 18 (official PGDG) and pgAdmin 4 Desktop on Fedora Workstation.
 - `FEDORA_DESKTOP_TIPS.md` — Fedora desktop fixes guide: Bluetooth A2DP audio restoration, Chrome Wayland video decoding, and GPU verification.
 - `FEDORA_MIGRATION.md` — WSL2 (Ubuntu) to Native Fedora Workstation migration and restore master guide.
@@ -12,7 +11,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `starship.toml` — Starship prompt theme configuration.
 - `kitty/` — Kitty GPU-accelerated terminal configuration (`kitty.conf`) with Tokyo Night palette, FiraCode ligatures, and custom desktop launcher.
 - `zed/` — Zed Editor complete configuration:
-  - `settings.json` — Catppuccin Mocha theme, FiraCode ligatures, minimap, autosave, and VS Code keymap base.
+  - `settings.json` — One Dark Pro Glass theme, Material Icon Theme, FiraCode ligatures, minimap, autosave, and VS Code keymap base.
   - `keymap.json` — Code Runner keybindings (`Ctrl+Alt+N` and `F5` to trigger `Run current file`, `Ctrl+F5` for rerun).
   - `tasks.json` — Custom tasks runner configuration (`hide: always`, `show_summary: false`) for instant shell cleanup.
   - `zed-run` — Multi-language standalone Code Runner script (Python, Rust, C, C++, Go, JS/TS, Bash, Lua) that runs interactively, handles `Ctrl+C` gracefully without tracebacks, and automatically drops into an interactive shell upon exit.

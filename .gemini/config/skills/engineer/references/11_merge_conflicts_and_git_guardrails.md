@@ -31,3 +31,15 @@
   exit 0
   ```
 
+---
+
+## Mandatory Cryptographic Commit Signing (`git-signed-commits`)
+- **Strict SSH Signing Standard**: All commits across all repositories must be cryptographically signed using the maintainer's SSH key (`git commit -S`). Unsigned commits are strictly prohibited.
+- **Git SSH Configuration**:
+  - Format: `gpg.format = ssh`
+  - Signing Key: `user.signingkey = ~/.ssh/id_ed25519.pub` (or platform default)
+  - Automatic Signing: `commit.gpgsign = true`
+- **Non-Repudiation & Supply-Chain Authenticity**: Cryptographic commit signatures guarantee tamper-evidence and authorship authenticity on GitHub without third-party key server complexity.
+- **History Integrity**: Existing signed commits must never be rewritten or re-signed using rebase/filter-branch/force-push; signing policy applies prospectively to preserve linear history integrity.
+
+

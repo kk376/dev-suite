@@ -144,6 +144,7 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 
 ### 8. Two-Axis Code Review & Multi-Platform Packaging
 - **Two-Axis Review**: Standards Axis (cleanliness, code smells) + Spec Axis (acceptance criteria verification).
+- **Mandatory SSH-Signed Commits**: All commits across all repositories must be cryptographically signed using SSH (`git commit -S`, `gpg.format = ssh`, `user.signingkey = ~/.ssh/id_ed25519.pub`). Unsigned commits or history rewriting are prohibited.
 - **Packaging Integrity**: Multi-platform distribution pipelines (Launchpad PPA, Fedora Copr, Arch AUR, Homebrew Tap, WinGet, Gentoo, Nix, KISS, Alpine) with deterministic checksum normalization and offline build validation.
 
 ### 9. Defensive Zero-Trust Architecture & Vibe-Check Security Standard (`vibe-check`)

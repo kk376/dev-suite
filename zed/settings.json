@@ -7,6 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "context_servers": {
+    "mcp-server-code-runner": {
+      "enabled": true,
+      "remote": false,
+      "settings": {}
+    }
+  },
+  "disable_ai": true,
   "agent": {
     "sidebar_side": "right",
     "favorite_models": [],
@@ -15,10 +23,8 @@
   "project_panel": {
     "dock": "left"
   },
-  "icon_theme": "Catppuccin Mocha",
-  "session": {
-    "trust_all_worktrees": true
-  },
+  "icon_theme": "Material Icon Theme",
+  "session": {},
   "terminal": {
     "font_size": 15.0,
     "font_family": "FiraCode Nerd Font"
@@ -43,6 +49,6 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Light",
-    "dark": "Catppuccin Mocha",
+    "dark": "One Dark Pro Glass",
   },
 }
