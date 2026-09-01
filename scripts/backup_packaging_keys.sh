@@ -6,7 +6,7 @@ set -euo pipefail
 BACKUP_DIR=$(mktemp -d)
 trap 'rm -rf "$BACKUP_DIR"' EXIT
 
-echo "=== FerrisFetch Packaging Keys Backup Helper ==="
+echo "=== KKFetch Packaging Keys Backup Helper ==="
 echo "Exporting keys and credentials to temporary secure workspace..."
 
 # 1. Export ASCII-armored GPG secret subkeys used for RPM / Arch / Deb package signing

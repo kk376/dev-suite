@@ -13,7 +13,7 @@ fi
 RESTORE_DIR=$(mktemp -d)
 trap 'rm -rf "$RESTORE_DIR"' EXIT
 
-echo "=== FerrisFetch Packaging Keys Restore Helper ==="
+echo "=== KKFetch Packaging Keys Restore Helper ==="
 echo "Unzipping $ZIP_FILE..."
 unzip "$ZIP_FILE" -d "$RESTORE_DIR"
 

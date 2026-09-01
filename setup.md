@@ -51,16 +51,16 @@ source "$HOME/.cargo/env"
 # 5. Install Starship Prompt
 curl -sS https://starship.rs/install.sh | sh -s -- -y
 
-# 6. Install Modern CLI Tools (eza, ferrisfetch, copr-cli)
+# 6. Install Modern CLI Tools (eza, kkfetch, copr-cli)
 # eza (Modern ls replacement)
 sudo mkdir -p /etc/apt/keyrings
 wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
 echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
 sudo apt update && sudo apt install -y eza
 
-# FerrisFetch (Official PPA)
-sudo add-apt-repository -y ppa:<launchpad-username>/ferrisfetch
-sudo apt update && sudo apt install -y ferrisfetch
+# KKFetch (Official PPA)
+sudo add-apt-repository -y ppa:kushagra376/kkfetch
+sudo apt update && sudo apt install -y kkfetch
 
 # Fedora Copr CLI tool
 pipx install copr-cli
@@ -82,9 +82,9 @@ sudo dnf install -y \
   zsh starship eza bat ripgrep fd-find fzf zoxide yazi \
   wl-clipboard xclip copr-cli
 
-# 3. FerrisFetch (Official Copr)
-sudo dnf copr enable -y <copr-user>/<package-name>
-sudo dnf install -y ferrisfetch
+# 3. KKFetch (Official Copr)
+sudo dnf copr enable -y <copr-user>/kkfetch
+sudo dnf install -y kkfetch
 
 # 4. Deploy Optimized ZRAM & Kernel Memory Tuning (100% RAM + zstd)
 sudo cp system/zram-generator.conf /etc/systemd/zram-generator.conf
@@ -240,7 +240,7 @@ Universal guide for building, signing, and distributing Linux and macOS packages
 Set these environment variables or substitute them into the commands below:
 
 ```bash
-PKG_NAME="<package-name>"          # e.g. ferrisfetch
+PKG_NAME="<package-name>"          # e.g. kkfetch
 PKG_VER="<version>"                # e.g. 1.0.0
 DEB_DIST="noble"                   # Target Ubuntu release (noble, jammy)
 DEB_REL="1~ppa1~${DEB_DIST}"       # Debian release suffix
