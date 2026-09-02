@@ -37,6 +37,7 @@
       "milliseconds": 1000
     }
   },
+  "soft_wrap": "editor_width",
   "buffer_font_fallbacks": [
     "Fira Code",
     "JetBrains Mono",
@@ -49,6 +50,6 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Light",
-    "dark": "One Dark Pro Glass",
+    "dark": "VSCode Dark Modern",
   },
 }

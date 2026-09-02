@@ -7,7 +7,7 @@
 4. **Implementation & Testing**: `implement`, `tdd`, `diagnosing-bugs`
 5. **Defensive Security & Audit**: `security-audit`, `vibe-check`, `security-check`
 6. **Quality Gate & Review**: `code-review`, `improve-codebase-architecture`
-7. **Integration & Release**: `packaging`, `release`, `resolving-merge-conflicts`, `wizard`, `git-guardrails-claude-code`
+7. **Integration, Upstream & Release**: `packaging`, `release`, `resolving-merge-conflicts`, `upstream-rfc`, `canvas-viewport`, `wizard`, `git-guardrails-claude-code`
 
 ---
 
@@ -25,7 +25,8 @@ Are you looking at...
 │   └── Bug triaging from incoming issue? ───────────► /triage
 ├── Building code right now?
 │   ├── Working on a ticket/spec? ───────────────────► /implement
-│   └── Writing tests / red-green loop? ─────────────► /tdd
+│   ├── Writing tests / red-green loop? ─────────────► /tdd
+│   └── High-performance canvas / document viewer? ─► /canvas-viewport
 ├── Security, Audits & Defensive Checks?
 │   ├── Full 17-category security audit? ────────────► /security-audit (or /vibe-check)
 │   ├── Fast pre-commit security verification? ──────► /security-check
@@ -33,8 +34,9 @@ Are you looking at...
 ├── Reviewing or refactoring?
 │   ├── Reviewing diff before commit/PR? ────────────► /code-review
 │   └── Looking for architecture improvements? ──────► /improve-codebase-architecture
-├── Git operations?
+├── Git & Upstream operations?
 │   ├── Stuck on a merge/rebase conflict? ───────────► /resolving-merge-conflicts
+│   ├── Open source RFC or maintainer collaboration? ► /upstream-rfc
 │   └── Want to protect repo from bad git commands? ─► /git-guardrails-claude-code
 └── Unsure where to start? ──────────────────────────► /ask-matt
 ```

@@ -22,6 +22,7 @@ A checklist-driven standard that eliminates stylistic patterns that make text re
 - **No Forced Rule of Three**: Do not force lists, adjectives, or examples into groups of exactly three. Use however many items actually belong.
 - **No Dangling Participle Tack-Ons**: Remove sentences ending with dangling "-ing" clauses manufacturing significance (*"...highlighting its role in," "...underscoring the importance of," "...ensuring seamless operation"*).
 - **Avoidance of Plain "Is/Are"**: Do not swap simple verbs for elaborate constructions to sound sophisticated. Let simple sentences be simple.
+- **No Machine-Like Compound Hyphens**: Strip machine-like hyphenated compound words where natural human writing uses separate words (e.g. write *"on demand"* instead of *"on-demand"*, *"fit to view"* instead of *"fit-to-view"*, *"hot reloading"* instead of *"hot-reloading"*, *"real time"* instead of *"real-time"* unless strictly needed as a compound modifier).
 
 ### B. Padding, Cliches & Fake Depth
 - **No AI Filler or Openers**: Strip *"It's important to note"*, *"In today's fast-paced world"*, *"Let's dive in"*, *"Delighted to help"*, *"Crucial aspect"*, *"As we can see"*. State the technical fact directly.
@@ -37,3 +38,7 @@ A checklist-driven standard that eliminates stylistic patterns that make text re
 - **Beats**: Rhythm and pacing of technical arguments (Problem → Tension → Principle → Solution → Code → Implication).
 - **Shape**: Macro-structure of technical documents (Introduction → Core Invariants → Reference API → Migration Guide → Edge Cases).
 - **Fragments**: Standalone, modular code snippets and examples that can be tested independently.
+
+## 5. Open Source Upstream & Maintainer Collaboration
+For protocols on navigating prototype maturation, RFC discussions, consolidation of community threads, and respectful maintainer dialogue, see [`30_open_source_upstream_and_maintainer_collaboration.md`](./30_open_source_upstream_and_maintainer_collaboration.md).
+

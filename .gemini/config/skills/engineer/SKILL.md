@@ -4,14 +4,15 @@ description: >-
   Universal Master Engineering Craftsmanship, UI/UX Architecture & Zero-Trust Security Standard.
   Synthesizes deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling,
   spec slicing, two-axis code review, 17-category vibe-check defensive security audits, multi-platform
-  packaging, alongside 74 production design systems across 8 archetypes, OKLCH token engines,
+  packaging, upstream open-source RFC & maintainer collaboration protocols, high-performance canvas &
+  viewport rendering, alongside 74 production design systems across 8 archetypes, OKLCH token engines,
   Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics,
   WCAG AAA accessibility, and Core Web Vitals performance.
 ---
 
 # Universal Master Engineering & Design Skill
 
-A unified, production-grade standard for software engineering craftsmanship, deep system architecture, defensive zero-trust security, and UI/UX design excellence. Synthesizes decades of software design principles (Ousterhout, Beck, Evans, Pragmatic Programmer) with **74 real-world production design systems** across 8 archetypes and the **17-category Vibe-Check defensive security standard**.
+A unified, production-grade standard for software engineering craftsmanship, deep system architecture, defensive zero-trust security, upstream open-source maintainer collaboration, high-performance canvas/document viewing, and UI/UX design excellence. Synthesizes decades of software design principles (Ousterhout, Beck, Evans, Pragmatic Programmer) with **74 real-world production design systems** across 8 archetypes and the **17-category Vibe-Check defensive security standard**.
 
 ---
 
@@ -49,8 +50,8 @@ Every feature, interface, and system follows a disciplined, traceable progressio
                                            ▼
                             [improve-codebase-architecture] (Deep Modules)
                                            │
-  6. Packaging, Merge & Distribution       ▼
-                              [packaging / release] ─────► [Ship / Production]
+  6. Upstream RFC, Release & Packaging     ▼
+               [upstream-rfc] ──► [packaging / release] ─────► [Ship / In-Tree Merge]
 ```
 
 ---
@@ -76,6 +77,8 @@ Route incoming requests to their targeted operational discipline:
 | "Component recipe / Button / Card / Modal" | Component Blueprints | `components` | [`25_design_component_blueprints_and_recipes.md`](./references/25_design_component_blueprints_and_recipes.md) |
 | "Animation / Spring physics / Microinteraction" | Motion Physics | `motion` | [`26_design_motion_and_microinteractions.md`](./references/26_design_motion_and_microinteractions.md) |
 | "Terminal UI / CLI formatting / ASCII layout" | TUI & CLI Geometry | `cli-geometry` | [`28_design_terminal_ui_and_cli_geometry.md`](./references/28_design_terminal_ui_and_cli_geometry.md) |
+| "Upstream RFC / Open source PR / Maintainers" | Upstream RFC & Maintainer Protocol | `upstream-rfc` / `open-source` | [`30_open_source_upstream_and_maintainer_collaboration.md`](./references/30_open_source_upstream_and_maintainer_collaboration.md) |
+| "Canvas engine / Document viewer / Viewport LRU" | High-Performance Canvas & Viewport | `canvas-viewport` / `document-viewer` | [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) |
 | "Package release (PPA, Copr, AUR, Brew, WinGet)" | Multi-Platform Packaging | `packaging` / `release` | [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) |
 | "Handoff to next agent / Compact context" | Context Serialization | `handoff` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Explain / Re-pitch confusing concept" | Cognitive Reset | `wait-what` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
@@ -152,11 +155,25 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **The 17 Defensive Invariants**: Zero committed secrets, Row-Level Security (RLS default-deny), early fail-closed auth middleware, IDOR/tenant boundary verification on all CRUD routes, client bundle secret isolation, SSRF pre-flight DNS filtering, SameSite/Anti-CSRF protection, mandatory security headers (CSP/HSTS/X-Frame), explicit CORS allowlists, auth rate limiting, 100% SQL parameterization, DOMPurify XSS defense, Stripe webhook cryptographic signatures & idempotency, magic-byte file upload validation, generic production error contracts, Argon2id/bcrypt password hashing, and supply chain slopsquatting auditing.
 - **5-Phase Security Audit Loop**: Systematic Investigation $\to$ `security/reports/{CATEGORY}_REPORT.md` $\to$ `security/plans/{CATEGORY}_PLAN.md` $\to$ Implementation $\to$ Automated Verification & `security/AUDIT_SUMMARY.md`.
 
+### 10. Open Source Upstream Collaboration & Prototype Maturation (`upstream-rfc`)
+- **Creativity Proves Feasibility, Engineering Ensures Longevity**: Embrace rapid prototypes and creative spikes ("vibe coding") to demonstrate UX value and spark interest; partner with upstream maintainers to shape the underlying architecture.
+- **RFC Over Monolithic PR**: Pivot early from exploratory PRs into canonical community discussions and RFCs before creating review debt for maintainers.
+- **Consolidate, Never Fragment**: Discover and contribute to existing canonical discussion threads instead of opening splinter topics; close duplicate threads with polite redirects.
+- **Maintainer Mentorship & Human Etiquette**: Treat maintainer reviews as invaluable architectural mentorship with zero defensiveness; write direct, warm updates stripped of robotic filler and compound hyphens.
+- **Monorepo Build & Cleanliness Guardrails**: Never run full workspace release builds; run targeted checks (`cargo test -j 2 -p <crate>`) and maintain 100% clean git trees with zero duplicate PRs or branches.
+
+### 11. High-Performance Canvas, Viewport & Document Architecture (`canvas-viewport`)
+- **Viewport On Demand Rendering**: Calculate geometric viewport intersections and render only visible pages/nodes with bounded memory LRU caching (`PageLruCache`).
+- **O(1) Intermediate Mouse Drag Selection**: Store lightweight numeric coordinate ranges during active dragging; defer text string extraction and allocations until mouse-up or copy.
+- **Instanced GPU Quad Rendering**: Paint selection boxes and visual overlays directly via instanced GPU draw calls (`paint_quad`), bypassing layout node churn and style recalculation.
+- **Geometric Proximity Snapping**: Enforce distance thresholds to prevent selection jumping across margins or whitespace.
+- **Uniform Scaling Clamps & Typed Errors**: Clamp dimensions using uniform aspect ratios to prevent buffer overflow/DoS; fail closed with typed errors rather than synthetic mock fallbacks.
+
 ---
 
 ## Detailed Reference Catalog
 
-Explore the full 29 operational references in the [`references/`](./references/) directory:
+Explore the full 31 operational references in the [`references/`](./references/) directory:
 
 ### Engineering, Security & Workflow Protocols
 - [`01_lifecycle_and_routing.md`](./references/01_lifecycle_and_routing.md) - Master lifecycle, triage router, and setup.
@@ -174,6 +191,8 @@ Explore the full 29 operational references in the [`references/`](./references/)
 - [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) - Interactive bash wizards, secret entry, toolchain automation.
 - [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) - Multi-distro release pipelines (PPA, Copr, AUR, Homebrew, WinGet) and offline verification.
 - [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) - Defensive zero-trust engineering, 17 vibe-check security invariants, automated audit loop, and manual penetration verification.
+- [`30_open_source_upstream_and_maintainer_collaboration.md`](./references/30_open_source_upstream_and_maintainer_collaboration.md) - Open source upstream RFCs, maintainer collaboration, prototype maturation, thread consolidation, and monorepo guardrails.
+- [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) - High-performance canvas and document viewer architecture, viewport on demand rendering, bounded LRUs, zero-allocation drag selection, and instanced quad painting.
 
 ### Design Systems, UI/UX & Frontend Architecture
 - [`15_design_brand_index_and_archetypes.md`](./references/15_design_brand_index_and_archetypes.md) - Comprehensive index and matrix of all 74 design systems across 8 archetypes.
