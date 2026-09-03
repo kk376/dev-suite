@@ -50,3 +50,69 @@ Every diff touching network, database, auth, or input processing must pass all 1
 - **Divergent Change**: A single module is changed for many unrelated reasons. (Fix: Split responsibilities).
 - **Speculative Generality**: Hooks, parameters, or abstractions built for hypothetical future requirements. (Fix: YAGNI - remove).
 - **Mysterious Name**: Unclear variables, functions, or types that fail to use `CONTEXT.md` vocabulary.
+
+---
+
+## The Silent Failure & Deceptive Fallback Audit
+
+AI generated code frequently disguises real bugs under the veneer of "resilience". Every code review must actively hunt and eradicate these deceptive patterns:
+
+1. **Empty Catch Blocks**: Catching an error and doing nothing:
+   ```typescript
+   // BANNED: Silent failure
+   try { doWork(); } catch (e) {}
+
+   // REQUIRED: Log with context or handle explicitly
+   try { doWork(); } catch (error) { logger.warn({ error, orderId }, "Work step failed"); }
+   ```
+2. **Deceptive Empty Fallbacks**: Catching an error and returning an empty list, null, or fallback default that hides downstream failures:
+   ```typescript
+   // BANNED: Masking database or network collapse
+   const users = await fetchUsers().catch(() => []);
+
+   // REQUIRED: Fail loudly or return a typed Result error
+   ```
+3. **Lost Stack Traces & Cause Erasure**: Rethrowing a generic error without chaining the original cause:
+   ```typescript
+   // BANNED: Loses upstream stack trace
+   catch (err) { throw new Error("Payment failed"); }
+
+   // REQUIRED: Preserve cause
+   catch (err) { throw new Error("Payment failed", { cause: err }); }
+   ```
+4. **Unhandled Partial Writes**: Performing state changes across multiple steps without a database transaction or explicit compensation/rollback handler.
+
+---
+
+## Adversarial Dual-Review Convergence Loop ("Santa Method")
+
+For mission-critical deliverables, high-risk security code, or production releases, eliminate single-agent confirmation bias using independent dual review:
+
+```
+┌─────────────┐
+│  GENERATOR  │  Phase 1: Produce Implementation or Diff
+└──────┬──────┘
+       │ output diff
+       ▼
+┌──────────────────────────────┐
+│   INDEPENDENT DUAL REVIEW    │  Phase 2: Reviewers B & C
+│  ┌───────────┐ ┌───────────┐ │  Identical rubric,
+│  │Reviewer B │ │Reviewer C │ │  ZERO shared context
+│  └─────┬─────┘ └─────┬─────┘ │
+└────────┼──────────────┼──────┘
+         │              │
+         ▼              ▼
+┌──────────────────────────────┐
+│         VERDICT GATE         │  Phase 3: Both must PASS
+│   B: PASS  AND  C: PASS      │
+└──────┬──────────────┬────────┘
+       │ PASS         │ FAIL
+       ▼              ▼
+   [ SHIP ]     ┌─────────────┐
+                │  FIX CYCLE  │  Phase 4: Aggregate issues, fix, re-review
+                └─────────────┘
+```
+
+1. **Context Isolation**: Reviewer B and Reviewer C are launched as parallel subagents. Neither reviewer sees the other's assessment or scratchpad.
+2. **Identical Rubric**: Both evaluate against the Two-Axis standards (Standards & Security + Spec Acceptance Criteria).
+3. **Strict Pass Gate**: If either reviewer flags a `FAIL` or critical issue, the code cannot ship. The findings are merged, remediated by the implementer, and both reviewers run a second pass until convergence.

@@ -36,3 +36,21 @@
 3. Execute TDD loop on the vertical slice.
 4. Run static typechecker, linter, and full test suite.
 5. Trigger two-axis code review before marking ticket complete.
+
+---
+
+## The Dedicated "De-Sloppify" Cleanup Pass (`de-sloppify`)
+
+### Why Negative Prompts Degrade Implementation
+Instructing an agent upfront with negative commands (e.g. *"do not write redundant tests"*, *"do not test compiler features"*) creates downstream cognitive hesitation. The model becomes anxious, skips real edge cases, or writes half-hearted tests.
+
+**The Solution: Two-Pass Separation**. Allow the implementer to be thorough during the Red-Green-Refactor phase. Once green, run a dedicated **De-Sloppify Pass** to strip away test slop without compromising core coverage.
+
+### De-Sloppify Checklist
+Review all newly written test files and implementation changes to purge:
+
+1. **Language & Compiler Tests**: Remove tests that only verify language semantics or compiler guarantees (e.g. asserting that `typeof id === 'string'`, testing that TypeScript generics compile, or testing that Python dictionaries map keys).
+2. **Framework Behavior Assertions**: Remove tests that merely verify that a third-party framework works (e.g. testing that React useState triggers a re-render or that Express matches a route).
+3. **Over-Defensive Checks for Impossible States**: Remove runtime `if (x === null)` branches when the static type system or upstream boundary validation already guarantees non-nullability.
+4. **Debug Debris**: Strip all `console.log`, `print()`, `dbg!()`, temporary benchmark timers, and commented-out code snippets.
+5. **Post-Cleanup Green Verification**: Re-run the full test suite and typechecker. All domain logic tests must remain 100% green.
