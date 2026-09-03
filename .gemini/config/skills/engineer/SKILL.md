@@ -6,9 +6,10 @@ description: >-
   spec slicing, two-axis code review, 17-category vibe-check defensive security audits, multi-platform
   packaging, upstream open-source RFC & maintainer collaboration protocols, high-performance canvas &
   viewport rendering, contract-first API governance, zero-downtime database migrations, token &
-  context budgeting, adversarial dual review loops, alongside 74 production design systems across 8 archetypes,
-  OKLCH token engines, Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics,
-  WCAG AAA accessibility, and Core Web Vitals performance.
+  context budgeting, adversarial dual review loops, pre-push CI/CD workflow simulation & GitHub Actions
+  remote verification, alongside 74 production design systems across 8 archetypes, OKLCH token engines,
+  Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility,
+  and Core Web Vitals performance.
 ---
 
 # Universal Master Engineering & Design Skill
@@ -53,8 +54,8 @@ Every feature, interface, and system follows a disciplined, traceable progressio
                                            ▼
                             [improve-codebase-architecture] (Deep Modules)
                                            │
-  6. Upstream RFC, Release & Packaging     ▼
-               [upstream-rfc] ──► [packaging / release] ─────► [Ship / In-Tree Merge]
+  6. CI/CD Simulation, Release & Remote    ▼
+     [packaging / release] ──► [ci-simulation] ──► [signed-push] ──► [gh-ci-watch] ──► [Ship / Merge]
 ```
 
 ---
@@ -90,6 +91,7 @@ Route incoming requests to their targeted operational discipline:
 | "Upstream RFC / Open source PR / Maintainers" | Upstream RFC & Maintainer Protocol | `upstream-rfc` / `open-source` | [`30_open_source_upstream_and_maintainer_collaboration.md`](./references/30_open_source_upstream_and_maintainer_collaboration.md) |
 | "Canvas engine / Document viewer / Viewport LRU" | High-Performance Canvas & Viewport | `canvas-viewport` / `document-viewer` | [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) |
 | "Package release (PPA, Copr, AUR, Brew, WinGet)" | Multi-Platform Packaging | `packaging` / `release` | [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) |
+| "CI/CD check / Pre-push test / GitHub Actions / Remote CI" | CI/CD Simulation & Remote Verification | `ci-check` / `gh-verify` | [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) |
 | "Handoff to next agent / Compact context" | Context Serialization | `handoff` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Explain / Re-pitch confusing concept" | Cognitive Reset | `wait-what` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Interactive manual steps (OAuth, CI, AWS)" | Bash Wizard Generator | `wizard` | [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) |
@@ -197,6 +199,15 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Tiered Response Depth**: Calibrate output depth (Essential 25%, Moderate 50%, Detailed 75%, Exhaustive 100%) to user intent.
 - **Working Memory Hygiene**: Target precise line ranges, grep before reading, and serialize state before context compaction.
 
+### 15. Zero-Red-Pipeline CI/CD Simulation & Remote Verification (`ci-check`, `gh-verify`)
+- **Pre-Push Workflow Mirroring**: Never push code or open pull requests without simulating the entire remote CI pipeline locally. Read `.github/workflows/*.yml` (and Makefiles/scripts) to identify all matrix runner environments, targets, and checks:
+  - **Cross-Platform Matrix Checks**: For compiled codebases (Rust, Go, C/C++), cross-compile locally against all matrix targets (e.g. `cargo check --target x86_64-pc-windows-gnu --all-targets` and `cargo check --target x86_64-apple-darwin --all-targets`) to prevent platform-specific standard library or FFI mismatches.
+  - **Script & Automation Linting**: Run `shellcheck` across all shell scripts, installer scripts, and test suites with zero warnings.
+  - **Strict Linting & Formatting**: Enforce zero warnings with `-D warnings` or strict linter error flags (`cargo clippy`, `cargo fmt --check`, `eslint`, `prettier --check`).
+  - **Full Test Execution**: Execute all unit, integration, and CLI test suites locally before committing.
+- **Post-Push Remote Verification Invariant**: Never report a task complete, close an issue, or declare success after `git push` without verifying remote CI pipeline status. Use `gh run list --repo <user>/<repo>` and `gh run watch <run_id>` to confirm that all triggered GitHub Actions workflow runs have completed with `✓ completed success`.
+- **P0 Remote Failure Triage Protocol**: A failing CI job on GitHub is treated as an active build break. Immediately inspect logs using `gh run view --log --job=<job-id>`, reproduce the exact step locally, implement the root-cause fix, verify locally across the full matrix, and push an SSH-signed commit.
+
 ---
 
 ## Detailed Reference Catalog
@@ -217,7 +228,7 @@ Explore the full 34 operational references in the [`references/`](./references/)
 - [`11_merge_conflicts_and_git_guardrails.md`](./references/11_merge_conflicts_and_git_guardrails.md) - Hunk-by-hunk conflict resolution and git safety guardrails.
 - [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) - Handoffs, questionnaires, wait-what, teaching, and humanizer writing.
 - [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) - Interactive bash wizards, secret entry, toolchain automation.
-- [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) - Multi-distro release pipelines (PPA, Copr, AUR, Homebrew, WinGet) and offline verification.
+- [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) - Multi-distro release pipelines (PPA, Copr, AUR, Homebrew, WinGet), pre-push CI/CD simulation, and GitHub Actions remote verification.
 - [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) - Defensive zero-trust engineering, 17 vibe-check security invariants, automated audit loop, and manual penetration verification.
 - [`30_open_source_upstream_and_maintainer_collaboration.md`](./references/30_open_source_upstream_and_maintainer_collaboration.md) - Open source upstream RFCs, maintainer collaboration, prototype maturation, thread consolidation, and monorepo guardrails.
 - [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) - High-performance canvas and document viewer architecture, viewport on demand rendering, bounded LRUs, zero-allocation drag selection, and instanced quad painting.

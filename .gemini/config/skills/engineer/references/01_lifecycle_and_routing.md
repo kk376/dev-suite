@@ -42,10 +42,11 @@ Are you looking at...
 │   ├── High-risk release dual independent review? ──► /santa-review
 │   ├── Token overhead or MCP tool audit? ───────────► /context-budget
 │   └── Looking for architecture improvements? ──────► /improve-codebase-architecture
-├── Git & Upstream operations?
+├── Git & CI/CD operations?
 │   ├── Stuck on a merge/rebase conflict? ───────────► /resolving-merge-conflicts
 │   ├── Open source RFC or maintainer collaboration? ► /upstream-rfc
-│   └── Want to protect repo from bad git commands? ─► /git-guardrails-claude-code
+│   ├── Protect repo from bad git commands? ─────────► /git-guardrails-claude-code
+│   └── Pre-push CI simulation & GitHub Actions? ────► /ci-check (or /gh-verify)
 └── Unsure where to start? ──────────────────────────► /ask-matt
 ```
 

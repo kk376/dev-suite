@@ -42,4 +42,16 @@
 - **Non-Repudiation & Supply-Chain Authenticity**: Cryptographic commit signatures guarantee tamper-evidence and authorship authenticity on GitHub without third-party key server complexity.
 - **History Integrity**: Existing signed commits must never be rewritten or re-signed using rebase/filter-branch/force-push; signing policy applies prospectively to preserve linear history integrity.
 
+---
+
+## CI/CD Pre-Push Simulation & Remote Verification Gate (`ci-check`, `gh-verify`)
+- **Inspect `.github/workflows/` Before Pushing**: Read workflow YAML files to identify all checks, environment assumptions, and matrix OS targets.
+- **Simulate Locally**:
+  - Run all matrix targets locally (e.g. `cargo check --target ...`).
+  - Run linters and shellcheck across all changed scripts and test files.
+- **Verify on Remote**:
+  - Always execute `gh run list --repo <user>/<repo>` and `gh run watch <id>` immediately after push.
+  - Zero-Red-Pipeline Invariant: Never deliver a task or claim completion until remote CI displays `✓ completed success`.
+
+
 

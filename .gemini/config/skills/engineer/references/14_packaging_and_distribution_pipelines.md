@@ -76,20 +76,54 @@ A comprehensive standard for distributing native binaries, libraries, and applic
 
 ---
 
-## 4. Universal Release Quality Gate Checklist
+## 4. Universal Pre-Push CI/CD Simulation & Matrix Quality Gate (`ci-check`)
 
-Before creating a release tag or publishing package manifests:
+Never push commits or open pull requests without simulating the entire remote CI pipeline locally. Dissect `.github/workflows/*.yml` to identify all matrix runner environments, linters, target architectures, and test commands.
 
-1. **Compilation Matrix**:
-   - `cargo check --target x86_64-unknown-linux-gnu` (Linux)
-   - `cargo check --target x86_64-pc-windows-gnu` (Windows Win32)
-2. **Zero Linter Warnings**:
-   - `cargo clippy --all-targets --all-features -- -D warnings`
-   - Strict bash: `shellcheck <scripts>`
-   - TypeScript: `tsc --noEmit`
-3. **Format Compliance**:
-   - `cargo fmt --check` / `prettier --check`
-4. **Automated Test Matrix**:
-   - `cargo test` / `npm test` / `bash tests/run_tests.sh` (100% green).
-5. **Clean Git State**:
-   - Working tree clean, zero untracked artifacts, tags pushed to remote.
+### 4.1 Cross-Platform Compilation Matrix
+For compiled codebases (Rust, Go, C/C++), verify all target architectures and platforms defined in `.github/workflows`:
+- **Linux**: `cargo check --target x86_64-unknown-linux-gnu --all-targets`
+- **Windows**: `cargo check --target x86_64-pc-windows-gnu --all-targets`
+- **macOS (Darwin)**: `cargo check --target x86_64-apple-darwin --all-targets`
+*(Pre-install target triples via `rustup target add <triple>`)*
+
+### 4.2 Script & Test Automation Linting
+Run ShellCheck on every bash/sh script, installer, and test suite:
+- `shellcheck <script.sh> tests/*.sh` (strict 0 errors, 0 warnings).
+- For dynamic mock patterns or shared variable files, use explicit, scoped directives (`# shellcheck disable=SC...`).
+
+### 4.3 Linters & Formatting
+Run linters with warnings treated as errors:
+- Rust: `cargo clippy --all-targets --all-features -- -D warnings && cargo fmt --check`
+- TypeScript/JavaScript: `pnpm lint && pnpm prettier --check . && tsc --noEmit`
+- Python: `ruff check . && ruff format --check . && mypy .`
+
+### 4.4 Automated Test Suite
+- Run full unit, integration, and CLI test suites locally:
+  - `cargo test --all-targets --all-features`
+  - `make test` / `bash tests/run_tests.sh`
+  - `pnpm test`
+
+### 4.5 Clean Git State & Signed Commits
+- Working tree 100% clean, zero untracked artifacts.
+- Cryptographic SSH commit signature (`git commit -S`).
+
+---
+
+## 5. Post-Push Remote Verification & Zero-Red-Pipeline Invariant (`gh-verify`)
+
+Pushed commits are NOT considered complete until verified green on the remote server:
+
+### 5.1 Remote CI Monitoring Protocol
+Immediately following `git push origin <branch>`:
+1. List active runs: `gh run list --repo <user>/<repo> --limit 1`
+2. Watch the pipeline to completion: `gh run watch <run_id> --repo <user>/<repo>`
+3. Invariant: Every job in the pipeline matrix must report `✓ completed success`. Never close a task, deliver a final response, or assume success while a remote pipeline is red or in progress.
+
+### 5.2 P0 Remote Breakage Triage Protocol
+If any remote check fails on GitHub Actions:
+1. **Freeze**: Halt and treat the failure as an active build break.
+2. **Inspect**: Fetch logs immediately with `gh run view --log --job=<job_id> --repo <user>/<repo>` or `gh run view <run_id> --log-failed`.
+3. **Reproduce**: Replicate the failing target/runner environment locally (e.g. Darwin target, specific linter version).
+4. **Fix & Sign**: Apply minimal root-cause fix, run local simulation suite, commit with cryptographic SSH signature (`git commit -S`), and push.
+5. **Re-Verify**: Watch the newly triggered run until 100% green.
