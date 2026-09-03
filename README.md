@@ -20,7 +20,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `wsl.conf` — Distribution-level WSL configuration (`/etc/wsl.conf`) with systemd init, metadata options, and Windows interop.
 - `.wslconfig` — Windows-side global WSL2 resource configuration (`%USERPROFILE%\.wslconfig`) with RAM caps, CPU allocation, sparse VHD, and gradual memory reclaim.
 - `.gemini/config/skills/` — Antigravity / Gemini CLI custom skills:
-  - `engineer` — Universal Master Engineering Craftsmanship & UI/UX Architecture Standard. Synthesizes deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling, spec slicing, two-axis code review, contract-first API governance, zero-downtime database migrations, token & context budgeting, adversarial dual-review loops, and multi-platform packaging, alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
+  - `engineer` — Universal Master Engineering Craftsmanship & UI/UX Architecture Standard. Synthesizes deep module architecture, anti-speculative simplicity, TDD discipline, 6-phase bug diagnosis, frontier grilling, spec slicing, two-axis code review, surgical diff invariants, contract-first API governance, zero-downtime database migrations, token & context budgeting, adversarial dual-review loops, and multi-platform packaging, alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
 
 ## Quick Setup
 ```bash
@@ -44,6 +44,7 @@ The `engineer` autonomous agent skill synthesizes battle-tested principles, prot
 - **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License) — Agentic software engineering workflows, deep module architecture, frontier grilling, TDD lifecycle, and two-axis code review.
 - **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License) — 17-category zero-trust defensive security standard, automated audit loops, and manual penetration testing checklists.
 - **[affaan-m/ECC](https://github.com/affaan-m/ECC)** (MIT License) — Silent failure audits, adversarial dual-review loop ("Santa Method"), contract-first schema workflows, zero-downtime migrations, and token & context budgeting heuristics.
+- **[forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** (MIT License) — Surgical diff invariants, anti-speculative simplicity heuristics, line traceability discipline, and proactive confusion management.
 
 ## License
 

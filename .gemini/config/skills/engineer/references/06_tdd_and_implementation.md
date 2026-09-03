@@ -54,3 +54,14 @@ Review all newly written test files and implementation changes to purge:
 3. **Over-Defensive Checks for Impossible States**: Remove runtime `if (x === null)` branches when the static type system or upstream boundary validation already guarantees non-nullability.
 4. **Debug Debris**: Strip all `console.log`, `print()`, `dbg!()`, temporary benchmark timers, and commented-out code snippets.
 5. **Post-Cleanup Green Verification**: Re-run the full test suite and typechecker. All domain logic tests must remain 100% green.
+
+---
+
+## The Surgical Diff & Line Traceability Invariant
+
+AI coding assistants frequently introduce regressions and noisy merge conflicts by "improving" surrounding code unprompted. Every modification must adhere strictly to surgical change invariants:
+
+1. **The Line Traceability Test**: Every changed line in the final `git diff` must trace directly to the prompt's acceptance criteria or bug reproduction. If a changed line cannot be justified by the explicit task description, discard it.
+2. **Clean Up Your Own Orphans Only**: If your implementation or refactoring makes an existing import, helper function, or variable unused, delete it.
+3. **Leave Pre-Existing Dead Code Alone**: Never delete pre-existing dead code, unused functions, or obsolete comments found elsewhere in the file unless the task explicitly requested it. Unprompted deletion causes merge conflicts on active peer branches and pollutes git blame. Mention it to the human developer instead.
+4. **Zero Style Drift**: Strictly match the surrounding file's formatting, indentation, quote conventions (`"` vs `'`), semicolon usage, and comment density even if it contradicts your preferences. Never reformat untouched lines as a side effect.

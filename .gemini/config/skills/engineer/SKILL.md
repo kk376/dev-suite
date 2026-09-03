@@ -127,9 +127,10 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Container Queries**: Components adapt to their immediate parent container (`container-type: inline-size`).
 - **5 Essential UI States**: Every component implements *Idle*, *Loading (Shimmer Skeleton)*, *Populated*, *Empty (with CTA)*, and *Error (with Retry)*.
 
-### 3. Deep Module Architecture (`codebase-design`)
+### 3. Deep Module Architecture & Anti-Speculative Simplicity (`codebase-design`)
 - **Deep Modules**: Substantial functionality accessible through a small, simple interface at a clean seam. High leverage for callers, strong locality for maintainers.
-- **Shallow Modules (Banned)**: Thin wrappers where interface complexity equals implementation complexity.
+- **Anti-Speculative Simplicity**: Solve today's problem simply, not tomorrow's problem prematurely. Ban single-use abstraction patterns, speculative configurability flags, and over-defensive branches for impossible states.
+- **The 200-to-50 Rule**: If a proposed module takes 200 lines to express what 50 lines achieves cleanly without loss of correctness, write the 50 lines.
 - **The Deletion Test**: If deleting a module makes complexity vanish, it was pass-through. If complexity reappears across callers, it was earning its keep.
 - **The Interface is the Test Surface**: Tests live at public boundaries, never inspecting private internals.
 
@@ -155,8 +156,9 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **GPU Acceleration**: Animate only `transform` and `opacity`. Wrap in `@media (prefers-reduced-motion: reduce)`.
 - **Accessibility & Web Vitals**: Contrast $\ge 7:1$, focus-visible rings, LCP $< 1.2\text{s}$, INP $< 100\text{ms}$, CLS $= 0.00$.
 
-### 8. Two-Axis Code Review, Silent Failures & Adversarial Dual Review (`code-review`, `santa-review`)
+### 8. Two-Axis Code Review, Surgical Diffs & Adversarial Dual Review (`code-review`, `santa-review`)
 - **Two-Axis Review**: Standards Axis (cleanliness, code smells) + Spec Axis (acceptance criteria verification).
+- **Surgical Diff Traceability**: Every modified line must map 1:1 to an explicit acceptance criterion or bug fix. Zero style drift, zero whitespace churn, zero touching of pre-existing dead code. Clean up only your own orphans.
 - **Silent Failure Elimination**: Hunt down empty catch blocks, deceptive `.catch(() => [])` fallbacks, unchained causes, and missing transaction rollbacks.
 - **Adversarial Dual-Review Pass ("Santa Method")**: Two independent parallel reviewers with identical rubrics and zero shared context. Both must pass before high-stakes code ships.
 - **Mandatory SSH-Signed Commits**: All commits across all repositories must be cryptographically signed using SSH (`git commit -S`, `gpg.format = ssh`, `user.signingkey = ~/.ssh/id_ed25519.pub`). Unsigned commits or history rewriting are prohibited.
@@ -248,3 +250,4 @@ The `engineer` standard synthesizes foundational protocols, design systems, and 
 - **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License) — Engineering lifecycle workflows, deep module discipline, frontier grilling, and two-axis code review.
 - **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License) — 17-category zero-trust defensive security invariants and automated audit loops.
 - **[affaan-m/ECC](https://github.com/affaan-m/ECC)** (MIT License) — Silent failure hunting, adversarial dual review ("Santa Method"), contract-first workflows, and context budgeting heuristics.
+- **[forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** (MIT License) — Surgical diff invariants, anti-speculative simplicity heuristics, line traceability discipline, and proactive confusion management.

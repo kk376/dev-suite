@@ -116,3 +116,18 @@ For mission-critical deliverables, high-risk security code, or production releas
 1. **Context Isolation**: Reviewer B and Reviewer C are launched as parallel subagents. Neither reviewer sees the other's assessment or scratchpad.
 2. **Identical Rubric**: Both evaluate against the Two-Axis standards (Standards & Security + Spec Acceptance Criteria).
 3. **Strict Pass Gate**: If either reviewer flags a `FAIL` or critical issue, the code cannot ship. The findings are merged, remediated by the implementer, and both reviewers run a second pass until convergence.
+
+---
+
+## The Surgical Diff & Anti-Speculative Review Audit
+
+Every code review pass must inspect the raw `git diff` for unprompted scope creep and speculative complexity:
+
+1. **Diff Hygiene & Traceability**:
+   - Verify every modified line maps 1:1 to an explicit acceptance criterion or bug fix. Reject diffs with drive-by reformatting, whitespace churn, or unprompted comment rewrites.
+   - Verify zero modification or deletion of unrelated pre-existing dead code.
+   - Verify all orphaned imports, functions, or variables caused by this change have been removed.
+2. **Anti-Speculative Simplicity Gate**:
+   - Check for premature abstraction: Did the change introduce an abstract class, interface, or factory for code that only has one caller?
+   - Check for speculative configurability: Were optional flags, unused settings, or "future-proofing" parameters added without being requested?
+   - If 200 lines were added where 50 lines would achieve the same outcome without compromising correctness, request simplification.

@@ -99,3 +99,15 @@ module.exports = {
 };
 ```
 
+---
+
+## Anti-Speculative Simplicity & The Timing of Complexity
+
+A primary failure mode of software architecture is adding complexity before it is needed. Good architecture is not an exhaustive taxonomy of hypothetical futures; it solves today's problem with deep, minimal interfaces and leaves code easily refactorable for tomorrow.
+
+### Banned Speculative Patterns
+1. **Single-Use Design Patterns**: Never implement an abstract Factory, Strategy, or Provider pattern when only one concrete behavior exists. Write a single function. If a second algorithm emerges later, refactor then.
+2. **Speculative Configurability & Leaky Flags**: Never add configuration options, flags, or parameters for features that were not explicitly requested ("just in case someone needs this later").
+3. **Over-Defensive Checks for Impossible Scenarios**: Do not clutter logic with defensive branches for states that are structurally impossible given the type system and boundary validation.
+4. **The 200-to-50 Rule**: If a proposed implementation requires 200 lines across 4 files when a clean 50-line module achieves the same correctness and testability, delete the bloat and write the 50 lines. Ask: *"Would a principal engineer reject this as overcomplicated?"* If yes, simplify.
+

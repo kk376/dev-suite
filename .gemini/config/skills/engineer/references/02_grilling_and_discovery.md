@@ -72,3 +72,16 @@ When facing ambiguous architectural decisions or high-stakes trade-offs with no 
    - Explicitly highlight the **Strongest Dissent** (never smooth over legitimate disagreement).
    - Document whether the Skeptic's **Premise Check** challenged the fundamental question.
    - Produce a definitive synthesized recommendation with concrete trade-off rationale.
+
+---
+
+## Proactive Confusion Management & Anti-Silent Assumptions
+
+When requirements have multiple plausible interpretations, AI models frequently make silent assumptions and generate hundreds of lines along the wrong path. Enforce proactive confusion management:
+
+1. **Never Pick Silently**: When a request is open to interpretation (e.g. "make search faster", "add export", "optimize queries"), stop and surface the concrete options before writing code:
+   - **Throughput vs Latency vs Perceived UX Speed**: Clarify which performance dimension is actually constrained.
+   - **Scope & Privacy**: Clarify boundaries (e.g. exporting all records vs paginated user-scoped records).
+2. **Surface Hidden Assumptions Explicitly**: State critical assumptions upfront as numbered bullet points. If an assumption shapes the database schema, network boundary, or public API contract, require explicit human confirmation.
+3. **Push Back on Premature Complexity**: If the human asks for a complex system (e.g. a microservice or multi-table abstraction) when a standard library utility or small function completely solves the problem, explicitly push back with the simpler alternative and trade-off comparison.
+4. **Stop When Confused**: If an existing implementation contains conflicting signals or unclear design choices, pause execution, name the exact point of confusion, and ask rather than guessing.
