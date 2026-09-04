@@ -1,5 +1,6 @@
 {
     "workbench.iconTheme": "vscode-icons",
+    "editor.mouseWheelZoom": true,
     "python.defaultInterpreterPath": "/usr/bin/python3",
     "python.autoSelectWorkspace": true,
     "python.locator": "js",
@@ -60,7 +61,7 @@
     "vscode_vibrancy.opacity": 0.85,
     "vscode_vibrancy.preventFlash": true,
     "vscode_vibrancy.blurRadius": 30,
-    "workbench.colorTheme": "Dark+",
+    "workbench.colorTheme": "Dark Modern",
     "workbench.colorCustomizations": {
         "sideBar.background": "#1e1e1ed9",
         "sideBarTitle.background": "#1e1e1ed9",
