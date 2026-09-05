@@ -35,6 +35,11 @@ if [ -f "$HOME/.gitconfig" ]; then
     echo "  ✓ Copied ~/.gitconfig"
 fi
 
+if [ -f "$HOME/.dput.cf" ]; then
+    cp "$HOME/.dput.cf" "$BACKUP_DEST/credentials/"
+    echo "  ✓ Copied ~/.dput.cf (Ubuntu PPA dput config)"
+fi
+
 if [ -d "$HOME/.config/gh" ]; then
     cp -r "$HOME/.config/gh" "$BACKUP_DEST/credentials/"
     echo "  ✓ Copied ~/.config/gh (GitHub CLI auth)"
