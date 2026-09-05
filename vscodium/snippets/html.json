@@ -1,0 +1,23 @@
+{
+  "HTML5 Boilerplate (Dark Mode)": {
+    "prefix": [
+      "!",
+      "html:5"
+    ],
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"${1:en}\">",
+      "<head>",
+      "    <meta charset=\"UTF-8\">",
+      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "    <meta name=\"color-scheme\" content=\"dark\">",
+      "    <title>${2:Document}</title>",
+      "</head>",
+      "<body>",
+      "    $0",
+      "</body>",
+      "</html>"
+    ],
+    "description": "HTML5 Boilerplate with dark mode meta tag"
+  }
+}

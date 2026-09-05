@@ -1,0 +1,8 @@
+{
+  "html": {
+    "snippets": {
+      "!": "!!!+html[lang=${lang}]>(head>meta[charset=${charset}]+meta:vp+meta[name=\"color-scheme\" content=\"dark\"]+title{${1:Document}})+body",
+      "html:5": "!!!+html[lang=${lang}]>(head>meta[charset=${charset}]+meta:vp+meta[name=\"color-scheme\" content=\"dark\"]+title{${1:Document}})+body"
+    }
+  }
+}
