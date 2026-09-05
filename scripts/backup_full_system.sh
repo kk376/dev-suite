@@ -61,10 +61,8 @@ echo "  ✓ Encrypted zip created at $BACKUP_DEST/packaging-backup.zip"
 # 3. Code Repositories (Excluding compiled Rust/Node build artifacts to save 126GB)
 echo ""
 echo "[3/4] Archiving code repositories (~/code, excluding build target/ & node_modules/)..."
-tar --exclude='*/target' \
-    --exclude='*/target/*' \
-    --exclude='*/node_modules' \
-    --exclude='*/node_modules/*' \
+tar --exclude="target" \
+    --exclude="node_modules" \
     -czf "$BACKUP_DEST/code_projects.tar.gz" \
     -C "$HOME" code
 echo "  ✓ Code projects archived to $BACKUP_DEST/code_projects.tar.gz"
