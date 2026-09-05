@@ -23,6 +23,7 @@
     "editor.fontLigatures": true,
     "editor.fontSize": 16,
     "editor.lineHeight": 1.5,
+    "editor.wordWrap": "on",
     "terminal.integrated.fontFamily": "FiraCode Nerd Font",
     "terminal.integrated.fontSize": 15,
     "terminal.integrated.fontLigatures.enabled": true,
