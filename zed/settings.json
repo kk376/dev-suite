@@ -50,6 +50,16 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Light",
-    "dark": "VSCode Dark Modern",
+    "dark": "VSCode Dark Modern"
   },
+  "tab_bar": {
+    "show": true
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true
+  },
+  "preview_tabs": {
+    "enabled": false
+  }
 }
