@@ -8,6 +8,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `FEDORA_MIGRATION.md` — WSL2 (Ubuntu) to Native Fedora Workstation migration and restore master guide.
 - `setup.md` — Complete developer environment setup, CLI toolchain installation, WSL2 optimizations, and packaging master guide (Ubuntu PPA, Fedora Copr, Homebrew Tap, Arch AUR).
 - `.zshrc` — Zsh configuration with Starship prompt, custom aliases, PATH exports, and plugins.
+- `fish/` — Fish shell configuration (`config.fish`) with Tokyo Night autosuggestions, Starship prompt, custom aliases, and `SUDO_PROMPT`.
 - `starship.toml` — Starship prompt theme configuration.
 - `kitty/` — Kitty GPU-accelerated terminal configuration (`kitty.conf`) with Tokyo Night palette, FiraCode ligatures, and custom desktop launcher.
 - `zed/` — Zed Editor complete configuration:

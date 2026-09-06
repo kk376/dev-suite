@@ -64,6 +64,8 @@ export DELTA_PAGER=cat
 export LESS="-F -X -R"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.opencode/bin:$PATH"
 export LIBVIRT_DEFAULT_URI="qemu:///system"
+export SUDO_PROMPT="[sudo] 🔒 password for %u: "
+
 
 # ===== NVM =====
 export NVM_DIR="$HOME/.nvm"
