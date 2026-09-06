@@ -86,5 +86,12 @@
     "emmet.showExpandedAbbreviation": "always",
     "emmet.extensionsPath": [
         "/home/kk376/.config/Code/User/emmet"
-    ]
+    ],
+    "editor.snippetSuggestions": "top",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    }
 }

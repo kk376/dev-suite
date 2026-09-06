@@ -86,5 +86,6 @@
     "emmet.showExpandedAbbreviation": "always",
     "emmet.extensionsPath": [
         "/home/kk376/.config/VSCodium/User/emmet"
-    ]
+    ],
+    "editor.snippetSuggestions": "top"
 }
