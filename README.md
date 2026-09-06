@@ -10,6 +10,8 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `.zshrc` — Zsh configuration with Starship prompt, custom aliases, PATH exports, and plugins.
 - `fish/` — Fish shell configuration (`config.fish`) with Tokyo Night autosuggestions, Starship prompt, custom aliases, and `SUDO_PROMPT`.
 - `starship.toml` — Starship prompt theme configuration.
+- `cliamp/` — Retro terminal music player configuration (`config.toml`) with YouTube Music provider and Chrome GNOME Keyring cookie integration.
+- `yt-dlp/` — Media extractor configuration (`config`) enabling Node.js runtime for challenge deciphering.
 - `kitty/` — Kitty GPU-accelerated terminal configuration (`kitty.conf`) with Tokyo Night palette, FiraCode ligatures, and custom desktop launcher.
 - `zed/` — Zed Editor complete configuration:
   - `settings.json` — One Dark Pro Glass theme, Material Icon Theme, FiraCode ligatures, minimap, autosave, and VS Code keymap base.

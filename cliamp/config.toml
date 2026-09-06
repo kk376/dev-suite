@@ -1,0 +1,7 @@
+provider = "ytmusic"
+theme = ""
+
+eq_preset = "Custom"
+eq = [-5, -1, 0, 0, 0, 0, 0, 0, 0, 0]
+[ytmusic]
+cookies_from = "chrome+gnomekeyring"
