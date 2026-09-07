@@ -80,7 +80,7 @@ sudo dnf groupinstall -y "Development Tools" "C Development Tools and Libraries"
 sudo dnf install -y \
   clang cmake ninja-build ccache rustup git curl wget zip unzip \
   zsh starship eza bat ripgrep fd-find fzf zoxide yazi \
-  wl-clipboard xclip copr-cli
+  wl-clipboard xclip copr-cli gh glab
 
 # 3. KKFetch (Official Copr)
 sudo dnf copr enable -y <copr-user>/kkfetch
@@ -576,19 +576,25 @@ wingetcreate update <Publisher>.<PackageName> --version <version> --urls https:/
 
 Helper scripts tracked in [`dev-suite/scripts/`](scripts/):
 
-#### 1. Backup Credentials (Automated):
+#### 1. Full System & Workstation Backup (Automated):
 ```bash
-# Generates encrypted packaging-backup.zip (GPG keys, Copr API config, SSH keys)
+# Backs up SSH, GPG, Copr, GitHub & GitLab CLI credentials, encrypted packaging zip, code repos, and Antigravity brain
+bash ~/code/dev-suite/scripts/backup_full_system.sh /path/to/backup/destination
+```
+
+#### 2. Backup Packaging Credentials (Automated):
+```bash
+# Generates encrypted packaging-backup.zip (GPG keys, Copr API config, SSH keys, GitLab CLI config)
 bash ~/code/dev-suite/scripts/backup_packaging_keys.sh
 # Save packaging-backup.zip to secure secondary storage (Bitwarden or encrypted cloud storage)
 ```
 
-#### 2. Restore Credentials on a New Machine (Automated):
+#### 3. Restore Credentials on a New Machine (Automated):
 ```bash
 bash ~/code/dev-suite/scripts/restore_packaging_keys.sh ~/code/packaging-backup.zip
 ```
 
-#### 3. Manual Step-by-Step Recovery Reference:
+#### 4. Manual Step-by-Step Recovery Reference:
 If running manual restoration from an unzipped backup archive:
 
 ```bash
@@ -608,8 +614,13 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/id_ed25519
 chmod 644 ~/.ssh/id_ed25519.pub
 
-# 4. Install essential build and packaging tools
-sudo apt update && sudo apt install -y debhelper devscripts dput git
-pipx install copr-cli
+# 4. Restore GitLab CLI configuration
+mkdir -p ~/.config
+cp -r glab-cli ~/.config/
+chmod 700 ~/.config/glab-cli
+find ~/.config/glab-cli -type f -exec chmod 600 {} +
+
+# 5. Install essential build and packaging tools
+sudo dnf install -y gh glab copr-cli
 ```
 

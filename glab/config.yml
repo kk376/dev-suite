@@ -1,0 +1,22 @@
+# GitLab CLI (glab) Configuration
+# https://gitlab.com/gitlab-org/cli
+
+git_protocol: ssh
+editor:
+browser:
+glamour_style: dark
+check_update: true
+show_whats_new: true
+display_hyperlinks: true
+host: gitlab.com
+no_prompt: false
+telemetry: true
+
+hosts:
+    gitlab.com:
+        api_protocol: https
+        api_host: gitlab.com
+        user: Kk376
+        use_keyring: "true"
+        container_registry_domains: gitlab.com,gitlab.com:443,registry.gitlab.com
+        git_protocol: ssh

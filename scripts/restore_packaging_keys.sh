@@ -45,7 +45,16 @@ if [ -f "$RESTORE_DIR/id_ed25519" ]; then
     chmod 644 "$HOME/.ssh/id_ed25519.pub"
 fi
 
+# 4. Restore GitLab CLI configuration
+if [ -d "$RESTORE_DIR/glab-cli" ]; then
+    echo "Restoring GitLab CLI config to ~/.config/glab-cli..."
+    mkdir -p "$HOME/.config"
+    cp -r "$RESTORE_DIR/glab-cli" "$HOME/.config/"
+    chmod 700 "$HOME/.config/glab-cli"
+    find "$HOME/.config/glab-cli" -type f -exec chmod 600 {} +
+fi
+
 echo ""
 echo "✅ All packaging keys and credentials restored successfully!"
-echo "Run 'copr-cli whoami' and 'gpg -K' to verify."
+echo "Run 'copr-cli whoami', 'gpg -K', and 'glab auth status' to verify."
 

@@ -28,6 +28,11 @@ if [ -f "$HOME/.ssh/id_ed25519" ]; then
     cp "$HOME/.ssh/id_ed25519.pub" "$BACKUP_DIR/id_ed25519.pub"
 fi
 
+# 4. Back up GitLab CLI configuration and credentials
+if [ -d "$HOME/.config/glab-cli" ]; then
+    cp -r "$HOME/.config/glab-cli" "$BACKUP_DIR/glab-cli"
+fi
+
 OUTPUT_ZIP="$HOME/code/packaging-backup.zip"
 rm -f "$OUTPUT_ZIP"
 
@@ -37,7 +42,7 @@ echo "Please enter a strong password when prompted by zip:"
 echo ""
 
 # Execute zip inside subshell cd to flatten archive path hierarchy and avoid storing host filesystem paths
-(cd "$BACKUP_DIR" && zip -e "$OUTPUT_ZIP" *)
+(cd "$BACKUP_DIR" && zip -e "$OUTPUT_ZIP" ./*)
 
 echo ""
 echo "✅ Backup successfully created at: $OUTPUT_ZIP"

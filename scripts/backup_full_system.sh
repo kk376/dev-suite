@@ -45,6 +45,11 @@ if [ -d "$HOME/.config/gh" ]; then
     echo "  ✓ Copied ~/.config/gh (GitHub CLI auth)"
 fi
 
+if [ -d "$HOME/.config/glab-cli" ]; then
+    cp -r "$HOME/.config/glab-cli" "$BACKUP_DEST/credentials/"
+    echo "  ✓ Copied ~/.config/glab-cli (GitLab CLI auth & config)"
+fi
+
 # 2. Encrypted packaging keys archive
 echo ""
 echo "[2/4] Creating encrypted packaging-backup.zip..."
@@ -54,6 +59,7 @@ cp "$BACKUP_DEST/credentials/gpg_secret_keys.asc" "$STAGE_DIR/packaging-gpg-keys
 cp "$HOME/.config/copr" "$STAGE_DIR/copr-config.backup" 2>/dev/null || true
 cp "$HOME/.ssh/id_ed25519" "$STAGE_DIR/id_ed25519" 2>/dev/null || true
 cp "$HOME/.ssh/id_ed25519.pub" "$STAGE_DIR/id_ed25519.pub" 2>/dev/null || true
+cp -r "$HOME/.config/glab-cli" "$STAGE_DIR/glab-cli" 2>/dev/null || true
 rm -f "$BACKUP_DEST/packaging-backup.zip"
 (cd "$STAGE_DIR" && zip -e "$BACKUP_DEST/packaging-backup.zip" ./*)
 echo "  ✓ Encrypted zip created at $BACKUP_DEST/packaging-backup.zip"

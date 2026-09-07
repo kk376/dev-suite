@@ -19,7 +19,8 @@ Personal developer suite, environment configurations, multi-distro packaging aut
   - `tasks.json` — Custom tasks runner configuration (`hide: always`, `show_summary: false`) for instant shell cleanup.
   - `zed-run` — Multi-language standalone Code Runner script (Python, Rust, C, C++, Go, JS/TS, Bash, Lua) that runs interactively, handles `Ctrl+C` gracefully without tracebacks, and automatically drops into an interactive shell upon exit.
 - `system/` — Linux kernel sysctl parameters (`99-zram.conf`) and zram-generator configurations (`zram-generator.conf`).
-- `scripts/` — Packaging credential backup and restore helpers (`backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
+- `glab/` — GitLab CLI (`glab`) configuration (`config.yml`, `aliases.yml`) configured for SSH git protocol, dark glamour markdown rendering, and GitLab.com integration.
+- `scripts/` — Full system and packaging credential backup and restore helpers (`backup_full_system.sh`, `backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
 - `wsl.conf` — Distribution-level WSL configuration (`/etc/wsl.conf`) with systemd init, metadata options, and Windows interop.
 - `.wslconfig` — Windows-side global WSL2 resource configuration (`%USERPROFILE%\.wslconfig`) with RAM caps, CPU allocation, sparse VHD, and gradual memory reclaim.
 - `.gemini/config/skills/` — Antigravity / Gemini CLI custom skills:
