@@ -1,15 +1,15 @@
 ---
 name: engineer
 description: >-
-  Universal Master Engineering Craftsmanship, UI/UX Architecture & Zero-Trust Security Standard.
-  Synthesizes deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling,
-  spec slicing, two-axis code review, 17-category vibe-check defensive security audits, multi-platform
-  packaging, upstream open-source RFC & maintainer collaboration protocols, high-performance canvas &
-  viewport rendering, contract-first API governance, zero-downtime database migrations, token &
-  context budgeting, adversarial dual review loops, pre-push CI/CD workflow simulation & GitHub Actions
-  remote verification, alongside 74 production design systems across 8 archetypes, OKLCH token engines,
-  Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility,
-  and Core Web Vitals performance.
+  Universal Master Engineering Craftsmanship, UI/UX Architecture, Zero-Trust Security & Search Engine Optimization Standard.
+  Synthesizes deep module architecture, TDD discipline, 6-phase bug diagnosis, frontier grilling, spec slicing, two-axis
+  code review, 17-category vibe-check defensive security audits, multi-platform packaging, upstream open-source RFC & maintainer
+  collaboration protocols, high-performance canvas & viewport rendering, contract-first API governance, zero-downtime database
+  migrations, token & context budgeting, adversarial dual review loops, pre-push CI/CD workflow simulation & GitHub Actions
+  remote verification, technical search architecture (Technical SEO, Schema.org JSON-LD graphs, GEO/AI search citability,
+  pSEO topic clusters, CI/CD SEO drift gates), and deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics,
+  alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid
+  layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
 ---
 
 # Universal Master Engineering & Design Skill
@@ -95,6 +95,12 @@ Route incoming requests to their targeted operational discipline:
 | "Handoff to next agent / Compact context" | Context Serialization | `handoff` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Explain / Re-pitch confusing concept" | Cognitive Reset | `wait-what` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Interactive manual steps (OAuth, CI, AWS)" | Bash Wizard Generator | `wizard` | [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) |
+| "Technical SEO / Schema markup / JSON-LD" | Search Architecture & Schema | `seo-architecture` / `schema-graph` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "Optimize for Perplexity / ChatGPT Search / GEO" | Generative Engine Optimization | `geo-optimize` / `ai-search` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "SEO drift / Regressions in PR / SEO check" | CI/CD SEO Drift Gate | `seo-drift` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "Evaluate resume / Score candidate / Interview rubric" | Technical Talent & Resume Evaluation | `candidate-eval` / `score-resume` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
+| "LLM Evals / Prompt rubric / Structured extraction" | LLM Eval & Rubric Engineering | `evals-rubric` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
+| "Verify GitHub profile / Audit portfolio" | External Signal Verification | `github-audit` / `portfolio-audit` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
 
 ---
 
@@ -208,11 +214,23 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Post-Push Remote Verification Invariant**: Never report a task complete, close an issue, or declare success after `git push` without verifying remote CI pipeline status. Use `gh run list --repo <user>/<repo>` and `gh run watch <run_id>` to confirm that all triggered GitHub Actions workflow runs have completed with `✓ completed success`.
 - **P0 Remote Failure Triage Protocol**: A failing CI job on GitHub is treated as an active build break. Immediately inspect logs using `gh run view --log --job=<job-id>`, reproduce the exact step locally, implement the root-cause fix, verify locally across the full matrix, and push an SSH-signed commit.
 
+### 16. Search Architecture, Generative Engine Optimization (GEO) & SEO Drift Gates (`seo-architecture`, `geo-optimize`, `seo-drift`)
+- **Dual Discovery Spectrum**: Build for traditional search engines (status code contracts, deterministic canonical URLs, dynamic XML sitemaps) and AI answer engines (Perplexity, ChatGPT Search, Claude, Google AI Overviews).
+- **JSON-LD Semantic Graphs**: Connect application entities (`Organization`, `SoftwareApplication`, `TechArticle`, `BreadcrumbList`, `FAQPage`) within a unified `@graph` schema.
+- **Passage-Level Citability (GEO)**: Inverted-pyramid passage structures, self-contained atomic definitions in the first 40–60 words, tabular data presentation, and explicit AI bot policies (`GPTBot`, `ClaudeBot`, `PerplexityBot`).
+- **Pre-Push SEO Drift Invariant**: Enforce automated CI/CD testing against the 17 SEO Drift Rules to prevent accidental drops of canonical tags, OpenGraph metadata, schema syntax, or heading hierarchies.
+
+### 17. LLM Evals, Rubric Engineering & 4-Pillar Candidate/Portfolio Assessment (`evals-rubric`, `candidate-eval`, `portfolio-audit`)
+- **The 4-Pillar Candidate Evaluation Model**: Objective 100-point rubric assessing Open Source & Upstream Impact (0–35), Self Projects & Systems Complexity (0–30), Production Engineering (0–20), and Technical Skills (0–15).
+- **Unbiased Rubric Engineering**: Strictly decouple evaluations from candidate demographics, university brand prestige, and GPA; require extracted code evidence for all score awards and itemized deduction citations.
+- **External Signal Ground-Truth Verification**: Cross-verify self-reported claims against the GitHub API (stargazer tiers, commit velocity, external PR contributions vs self-forks) to eliminate inflated claims and cloned tutorial spam.
+- **Adversarial Document Sanitization**: Defend evaluation pipelines against prompt injection attacks (invisible white text, zero-font coordinates, delimiter smuggling) in user-submitted PDF/markdown documents.
+
 ---
 
 ## Detailed Reference Catalog
 
-Explore the full 34 operational references in the [`references/`](./references/) directory:
+Explore the full 36 operational references in the [`references/`](./references/) directory:
 
 ### Engineering, Security & Workflow Protocols
 - [`01_lifecycle_and_routing.md`](./references/01_lifecycle_and_routing.md) - Master lifecycle, triage router, and setup.
@@ -235,6 +253,8 @@ Explore the full 34 operational references in the [`references/`](./references/)
 - [`32_contract_first_api_and_event_schemas.md`](./references/32_contract_first_api_and_event_schemas.md) - Contract-first API & event schema governance, consumer-first task modeling, OpenAPI/Protobuf typegen, and breaking change detection.
 - [`33_zero_downtime_database_migrations.md`](./references/33_zero_downtime_database_migrations.md) - Zero-downtime database migrations, Postgres non-blocking DDL, concurrent indexing, expand-contract schema evolution, and chunked DML backfills.
 - [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) - Context window budgeting, MCP tool schema costs, CLI-first execution, tiered response depth, and memory compaction.
+- [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) - Search architecture, Technical SEO, Schema.org JSON-LD semantic graphs, Generative Engine Optimization (GEO) for AI search, programmatic topic clusters, and CI/CD SEO drift gates.
+- [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) - Deterministic LLM evaluation pipelines (Evals), unbiased rubric engineering, 4-pillar candidate/portfolio scoring, GitHub API external signal harvesting, and adversarial document prompt injection defense.
 
 ### Design Systems, UI/UX & Frontend Architecture
 - [`15_design_brand_index_and_archetypes.md`](./references/15_design_brand_index_and_archetypes.md) - Comprehensive index and matrix of all 74 design systems across 8 archetypes.
@@ -262,3 +282,6 @@ The `engineer` standard synthesizes foundational protocols, design systems, and 
 - **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License) — 17-category zero-trust defensive security invariants and automated audit loops.
 - **[affaan-m/ECC](https://github.com/affaan-m/ECC)** (MIT License) — Silent failure hunting, adversarial dual review ("Santa Method"), contract-first workflows, and context budgeting heuristics.
 - **[forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** (MIT License) — Surgical diff invariants, anti-speculative simplicity heuristics, line traceability discipline, and proactive confusion management.
+- **[AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo)** (MIT License) — Technical SEO architecture, Schema.org semantic graphs, Generative Engine Optimization (GEO), and CI/CD SEO drift monitoring.
+- **[interviewstreet/hiring-agent](https://github.com/interviewstreet/hiring-agent)** (MIT License) — 4-pillar candidate scoring rubrics, unbiased LLM evaluation pipelines, GitHub external signal harvesting, and adversarial document sanitization.
+
