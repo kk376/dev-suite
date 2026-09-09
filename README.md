@@ -15,9 +15,13 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `kitty/` — Kitty GPU-accelerated terminal configuration (`kitty.conf`) with Tokyo Night palette, FiraCode ligatures, and custom desktop launcher.
 - `zed/` — Zed Editor complete configuration:
   - `settings.json` — One Dark Pro Glass theme, Material Icon Theme, FiraCode ligatures, minimap, autosave, and VS Code keymap base.
-  - `keymap.json` — Code Runner keybindings (`Ctrl+Alt+N` and `F5` to trigger `Run current file`, `Ctrl+F5` for rerun).
+  - `keymap.json` — Code Runner keybindings (`Ctrl+Alt+N` and `F5` to trigger `Run current file`, `Ctrl+F5` for rerun), and Windows-style duplicate line shortcuts (`Alt+Shift+Down` / `Alt+Shift+Up`).
   - `tasks.json` — Custom tasks runner configuration (`hide: always`, `show_summary: false`) for instant shell cleanup.
   - `zed-run` — Multi-language standalone Code Runner script (Python, Rust, C, C++, Go, JS/TS, Bash, Lua) that runs interactively, handles `Ctrl+C` gracefully without tracebacks, and automatically drops into an interactive shell upon exit.
+- `vscode/` & `vscodium/` — Visual Studio Code and VSCodium configurations:
+  - `settings.json` — Dark Modern theme, FiraCode Nerd Font ligatures, always-on word wrap, multiple tabs, and Emmet snippet integration.
+  - `keybindings.json` — Windows-style duplicate line shortcuts (`Shift+Alt+Down` and `Shift+Alt+Up`) bypassing Linux GNOME Mutter workspace shortcuts.
+  - `snippets/` & `emmet/` — Dark mode HTML boilerplate snippets and Emmet configs.
 - `system/` — Linux kernel sysctl parameters (`99-zram.conf`) and zram-generator configurations (`zram-generator.conf`).
 - `glab/` — GitLab CLI (`glab`) configuration (`config.yml`, `aliases.yml`) configured for SSH git protocol, dark glamour markdown rendering, and GitLab.com integration.
 - `scripts/` — Full system and packaging credential backup and restore helpers (`backup_full_system.sh`, `backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
