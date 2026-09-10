@@ -13,7 +13,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `cliamp/` — Retro terminal music player configuration (`config.toml`) with YouTube Music provider and Chrome GNOME Keyring cookie integration.
 - `yt-dlp/` — Media extractor configuration (`config`) enabling Node.js runtime for challenge deciphering.
 - `kitty/` — Kitty GPU-accelerated terminal configuration (`kitty.conf`) with Tokyo Night palette, FiraCode ligatures, and custom desktop launcher.
-- `ghostty/` — Ghostty GPU-accelerated terminal configuration (`config.ghostty`) matching Kitty's Tokyo Night palette, Fira Code typography, 97% opacity with background blur, bottom tabs, clipboard copy-on-select, right-click paste, and Fish shell integration.
+- `ghostty/` — Ghostty GPU-accelerated terminal configuration (`config.ghostty`) matching Kitty's Tokyo Night palette, Fira Code typography, full opacity, bottom tabs, clipboard copy/paste, right-click paste, and Fish shell integration.
 - `zed/` — Zed Editor complete configuration:
   - `settings.json` — One Dark Pro Glass theme, Material Icon Theme, FiraCode ligatures, minimap, autosave, and VS Code keymap base.
   - `keymap.json` — Code Runner keybindings (`Ctrl+Alt+N` and `F5` to trigger `Run current file`, `Ctrl+F5` for rerun), and Windows-style duplicate line shortcuts (`Alt+Shift+Down` / `Alt+Shift+Up`).
