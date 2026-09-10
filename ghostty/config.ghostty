@@ -1,0 +1,55 @@
+# --- Theme & Colors ---
+theme = TokyoNight
+
+# --- Typography & Font Ligatures ---
+font-family = Fira Code
+font-family = Symbols Nerd Font Mono
+font-size = 12
+
+# --- Translucency & Window Styling ---
+background-opacity = 0.97
+background-blur = true
+window-padding-x = 16
+window-padding-y = 14
+window-padding-balance = true
+window-decoration = auto
+window-theme = ghostty
+confirm-close-surface = false
+
+# --- Cursor Customization ---
+cursor-style = bar
+cursor-style-blink = true
+adjust-cursor-thickness = 1
+
+# --- Mouse & Clipboard ---
+right-click-action = paste
+copy-on-select = clipboard
+
+# --- Tabs (Bottom-aligned, auto-hidden on single tab) ---
+gtk-tabs-location = bottom
+gtk-toolbar-style = flat
+window-new-tab-position = current
+
+# --- Audio & Shell ---
+command = /usr/bin/fish
+bell-features = no-audio
+
+# --- Keybindings ---
+keybind = ctrl+t=new_tab
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+w=close_tab:this
+keybind = ctrl+shift+w=close_tab:this
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
+keybind = ctrl+shift+right=next_tab
+keybind = ctrl+shift+left=previous_tab
+keybind = alt+1=goto_tab:1
+keybind = alt+2=goto_tab:2
+keybind = alt+3=goto_tab:3
+keybind = alt+4=goto_tab:4
+keybind = alt+5=goto_tab:5
+keybind = ctrl+shift+enter=new_window
+keybind = ctrl+shift+[=goto_split:previous
+keybind = ctrl+shift+]=goto_split:next
+keybind = ctrl+shift+k=clear_screen
+keybind = ctrl+l=clear_screen
