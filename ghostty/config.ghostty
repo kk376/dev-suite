@@ -14,8 +14,8 @@ adjust-icon-height = 20%
 # --- Window Styling & Layout ---
 background-opacity = 1.0
 window-padding-x = 16
-window-padding-y = 14
-window-padding-balance = true
+window-padding-y = 8,14
+window-padding-balance = false
 window-decoration = auto
 window-theme = ghostty
 confirm-close-surface = false
