@@ -1,0 +1,16 @@
+/* Eliminate transition delays and animations on tab switching/creation */
+* {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Set dark Tokyo Night fallback background to prevent wallpaper flash */
+window,
+window.background,
+.ghostty-window,
+tabview,
+tabbox,
+stack,
+scrolledwindow {
+    background-color: rgba(26, 27, 38, 0.97);
+}
