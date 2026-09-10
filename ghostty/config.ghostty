@@ -23,7 +23,7 @@ confirm-close-surface = false
 # --- Cursor Customization ---
 cursor-style = bar
 cursor-style-blink = true
-adjust-cursor-thickness = 1
+adjust-cursor-thickness = 2
 
 # --- Select, Copy & Paste (Matching Kitty 1:1) ---
 copy-on-select = false
