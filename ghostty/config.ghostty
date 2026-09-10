@@ -35,6 +35,10 @@ app-notifications = no-clipboard-copy
 selection-clear-on-copy = false
 selection-clear-on-typing = true
 
+# --- Hyperlinks & URLs ---
+link-url = true
+link-previews = true
+
 # --- Tabs (Top-aligned, auto-hidden on single tab) ---
 gtk-tabs-location = top
 gtk-toolbar-style = flat
