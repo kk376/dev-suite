@@ -87,5 +87,10 @@
     "emmet.extensionsPath": [
         "/home/kk376/.config/VSCodium/User/emmet"
     ],
-    "editor.snippetSuggestions": "top"
+    "editor.snippetSuggestions": "top",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "scm.compactFolders": false,
+    "explorer.compactFolders": false
 }

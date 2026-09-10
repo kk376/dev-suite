@@ -89,9 +89,14 @@
     ],
     "editor.snippetSuggestions": "top",
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "plaintext": false,
         "markdown": false,
         "scminput": false
-    }
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "scm.compactFolders": false,
+    "explorer.compactFolders": false
 }

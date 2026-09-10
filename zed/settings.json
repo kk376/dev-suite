@@ -9,9 +9,7 @@
 {
   "context_servers": {
     "mcp-server-code-runner": {
-      "enabled": true,
-      "remote": false,
-      "settings": {}
+      "enabled": false
     }
   },
   "disable_ai": true,
@@ -21,11 +19,15 @@
     "model_parameters": []
   },
   "project_panel": {
-    "dock": "left"
+    "dock": "left",
+    "auto_fold_dirs": false
   },
   "icon_theme": "Material Icon Theme",
-  "session": {},
+  "session": {
+    "restore_on_startup": "last_session"
+  },
   "terminal": {
+    "dock": "bottom",
     "font_size": 15.0,
     "font_family": "FiraCode Nerd Font"
   },
