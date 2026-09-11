@@ -101,6 +101,9 @@ Route incoming requests to their targeted operational discipline:
 | "Evaluate resume / Score candidate / Interview rubric" | Technical Talent & Resume Evaluation | `candidate-eval` / `score-resume` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
 | "LLM Evals / Prompt rubric / Structured extraction" | LLM Eval & Rubric Engineering | `evals-rubric` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
 | "Verify GitHub profile / Audit portfolio" | External Signal Verification | `github-audit` / `portfolio-audit` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
+| "Document layout / PDF render / Bounding box" | Document Physics & Geometry | `verify-layout` / `pdf-physics` | [`37_document_layout_physics_and_pdf_verification.md`](./references/37_document_layout_physics_and_pdf_verification.md) |
+| "Strip invisible Unicode / Clean text / De-slop" | Agent Hooks & Text Hygiene | `clean-text` / `stylometry` | [`38_deterministic_agent_hooks_and_unicode_hygiene.md`](./references/38_deterministic_agent_hooks_and_unicode_hygiene.md) |
+| "Package skill / Validate manifest / Agent security guards" | Skill Packaging & Manifest Governance | `package-skill` / `guard-permissions` | [`39_universal_skill_packaging_and_manifest_governance.md`](./references/39_universal_skill_packaging_and_manifest_governance.md) |
 
 ---
 
@@ -226,11 +229,30 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **External Signal Ground-Truth Verification**: Cross-verify self-reported claims against the GitHub API (stargazer tiers, commit velocity, external PR contributions vs self-forks) to eliminate inflated claims and cloned tutorial spam.
 - **Adversarial Document Sanitization**: Defend evaluation pipelines against prompt injection attacks (invisible white text, zero-font coordinates, delimiter smuggling) in user-submitted PDF/markdown documents.
 
+### 18. Deterministic Document Layout Physics & Bounding-Box Geometry (`verify-layout`, `pdf-physics`)
+- **The 5 Physical Geometry Invariants**: Mathematically enforce zero orphaned entry headers, zero internal layout holes (>100pt gaps), zero early page endings (>25% bottom gap on non-final pages), zero thin final pages (<35% filled), and zero footer collisions (<90pt margin).
+- **Dual-Layer Verification**: Audit both the visual pixel render and the raw underlying text layer (`pdftotext`) to guarantee reading order monotonicity, literal ASCII/Unicode identifiers, and ATS/parser readability.
+- **Relevance-Weighted Knapsack Trimming**: When documents or prompts exceed page or token budgets, score candidate lines by Relevance + Uniqueness + Dependency ($V = R + U + D$) and drop lowest-value items first rather than naive chronological or bottom-up cutting.
+- **Zero-Dependency Offline HTML Dashboards**: Standardize single-file reports (`html-report`) with inline SVG charting, dark/light theme switching, and zero external CDN/NPM dependencies for offline portability.
+
+### 19. Deterministic Agent Hooks, Unicode Hygiene & Zero-LLM Stylometry (`clean-text`, `stylometry`, `agent-hook`)
+- **Instruction vs. Invariant Law**: Treat skills as probabilistic instructions and harness hooks (`PostToolUse` on `Write|Edit|MultiEdit`) as deterministic invariants executed without model cooperation.
+- **Atomic Sibling Swap Pattern**: Write transformations to sibling temporary files, compute SHA-256 hashes, and swap *only on real content difference* to preserve file `mtime` and prevent build cache churn.
+- **Layer A (Invisible Unicode & Trojan Source Scrubbing)**: Deterministically strip zero-width spaces, zero-width joiners, word joiners, soft hyphens, homoglyphs, and bidirectional override characters while strictly protecting code fences, identifiers, and markdown formatting.
+- **Layer B (Zero-LLM Offline Stylometry)**: Mathematically evaluate text rhythm locally using sentence-length burstiness ($CV = \sigma/\mu$), formulaic AI cliché cadence density, and MATTR lexical diversity; engage rewriting passes *only* when `density_tier == high`.
+- **Deliverable Metadata Sanitization**: Automatically strip EXIF, XMP, C2PA manifests, and document properties from compiled images, PDFs, videos, and office documents before distribution.
+
+### 20. Universal Skill Packaging, Manifest Governance & Agent Security Guards (`package-skill`, `guard-permissions`)
+- **Cross-Platform Portability**: Package skills for Antigravity, Claude Code, Cursor, Cowork, and Gemini CLI using spec-only YAML frontmatter (`name`, `description`, `license`, `compatibility`, `allowed-tools`, `metadata`).
+- **Strict Packaging Validation**: Enforce lowercase hyphenated naming ($\le 64$ chars matching folder), length ceilings, zero unsanitized XML tags, and 30MB package caps.
+- **Atomic Staged Installation & Safe Rollbacks**: Stage installations in temporary directories, take timestamped rollback backups of existing versions, and support `--link` live symlink development.
+- **CI Agent Manifest & Permission Guards**: Automate CI verification of settings manifests to ban wildcard permissions (e.g. `Bash(*)`, `Bash(curl:*)`), enforce `.gitignore` state leak protection, and ban npm lifecycle script execution (`preinstall`, `postinstall`, `prepare`) across submodules.
+
 ---
 
 ## Detailed Reference Catalog
 
-Explore the full 36 operational references in the [`references/`](./references/) directory:
+Explore the full 39 operational references in the [`references/`](./references/) directory:
 
 ### Engineering, Security & Workflow Protocols
 - [`01_lifecycle_and_routing.md`](./references/01_lifecycle_and_routing.md) - Master lifecycle, triage router, and setup.
@@ -255,6 +277,9 @@ Explore the full 36 operational references in the [`references/`](./references/)
 - [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) - Context window budgeting, MCP tool schema costs, CLI-first execution, tiered response depth, and memory compaction.
 - [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) - Search architecture, Technical SEO, Schema.org JSON-LD semantic graphs, Generative Engine Optimization (GEO) for AI search, programmatic topic clusters, and CI/CD SEO drift gates.
 - [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) - Deterministic LLM evaluation pipelines (Evals), unbiased rubric engineering, 4-pillar candidate/portfolio scoring, GitHub API external signal harvesting, and adversarial document prompt injection defense.
+- [`37_document_layout_physics_and_pdf_verification.md`](./references/37_document_layout_physics_and_pdf_verification.md) - Document layout physics, bounding-box geometry checks, dual-layer ATS/parser testing, knapsack relevance-weighted trimming, and offline SVG dashboards.
+- [`38_deterministic_agent_hooks_and_unicode_hygiene.md`](./references/38_deterministic_agent_hooks_and_unicode_hygiene.md) - Deterministic agent harness hooks, atomic sibling swaps, Layer A invisible Unicode/Trojan Source scrubbing, zero-LLM mathematical stylometry, and metadata sanitization.
+- [`39_universal_skill_packaging_and_manifest_governance.md`](./references/39_universal_skill_packaging_and_manifest_governance.md) - Cross-platform skill packaging, spec frontmatter validation, atomic staged installation, `--link` live dev, and CI agent permission allowlist guards.
 
 ### Design Systems, UI/UX & Frontend Architecture
 - [`15_design_brand_index_and_archetypes.md`](./references/15_design_brand_index_and_archetypes.md) - Comprehensive index and matrix of all 74 design systems across 8 archetypes.
@@ -284,4 +309,6 @@ The `engineer` standard synthesizes foundational protocols, design systems, and 
 - **[forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** (MIT License) — Surgical diff invariants, anti-speculative simplicity heuristics, line traceability discipline, and proactive confusion management.
 - **[AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo)** (MIT License) — Technical SEO architecture, Schema.org semantic graphs, Generative Engine Optimization (GEO), and CI/CD SEO drift monitoring.
 - **[interviewstreet/hiring-agent](https://github.com/interviewstreet/hiring-agent)** (MIT License) — 4-pillar candidate scoring rubrics, unbiased LLM evaluation pipelines, GitHub external signal harvesting, and adversarial document sanitization.
+- **[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)** (MIT License) — Bounding-box document layout physics, dual-layer ATS/parser verification, knapsack relevance-weighted trimming, and offline dashboard architecture.
+- **[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover)** (MIT License) — Deterministic agent harness hooks (`PostToolUse`), atomic sibling swap file modification, Layer A invisible Unicode/Trojan Source scrubbing, and zero-LLM mathematical stylometry.
 
