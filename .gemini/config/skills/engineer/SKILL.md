@@ -6,8 +6,8 @@ description: >-
   code review, 17-category vibe-check defensive security audits, multi-platform packaging, upstream open-source RFC & maintainer
   collaboration protocols, high-performance canvas & viewport rendering, contract-first API governance, zero-downtime database
   migrations, token & context budgeting, adversarial dual review loops, pre-push CI/CD workflow simulation & GitHub Actions
-  remote verification, technical search architecture (Technical SEO, Schema.org JSON-LD graphs, GEO/AI search citability,
-  pSEO topic clusters, CI/CD SEO drift gates), and deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics,
+  remote verification, technical search architecture (Technical SEO, Schema.org JSON-LD graphs, GEO/AEO/LLMO citation physics,
+  Google E-E-A-T quality governance, agent-friendly DOM, pSEO topic clusters, CI/CD SEO drift gates), and deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics,
   alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid
   layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
 ---
@@ -96,8 +96,10 @@ Route incoming requests to their targeted operational discipline:
 | "Explain / Re-pitch confusing concept" | Cognitive Reset | `wait-what` | [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) |
 | "Interactive manual steps (OAuth, CI, AWS)" | Bash Wizard Generator | `wizard` | [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) |
 | "Technical SEO / Schema markup / JSON-LD" | Search Architecture & Schema | `seo-architecture` / `schema-graph` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
-| "Optimize for Perplexity / ChatGPT Search / GEO" | Generative Engine Optimization | `geo-optimize` / `ai-search` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
-| "SEO drift / Regressions in PR / SEO check" | CI/CD SEO Drift Gate | `seo-drift` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "Optimize for Perplexity / ChatGPT Search / GEO / AEO / LLMO" | Generative Engine Optimization | `geo-optimize` / `aeo-llmo` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "E-E-A-T quality / YMYL audit / Content quality" | Google E-E-A-T Governance | `eeat-audit` / `ymyl-quality` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "Agent-friendly DOM / Accessibility tree / Vision agents" | Agent-Friendly Web Architecture | `agent-friendly` / `a11y-tree` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
+| "SEO drift / Regressions in PR / SEO check / AISEO spam" | CI/CD SEO Drift & Spam Gates | `seo-drift` / `spam-policy` | [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) |
 | "Evaluate resume / Score candidate / Interview rubric" | Technical Talent & Resume Evaluation | `candidate-eval` / `score-resume` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
 | "LLM Evals / Prompt rubric / Structured extraction" | LLM Eval & Rubric Engineering | `evals-rubric` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
 | "Verify GitHub profile / Audit portfolio" | External Signal Verification | `github-audit` / `portfolio-audit` | [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) |
@@ -287,7 +289,7 @@ Explore the full 40 operational references in the [`references/`](./references/)
 - [`32_contract_first_api_and_event_schemas.md`](./references/32_contract_first_api_and_event_schemas.md) - Contract-first API & event schema governance, consumer-first task modeling, OpenAPI/Protobuf typegen, and breaking change detection.
 - [`33_zero_downtime_database_migrations.md`](./references/33_zero_downtime_database_migrations.md) - Zero-downtime database migrations, Postgres non-blocking DDL, concurrent indexing, expand-contract schema evolution, and chunked DML backfills.
 - [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) - Context window budgeting, MCP tool schema costs, CLI-first execution, tiered response depth, and memory compaction.
-- [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) - Search architecture, Technical SEO, Schema.org JSON-LD semantic graphs, Generative Engine Optimization (GEO) for AI search, programmatic topic clusters, and CI/CD SEO drift gates.
+- [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) - Search architecture, Technical SEO, Schema.org JSON-LD semantic graphs, Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), LLMO citation physics, Google E-E-A-T quality governance, agent-friendly web architecture, AISEO spam demotion gates, programmatic topic clusters, and CI/CD SEO drift gates.
 - [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) - Deterministic LLM evaluation pipelines (Evals), unbiased rubric engineering, 4-pillar candidate/portfolio scoring, GitHub API external signal harvesting, and adversarial document prompt injection defense.
 - [`37_document_layout_physics_and_pdf_verification.md`](./references/37_document_layout_physics_and_pdf_verification.md) - Document layout physics, bounding-box geometry checks, dual-layer ATS/parser testing, knapsack relevance-weighted trimming, and offline SVG dashboards.
 - [`38_deterministic_agent_hooks_and_unicode_hygiene.md`](./references/38_deterministic_agent_hooks_and_unicode_hygiene.md) - Deterministic agent harness hooks, atomic sibling swaps, Layer A invisible Unicode/Trojan Source scrubbing, zero-LLM mathematical stylometry, and metadata sanitization.
