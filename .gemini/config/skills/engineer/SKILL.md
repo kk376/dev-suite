@@ -104,6 +104,10 @@ Route incoming requests to their targeted operational discipline:
 | "Document layout / PDF render / Bounding box" | Document Physics & Geometry | `verify-layout` / `pdf-physics` | [`37_document_layout_physics_and_pdf_verification.md`](./references/37_document_layout_physics_and_pdf_verification.md) |
 | "Strip invisible Unicode / Clean text / De-slop" | Agent Hooks & Text Hygiene | `clean-text` / `stylometry` | [`38_deterministic_agent_hooks_and_unicode_hygiene.md`](./references/38_deterministic_agent_hooks_and_unicode_hygiene.md) |
 | "Package skill / Validate manifest / Agent security guards" | Skill Packaging & Manifest Governance | `package-skill` / `guard-permissions` | [`39_universal_skill_packaging_and_manifest_governance.md`](./references/39_universal_skill_packaging_and_manifest_governance.md) |
+| "Diff-based generation / Eliminate hallucination / Document diff" | Targeted Diff Generation | `diff-generation` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
+| "AI operation budget / Cancellation deadline / SQLite contention" | Monotonic Deadlines & Async Contention | `ai-budget` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
+| "Server actions security / Next.js waterfalls" | Server Action Zero-Trust & Web Perf | `nextjs-security` / `nextjs-perf` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
+| "Swiss design system / Brutalist minimal / Design context" | Swiss International Style & Context | `swiss-design` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
 
 ---
 
@@ -248,11 +252,19 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Atomic Staged Installation & Safe Rollbacks**: Stage installations in temporary directories, take timestamped rollback backups of existing versions, and support `--link` live symlink development.
 - **CI Agent Manifest & Permission Guards**: Automate CI verification of settings manifests to ban wildcard permissions (e.g. `Bash(*)`, `Bash(curl:*)`), enforce `.gitignore` state leak protection, and ban npm lifecycle script execution (`preinstall`, `postinstall`, `prepare`) across submodules.
 
+### 21. Diff-Based AI Generation, Operation Budgets & Server Action Security (`diff-generation`, `ai-budget`, `nextjs-security`)
+- **Diff-Based Generation vs. Full Output**: Ban full-document regeneration during generative AI tasks. Enforce immutable source data and require LLMs to propose atomic, targeted diffs (`path`, `action`, `original`, `value`, `reason`), completely eliminating the 10 hallucination vectors (dropped entries, metric invention, entity renaming, date truncation).
+- **Deterministic Local Applier Boundaries**: Local appliers enforce hard blacklists on immutable fields (`personalInfo`, company names, dates, degrees) and flag newly invented numbers not present in original facts.
+- **Monotonic ContextVar Operation Budgets**: Bind an absolute monotonic deadline to the request lifecycle (`AIOperationRoute`). Declining transport timeouts dynamically cap sub-requests; cooperative cancellation unwinds resources safely without leaving orphans or corrupting database transactions.
+- **Strict Input Policy vs. Silent Truncation**: Reject oversized inputs upfront with HTTP 422 rather than silently truncating context, preventing model degradation.
+- **Server Actions Public POST Invariant**: Treat Next.js Server Actions as public HTTP POST endpoints. Never trust call-site UI visibility; always enforce authentication and tenant IDOR authorization inside the server action body.
+- **Swiss International Minimal Standard**: Modernist precision featuring `rounded-none` geometry, hard physical offset shadows, 3-font typographic hierarchy, and `.impeccable.md` design manifests to prevent generic AI UI slop.
+
 ---
 
 ## Detailed Reference Catalog
 
-Explore the full 39 operational references in the [`references/`](./references/) directory:
+Explore the full 40 operational references in the [`references/`](./references/) directory:
 
 ### Engineering, Security & Workflow Protocols
 - [`01_lifecycle_and_routing.md`](./references/01_lifecycle_and_routing.md) - Master lifecycle, triage router, and setup.
@@ -280,6 +292,7 @@ Explore the full 39 operational references in the [`references/`](./references/)
 - [`37_document_layout_physics_and_pdf_verification.md`](./references/37_document_layout_physics_and_pdf_verification.md) - Document layout physics, bounding-box geometry checks, dual-layer ATS/parser testing, knapsack relevance-weighted trimming, and offline SVG dashboards.
 - [`38_deterministic_agent_hooks_and_unicode_hygiene.md`](./references/38_deterministic_agent_hooks_and_unicode_hygiene.md) - Deterministic agent harness hooks, atomic sibling swaps, Layer A invisible Unicode/Trojan Source scrubbing, zero-LLM mathematical stylometry, and metadata sanitization.
 - [`39_universal_skill_packaging_and_manifest_governance.md`](./references/39_universal_skill_packaging_and_manifest_governance.md) - Cross-platform skill packaging, spec frontmatter validation, atomic staged installation, `--link` live dev, and CI agent permission allowlist guards.
+- [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) - Diff-based generation contracts, anti-hallucination boundaries, monotonic ContextVar deadline budgets, cooperative cancellation, Next.js Server Action security, and Swiss International design architecture.
 
 ### Design Systems, UI/UX & Frontend Architecture
 - [`15_design_brand_index_and_archetypes.md`](./references/15_design_brand_index_and_archetypes.md) - Comprehensive index and matrix of all 74 design systems across 8 archetypes.
@@ -311,4 +324,5 @@ The `engineer` standard synthesizes foundational protocols, design systems, and 
 - **[interviewstreet/hiring-agent](https://github.com/interviewstreet/hiring-agent)** (MIT License) — 4-pillar candidate scoring rubrics, unbiased LLM evaluation pipelines, GitHub external signal harvesting, and adversarial document sanitization.
 - **[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)** (MIT License) — Bounding-box document layout physics, dual-layer ATS/parser verification, knapsack relevance-weighted trimming, and offline dashboard architecture.
 - **[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover)** (MIT License) — Deterministic agent harness hooks (`PostToolUse`), atomic sibling swap file modification, Layer A invisible Unicode/Trojan Source scrubbing, and zero-LLM mathematical stylometry.
+- **[srbhr/Resume-Matcher](https://github.com/srbhr/Resume-Matcher)** (Apache License 2.0) — Diff-based AI generation contracts, anti-hallucination invariants, monotonic ContextVar deadline budgeting, Server Action security, and Swiss International design system architecture.
 
