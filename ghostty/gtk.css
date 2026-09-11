@@ -1,12 +1,74 @@
-/* Compact bottom tab bar with minimal vertical footprint */
+/* --- Tokyo Night Tab Bar (Matching Kitty 1:1) --- */
+
+tabbar,
+tabbar .box,
+tabbar tabbox {
+    background-color: #1a1b26;
+}
+
 tabbar {
+    border-top: 1px solid #24283b;
     min-height: 26px;
     margin-top: 0px;
     padding-top: 0px;
 }
 
-tabbar tab {
-    min-height: 24px;
+tabbar tabbox {
     padding-top: 2px;
     padding-bottom: 2px;
+    min-height: 26px;
+}
+
+/* Hide default separator line & drop indicator */
+tabbar tabbox > separator {
+    opacity: 0;
+}
+
+tabbar tabbox > revealer > indicator {
+    opacity: 0;
+}
+
+/* Inactive Tab (Kitty #24283b background, #787c99 text) */
+tabbar tab,
+tabbar tabbox > tabboxchild tab {
+    background-color: #24283b;
+    color: #787c99;
+    border-radius: 4px;
+    margin: 1px 3px;
+    padding: 2px 10px;
+    font-weight: normal;
+    transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+}
+
+tabbar tab:hover:not(:selected) {
+    background-color: #33467c;
+    color: #c0caf5;
+}
+
+/* Active Tab (Kitty vibrant #7aa2f7 background, #16161e text) */
+tabbar tab:selected,
+tabbar tab:selected:hover,
+tabbar tabbox > tabboxchild tab:selected {
+    background-color: #7aa2f7;
+    color: #16161e;
+    font-weight: bold;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Labels and close buttons inside active vs inactive tabs */
+tabbar tab:selected label {
+    color: #16161e;
+    font-weight: bold;
+}
+
+tabbar tab:selected button {
+    color: #16161e;
+}
+
+tabbar tab:not(:selected) label {
+    color: #787c99;
+}
+
+tabbar tab:not(:selected) button {
+    color: #787c99;
 }
