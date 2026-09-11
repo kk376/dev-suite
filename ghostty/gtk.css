@@ -1,0 +1,12 @@
+/* Compact bottom tab bar with minimal vertical footprint */
+tabbar {
+    min-height: 26px;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+tabbar tab {
+    min-height: 24px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
