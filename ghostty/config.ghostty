@@ -39,8 +39,9 @@ selection-clear-on-typing = true
 link-url = true
 link-previews = true
 
-# --- Tabs (Top-aligned, auto-hidden on single tab) ---
-gtk-tabs-location = top
+# --- Tabs (Bottom-left, compact tmux-style, auto-hidden on single tab) ---
+gtk-tabs-location = bottom
+gtk-wide-tabs = false
 gtk-toolbar-style = flat
 window-new-tab-position = current
 
