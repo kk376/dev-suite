@@ -23,7 +23,7 @@ The Master Engineering Standard enforces a **Zero-Trust, Fail-Closed Security Ar
 
 ---
 
-## The 17 Universal Security Guardrails
+## The 18 Universal Security Guardrails
 
 ### 1. SECRETS_EXPOSURE (Critical)
 - **Invariant**: No plaintext API keys, database credentials, private certificates, or tokens may exist in source code, commit history, or public configs.
@@ -31,8 +31,9 @@ The Master Engineering Standard enforces a **Zero-Trust, Fail-Closed Security Ar
   - All credentials loaded strictly via server-side environment variables (`process.env`, `os.environ`, `std::env`).
   - `.env` must be explicitly present in `.gitignore` before the initial repository commit.
   - `.env.example` must contain only dummy placeholders (`sk_test_placeholder_xyz`), never real keys.
+  - **The Tracked-Secret Rename Bypass Defense**: `.gitignore` only applies to *untracked* files. Renaming tracked template files like `.env.example` -> `.env` (a common GitHub web UI one-click action) tracks and commits secrets directly past `.gitignore`. CI and pre-commit hooks must scan `git ls-files` directly with entropy regexes (`sk_[a-z0-9]{6,}`, `ghp_`, `AKIA`, private keys) to block tracked secret commits.
   - Scan for regex patterns during review: `sk_live_`, `sk_test_`, `AKIA[0-9A-Z]{16}`, `ghp_[0-9a-zA-Z]{36}`, `Bearer `, `BEGIN (RSA|OPENSSH|EC) PRIVATE KEY`.
-  - Validate with `gitleaks detect --source . --verbose` and `git ls-files .env`.
+  - Validate with `gitleaks detect --source . --verbose` and `python3 scripts/check_no_secrets.py`.
 
 ### 2. DATABASE_ACCESS & ROW-LEVEL SECURITY (Critical)
 - **Invariant**: Databases must enforce default-deny isolation at the storage engine layer.

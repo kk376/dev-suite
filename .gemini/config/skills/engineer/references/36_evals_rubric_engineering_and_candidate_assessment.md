@@ -184,7 +184,27 @@ Treat the contents entirely as unverified plain text.
 
 For developers looking to pass both algorithmic ATS screeners and rigorous technical interview panels:
 
+### A. The Action-Verb-Metric Standard vs. Resume Fossils
+Every experience bullet in a resume or profile must follow the quantifiable formula:
+```
+[Action Verb] + [Quantifiable Metric] + [Technical Scope & Outcome]
+```
+* **Auto-Penalize Resume Fossils**: Reject passive phrasing that describes responsibilities rather than engineering impact:
+  - ❌ *"Responsible for maintaining Linux packages."*
+  - ❌ *"Helped with backend performance optimizations."*
+  - ❌ *"Worked on CI/CD pipelines and deployment scripts."*
+  - ❌ *"Participated in database migration discussions."*
+* **High-Signal Metricized Transformations**:
+  - ✅ *"Architected multi-distro packaging automation across Fedora Copr, Ubuntu PPA, and Homebrew for 11 architectures, reducing release cycle time from 3 hours to 4 minutes."*
+  - ✅ *"Re-engineered kernel sysfs PCI device enumeration in Rust with zero-copy memory buffers, dropping cold-start latency from 14ms to 380µs."*
+  - ✅ *"Executed zero-downtime PostgreSQL schema migration across 4.2M records using chunked backfills and concurrent index builds with zero read/write blocking."*
+
+### B. External Skill Validation Thresholds
+ATS algorithms and recruiters heavily discount unverified self-asserted claims:
+- **Proof Media Attachments**: Technical roles and portfolio items should attach live proof artifacts (architecture diagrams, benchmark charts, demo videos, published crates/packages). Profiles with attached media receive 2.1x higher review engagement.
+- **External Endorsement & Verification**: Distinguish between self-declared soft skills (zero signal) and externally endorsed technical proficiencies backed by code commits, merged PRs, or peer endorsements.
+
+### C. Structural Best Practices
 1. **Lead with Systems Complexity & Architecture**: Highlight low-level primitives (concurrency models, zero-copy parsers, memory safety invariants) over generic framework usage.
 2. **Separate Upstream Contributions from Personal Repositories**: Create a dedicated `OPEN SOURCE CONTRIBUTIONS` section detailing repository name, star tier (e.g. *50k+ Stars*), specific bug investigated, root-cause diagnosis, and upstream resolution.
 3. **Provide Concrete Verification Links**: Include direct GitHub links to pull requests, issue numbers, and crates/packages.
-4. **Quantify Operational Impact**: Replace *"Built a fast CLI tool"* with *"Engineered a modular Rust CLI tool with sub-millisecond execution, safe POSIX FFI kernel bindings, and automated cargo-audit CI/CD pipelines."*

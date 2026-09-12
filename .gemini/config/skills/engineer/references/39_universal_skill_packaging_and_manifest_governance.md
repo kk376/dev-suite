@@ -123,3 +123,33 @@ Agent configuration files (such as `.claude/settings.json`, `.cursor/`, or `.gem
   1. Zero lifecycle execution scripts (`preinstall`, `install`, `postinstall`, `prepare`, `prepack`).
   2. Zero `trustedDependencies` declarations.
   All build tasks must be explicitly executed by the developer or CI runner, never implicitly by package managers during dependency resolution.
+
+---
+
+## 5. Automated Markdown Reference Integrity Gate
+
+In comprehensive skill repositories containing dozens of interconnected references, dead documentation links easily creep in during refactoring or file renaming.
+
+### The Reference Link Integrity Rule
+Every backticked path ending in `.md` or markdown hyperlink across `SKILL.md`, `README.md`, and the `references/` tree must resolve to an existing physical file on disk:
+1. Sibling references (e.g. `` `02_grilling_and_discovery.md` ``) must resolve relative to the citing document.
+2. Nested references (e.g. `` `[tokens](./references/24_design_universal_token_and_tailwind_engine.md)` ``) must resolve relative to the parent directory.
+3. Root-relative references must resolve relative to the repository root.
+
+A deterministic CI script (`python3 scripts/check_markdown_references.py`) parses all markdown documents using regular expressions, tests filesystem resolution, and fails the build if any broken reference is detected.
+
+---
+
+## 6. Multi-Platform Marketplace & Agent Ecosystem Synchronization
+
+Modern autonomous agent ecosystems enforce disparate packaging layouts:
+- **Claude Code**: Consumes skills directly from the repository root (`SKILL.md`).
+- **Codex Marketplace**: Mandates isolated plugins inside nested directory structures (e.g. `.codex-marketplace/<plugin-name>/`).
+- **Antigravity / Gemini CLI**: Loads customizations from user-level directories (`~/.gemini/config/skills/<skill-name>/`) or project-local configurations.
+
+### Single-Source-of-Truth Architecture
+Never manually duplicate files across divergent platform directory layouts. Maintain the canonical skill at the root or main skill directory, and provide an automated export/synchronization script (`sync_codex_marketplace.py`):
+1. Cleans the target destination directory atomically.
+2. Copies canonical assets (`SKILL.md`, `references/`, `scripts/`, `lib/`, manifests).
+3. Strips developer-only validation scripts (`check_markdown_references.py`) and cached bytecode (`__pycache__`, `*.pyc`).
+4. Ensures identical behavioral execution across all IDEs and CLI agents without configuration drift.

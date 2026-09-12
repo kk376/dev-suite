@@ -66,10 +66,14 @@ Communication with upstream maintainers must be warm, direct, and free of automa
   - Exactly how maintainer feedback was incorporated.
   - The open architectural questions that require core guidance (e.g. in-tree crate vs standalone extension, dynamic linking vs prebuilt binaries).
 
-### B. Language and Voice
-- Strip robotic compound hyphens where natural human writing uses separate words (write "on demand" instead of "on-demand", "fit to view" instead of "fit-to-view", "hot reloading" instead of "hot-reloading").
-- Avoid em dashes. Use simple punctuation: commas, colons, or parentheses.
-- Avoid robotic corporate filler ("It is worth noting", "Delighted to share", "Seamless integration"). Speak directly as one software engineer to another.
+### B. Language, Voice & Maintainer Bot-Fatigue Defense
+Maintainers are experiencing extreme cognitive fatigue from automated AI PR descriptions, synthetic issue comments, and bot-generated RFCs. Protect contribution credibility by strictly enforcing the Humanizer standards:
+- **Zero Banned AI Vocabulary**: Never use *delve, leverage, fundamentally, streamline, harness, unlock, foster, tapestry, game-changer, beacon, testament, bespoke, landscape, pivotal, in today's fast-paced world*.
+- **Em-Dash Density Cap**: Strictly ≤ 1 em dash (`—`) per 100 words. Replace with standard commas, colons, or parentheses.
+- **Specific Numbers Over Adjectives**: Always provide concrete benchmarks (*"reduces cold start by 1.8ms"*, *"cuts allocations by 42%"*) rather than empty adjectives (*"significantly improves performance"*).
+- **Proper Technical Capitalization**: Enforce exact casing (*Rust, Linux, Wayland, Fedora, GNOME, POSIX*).
+- **Strip Robotic Compound Hyphens**: Use natural separate words where appropriate (write *"on demand"* instead of *"on-demand"*, *"fit to view"* instead of *"fit-to-view"*, *"hot reloading"* instead of *"hot-reloading"*).
+- **Direct Engineer-to-Engineer Cadence**: Speak factually and concisely. No sycophantic praise, no robotic openers (*"It is worth noting"*, *"Delighted to share"*), and zero conversational disclaimers.
 
 ---
 
