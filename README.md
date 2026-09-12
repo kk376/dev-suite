@@ -59,6 +59,7 @@ The `engineer` autonomous agent skill synthesizes battle-tested principles, prot
 - **[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)** (MIT License) — Bounding-box document layout physics, dual-layer ATS/parser verification, knapsack relevance-weighted trimming, and offline dashboard architecture.
 - **[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover)** (MIT License) — Deterministic agent harness hooks (`PostToolUse`), atomic sibling swap file modification, Layer A invisible Unicode/Trojan Source scrubbing, and zero-LLM mathematical stylometry.
 - **[srbhr/Resume-Matcher](https://github.com/srbhr/Resume-Matcher)** (Apache License 2.0) — Diff-based AI generation contracts, anti-hallucination invariants, monotonic ContextVar deadline budgeting, Server Action security, and Swiss International design system architecture.
+- **[sergebulaev/linkedin-skills](https://github.com/sergebulaev/linkedin-skills)** (MIT License) — 11-skill LinkedIn content operations bundle, Publora publishing integration, 360Brew algorithm heuristics, 9-component profile conversion scorecard, 20 hook formulas, 10 founder content angles, and humanizer AI-tell audit suite.
 
 ## License
 
