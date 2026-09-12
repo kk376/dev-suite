@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+REAL_OPENCODE="/home/kk376/.opencode/bin/opencode"
+
+# Preload model into VRAM immediately in the background
+if command -v curl >/dev/null 2>&1; then
+    curl -s http://127.0.0.1:11434/api/generate -d '{"model": "qwen2.5-coder:3b"}' >/dev/null 2>&1 &
+fi
+
+# Evict model from GPU memory as soon as opencode session exits
+cleanup() {
+    if command -v curl >/dev/null 2>&1; then
+        curl -s http://127.0.0.1:11434/api/generate -d '{"model": "qwen2.5-coder:3b", "keep_alive": 0}' >/dev/null 2>&1
+    fi
+}
+trap cleanup EXIT INT TERM
+
+"$REAL_OPENCODE" "$@"

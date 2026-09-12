@@ -1,7 +1,7 @@
 FROM qwen2.5-coder:3b
 
 # Hardware-optimized hyperparameters for RTX 2050 (4GB VRAM)
-PARAMETER num_ctx 16384
+PARAMETER num_ctx 20480
 PARAMETER temperature 0.2
 PARAMETER top_p 0.9
 PARAMETER repeat_penalty 1.05

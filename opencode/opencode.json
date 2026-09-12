@@ -11,9 +11,9 @@
       },
       "models": {
         "qwen2.5-coder:3b": {
-          "name": "Qwen 2.5 Coder 3B (16k Optimized)",
+          "name": "Qwen 2.5 Coder 3B (20k Max VRAM)",
           "limit": {
-            "context": 16384,
+            "context": 20480,
             "output": 4096
           }
         }
