@@ -45,6 +45,8 @@ gtk-wide-tabs = false
 gtk-toolbar-style = flat
 gtk-custom-css = ?~/.config/ghostty/gtk.css
 window-new-tab-position = current
+tab-inherit-working-directory = false
+working-directory = home
 
 # --- Audio & Shell ---
 command = /usr/bin/fish
