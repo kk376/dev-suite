@@ -28,6 +28,10 @@ Personal developer suite, environment configurations, multi-distro packaging aut
 - `scripts/` — Full system and packaging credential backup and restore helpers (`backup_full_system.sh`, `backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
 - `wsl.conf` — Distribution-level WSL configuration (`/etc/wsl.conf`) with systemd init, metadata options, and Windows interop.
 - `.wslconfig` — Windows-side global WSL2 resource configuration (`%USERPROFILE%\.wslconfig`) with RAM caps, CPU allocation, sparse VHD, and gradual memory reclaim.
+- `opencode/` — OpenCode AI coding agent configuration (`opencode.json`) configured for 100% offline local Ollama inference with a 16k context window and zero cloud telemetry.
+- `ollama/` — Local LLM engine configurations:
+  - `ollama.service` — Hardened systemd user service with FlashAttention (`OLLAMA_FLASH_ATTENTION=1`), strict serial execution (`OLLAMA_NUM_PARALLEL=1`), single-model locking (`OLLAMA_MAX_LOADED_MODELS=1`), and 5-minute VRAM auto-eviction (`OLLAMA_KEEP_ALIVE=5m`).
+  - `Modelfile.qwen2.5-coder-3b` — Hardware-optimized Qwen 2.5 Coder 3B definition with 16,384 (`16k`) context window, deterministic temperature (`0.2`), top-p (`0.9`), and software engineering role calibration.
 - `.gemini/config/skills/` — Antigravity / Gemini CLI custom skills:
   - `engineer` — Universal Master Engineering Craftsmanship, UI/UX Architecture, Zero-Trust Security & Search Engine Optimization Standard. Synthesizes deep module architecture, anti-speculative simplicity, TDD discipline, 6-phase bug diagnosis, frontier grilling, spec slicing, two-axis code review, surgical diff invariants, contract-first API governance, zero-downtime database migrations, token & context budgeting, adversarial dual-review loops, pre-push CI/CD simulation & GitHub Actions remote verification, technical search architecture (Technical SEO, Schema.org JSON-LD graphs, GEO/AEO/LLMO citation physics, Google E-E-A-T quality governance, agent-friendly DOM, pSEO topic clusters, CI/CD SEO drift gates), deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics, bounding-box document layout physics & dual-layer ATS verification, deterministic agent hooks & Unicode hygiene, universal cross-platform skill packaging, diff-based AI generation contracts, monotonic operation budgets, Next.js Server Action zero-trust security, and Swiss International design system architecture, alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
   - `linkedin` — LinkedIn Profile Architecture, 2026 Feed Physics & Content Operations. Synthesizes the 9-component profile conversion scorecard, 220-char headline formula, 7-step About section with 265-char mobile fold, 20 hook formulas (F1–F20), 10 founder content angles (A1–A10), 4 weekly content pillars (Conviction, Building in Public, The Math, Proof), 2026 feed algorithm heuristics (360Brew arXiv:2501.16450, AuthoredUp reach data, external link suppression & first-comment strategy), Humanizer AI-tell purging (25+ banned words, em-dash ceiling ≤1/100 words), untrusted scraped content prompt-injection quarantine, and three-tier publishing pipelines.
@@ -40,6 +44,12 @@ mkdir -p ~/.gemini/config/skills
 cp -r ~/code/dev-suite/.gemini/config/skills/* ~/.gemini/config/skills/
 cp ~/code/dev-suite/.zshrc ~/.zshrc
 mkdir -p ~/.config && cp ~/code/dev-suite/starship.toml ~/.config/starship.toml
+
+# Deploy OpenCode & Ollama local AI configurations
+mkdir -p ~/.config/opencode && cp ~/code/dev-suite/opencode/opencode.json ~/.config/opencode/opencode.json
+mkdir -p ~/.config/systemd/user && cp ~/code/dev-suite/ollama/ollama.service ~/.config/systemd/user/ollama.service
+systemctl --user daemon-reload && systemctl --user enable --now ollama
+ollama create qwen2.5-coder:3b -f ~/code/dev-suite/ollama/Modelfile.qwen2.5-coder-3b
 
 # Apply WSL configs
 sudo cp ~/code/dev-suite/wsl.conf /etc/wsl.conf

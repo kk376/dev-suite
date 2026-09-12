@@ -91,6 +91,21 @@ sudo cp system/zram-generator.conf /etc/systemd/zram-generator.conf
 sudo cp system/99-zram.conf /etc/sysctl.d/99-zram.conf
 sudo systemctl restart systemd-zram-setup@zram0.service
 sudo sysctl --system
+
+# 5. Deploy Local AI Engine & Coding Agent (Ollama + OpenCode + Qwen 2.5 Coder 3B)
+# Deploy hardened rootless Ollama systemd user service (FlashAttention + 16k Context)
+mkdir -p ~/.config/systemd/user
+cp ollama/ollama.service ~/.config/systemd/user/ollama.service
+systemctl --user daemon-reload
+systemctl --user enable --now ollama
+
+# Pull base model & build hardware-optimized 16k context profile
+ollama pull qwen2.5-coder:3b
+ollama create qwen2.5-coder:3b -f ollama/Modelfile.qwen2.5-coder-3b
+
+# Deploy clean OpenCode configuration mapped to local Ollama
+mkdir -p ~/.config/opencode
+cp opencode/opencode.json ~/.config/opencode/opencode.json
 ```
 
 ---
