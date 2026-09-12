@@ -55,20 +55,44 @@ tabbar tabbox > tabboxchild tab:selected {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Labels and close buttons inside active vs inactive tabs */
+/* Labels inside active vs inactive tabs */
 tabbar tab:selected label {
     color: #16161e;
     font-weight: bold;
-}
-
-tabbar tab:selected button {
-    color: #16161e;
 }
 
 tabbar tab:not(:selected) label {
     color: #787c99;
 }
 
-tabbar tab:not(:selected) button {
-    color: #787c99;
+/* Hide and collapse Tab Close Button (Cross Icon) */
+tabbar tab button.tab-close-button,
+tabbar tab button.tab-close-button:hover,
+tabbar tab button.tab-close-button:active,
+tabbar tab button.tab-close-button:focus,
+tabbar tab button.close,
+tabbar tab .close-button,
+tabbar tab button.image-button:not(.tab-indicator) {
+    opacity: 0;
+    min-width: 0px;
+    min-height: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    background: none;
+    box-shadow: none;
+    outline: none;
+    -gtk-icon-size: 0px;
+}
+
+tabbar tab button.tab-close-button image,
+tabbar tab button.close image,
+tabbar tab .close-button image,
+tabbar tab button.image-button:not(.tab-indicator) image {
+    opacity: 0;
+    min-width: 0px;
+    min-height: 0px;
+    padding: 0px;
+    margin: 0px;
+    -gtk-icon-size: 0px;
 }
