@@ -220,8 +220,8 @@ An authenticated attacker can enumerate arbitrary document IDs and exfiltrate co
 # {CATEGORY} Fix Plan
 
 ## Changes
-- `src/api/routes/user.ts` — Add `userId: req.user.id` filter to document retrieval query.
-- `src/middleware/auth.ts` — Ensure `req.user` is strictly typed.
+- `src/api/routes/user.ts`: Add `userId: req.user.id` filter to document retrieval query.
+- `src/middleware/auth.ts`: Ensure `req.user` is strictly typed.
 
 ## Verification Goals
 - [ ] Automated integration test: User A querying User B's document ID receives `404 Not Found`.

@@ -188,7 +188,8 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Creativity Proves Feasibility, Engineering Ensures Longevity**: Embrace rapid prototypes and creative spikes ("vibe coding") to demonstrate UX value; partner with upstream maintainers to shape the underlying architecture.
 - **RFC Over Monolithic PR**: Pivot early from exploratory PRs into canonical community discussions and RFCs before creating review debt for maintainers.
 - **Consolidate, Never Fragment**: Discover and contribute to existing canonical discussion threads; close duplicate threads with polite redirects.
-- **Maintainer Mentorship & Human Etiquette**: Treat maintainer reviews as invaluable mentorship; write direct, warm updates stripped of robotic filler and compound hyphens.
+- **Maintainer Mentorship & Human Etiquette**: Treat maintainer reviews as invaluable mentorship; write direct, warm updates stripped of robotic filler, compound hyphens, and em dashes.
+- **Total Zero-Tolerance Ban on Em Dashes**: Completely ban em dashes (`—`, U+2014) and en dashes (`–`, U+2013) across all writing, commits, PR descriptions, comments, reviews, documentation, and chat responses. Both unspaced (`word—word`) and spaced (`word — word`) em dashes are strictly banned as an immediate, glaring AI tell. Use commas, colons, parentheses, semicolons, or split into separate sentences with periods. Never substitute with double hyphens (`--`).
 - **Monorepo Build Guardrails**: Run targeted checks (`cargo test -j 2 -p <crate>`) and maintain 100% clean git trees.
 
 ### 11. High-Performance Canvas, Viewport & Document Architecture (`canvas-viewport`)
@@ -317,14 +318,14 @@ Explore the full 40 operational references in the [`references/`](./references/)
 ## Acknowledgements & Upstream Attribution
 
 The `engineer` standard synthesizes foundational protocols, design systems, and security guardrails from the open-source community:
-- **[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)** (MIT License) — Design system archetypes, brand tokens, and OKLCH palette formulas.
-- **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License) — Engineering lifecycle workflows, deep module discipline, frontier grilling, and two-axis code review.
-- **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License) — 17-category zero-trust defensive security invariants and automated audit loops.
-- **[affaan-m/ECC](https://github.com/affaan-m/ECC)** (MIT License) — Silent failure hunting, adversarial dual review ("Santa Method"), contract-first workflows, and context budgeting heuristics.
-- **[forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** (MIT License) — Surgical diff invariants, anti-speculative simplicity heuristics, line traceability discipline, and proactive confusion management.
-- **[AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo)** (MIT License) — Technical SEO architecture, Schema.org semantic graphs, Generative Engine Optimization (GEO), and CI/CD SEO drift monitoring.
-- **[interviewstreet/hiring-agent](https://github.com/interviewstreet/hiring-agent)** (MIT License) — 4-pillar candidate scoring rubrics, unbiased LLM evaluation pipelines, GitHub external signal harvesting, and adversarial document sanitization.
-- **[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)** (MIT License) — Bounding-box document layout physics, dual-layer ATS/parser verification, knapsack relevance-weighted trimming, and offline dashboard architecture.
-- **[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover)** (MIT License) — Deterministic agent harness hooks (`PostToolUse`), atomic sibling swap file modification, Layer A invisible Unicode/Trojan Source scrubbing, and zero-LLM mathematical stylometry.
-- **[srbhr/Resume-Matcher](https://github.com/srbhr/Resume-Matcher)** (Apache License 2.0) — Diff-based AI generation contracts, anti-hallucination invariants, monotonic ContextVar deadline budgeting, Server Action security, and Swiss International design system architecture.
+- **[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)** (MIT License): Design system archetypes, brand tokens, and OKLCH palette formulas.
+- **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License): Engineering lifecycle workflows, deep module discipline, frontier grilling, and two-axis code review.
+- **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License): 17-category zero-trust defensive security invariants and automated audit loops.
+- **[affaan-m/ECC](https://github.com/affaan-m/ECC)** (MIT License): Silent failure hunting, adversarial dual review ("Santa Method"), contract-first workflows, and context budgeting heuristics.
+- **[forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)** (MIT License): Surgical diff invariants, anti-speculative simplicity heuristics, line traceability discipline, and proactive confusion management.
+- **[AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo)** (MIT License): Technical SEO architecture, Schema.org semantic graphs, Generative Engine Optimization (GEO), and CI/CD SEO drift monitoring.
+- **[interviewstreet/hiring-agent](https://github.com/interviewstreet/hiring-agent)** (MIT License): 4-pillar candidate scoring rubrics, unbiased LLM evaluation pipelines, GitHub external signal harvesting, and adversarial document sanitization.
+- **[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)** (MIT License): Bounding-box document layout physics, dual-layer ATS/parser verification, knapsack relevance-weighted trimming, and offline dashboard architecture.
+- **[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover)** (MIT License): Deterministic agent harness hooks (`PostToolUse`), atomic sibling swap file modification, Layer A invisible Unicode/Trojan Source scrubbing, and zero-LLM mathematical stylometry.
+- **[srbhr/Resume-Matcher](https://github.com/srbhr/Resume-Matcher)** (Apache License 2.0): Diff-based AI generation contracts, anti-hallucination invariants, monotonic ContextVar deadline budgeting, Server Action security, and Swiss International design system architecture.
 

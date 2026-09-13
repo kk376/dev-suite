@@ -311,7 +311,7 @@ A high-craft aesthetic designed for focus, confidence, and zero cognitive fatigu
 Place an `.impeccable.md` file in the root of UI projects to anchor agent generation to the exact brand soul:
 
 ```markdown
-# Design Context — [Project Name]
+# Design Context: [Project Name]
 
 This file is the single source of truth for UI/UX decisions.
 Read before proposing or modifying components, layouts, or visual tokens.

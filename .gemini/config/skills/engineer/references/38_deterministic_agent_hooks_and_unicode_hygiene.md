@@ -111,6 +111,12 @@ $$\text{FCD} = \frac{\text{Count of Cliché Occurrences}}{\text{Total Words}} \t
 Compute Type-Token Ratio over a sliding window ($W = 50$ words) to measure vocabulary richness independent of document length:
 $$\text{MATTR} = \frac{1}{N - W + 1} \sum_{i=1}^{N - W + 1} \frac{\text{Unique Words in Window } i}{W}$$
 
+### 4. Punctuation Hygiene & Banned AI Tells (Em Dashes)
+Measure the presence of em dashes (`—`, U+2014) and en dashes (`–`, U+2013) in generated text:
+* **Zero-Tolerance Invariant**: Exactly 0 em dashes permitted in generated prose, PR comments, commit messages, or documentation.
+* Any occurrence of unspaced em dashes (`word—word`) or spaced em dashes (`word — word`) immediately flags text as machine-generated AI slop.
+* Required replacements: standard commas, colons, parentheses, or splitting into clean separate sentences with a period. Never substitute with double hyphens (`--`).
+
 ### The Conditional Engagement Rule
 Engage text humanization passes **only when the composite score falls into `density_tier == high`**. If text is already concise, technical, and low-slop, leave it untouched. Never perform churn rewrites.
 

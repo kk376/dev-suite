@@ -24,7 +24,7 @@ Ruthlessly purge dead AI tell words, filler, and corporate cliches across all do
 * ❌ **Formulaic Openers & Transitions**: *"In today's fast-paced digital world", "It's important to note", "Let's dive in", "Look no further", "At its core", "A journey of".*
 
 ### B. Mathematical Voice Physics & Syntax
-- **Em-Dash Density Ceiling**: Cap em dashes (`—`) at strictly **≤ 1 per 100 words**. Replace excess dashes with commas, colons, parentheses, or conjunctions. Never use double hyphens (`--`) or spaced en dashes (` - `).
+- **Total Zero-Tolerance Ban on Em Dashes & En Dashes**: Absolutely zero em dashes (`—`, U+2014) or en dashes (`–`, U+2013) across all writing, commits, PR comments, issue replies, documentation, and chat responses. Never use unspaced em dashes (`word—word`) or spaced em dashes (`word — word`). Em dashes are an unmistakable hallmark of AI-generated prose. Replace them with standard commas, colons, parentheses, or clean separate sentences with periods. Never substitute with double hyphens (`--`) or spaced en dashes (` - `).
 - **Soft Pause Conversational Cadence**: Use double dots (`..`) sparingly for natural sentence rhythm when mid-sentence pacing calls for it.
 - **Strict Proper Noun Capitalization**: Never leave technical entities or tools lowercase. Always capitalize *Rust, Fedora, Linux, Wayland, GNOME, Ghostty, OpenAI, GitHub*.
 - **Concrete Metrics Over Subjective Adjectives**: Always state exact numbers instead of vague adjectives (*"47% latency reduction"* beats *"significant performance boost"*; *"sub-400µs cold start"* beats *"blazing fast execution"*).

@@ -6,7 +6,7 @@ A production engineering standard for building deterministic LLM evaluation pipe
 
 ## 1. The Evaluation Engineering Discipline
 
-Evaluating complex artifacts—such as engineering portfolios, technical candidates, or generative code outputs—presents severe challenges:
+Evaluating complex artifacts (such as engineering portfolios, technical candidates, or generative code outputs) presents severe challenges:
 - **LLM Non-Determinism**: High temperature or underspecified prompts lead to high score variance across runs.
 - **Subjective Drift**: Unanchored evaluations reward rhetorical eloquence or pedigree over technical depth.
 - **Adversarial Manipulation**: Candidates or users embed invisible text or prompt injection instructions into submitted documents.

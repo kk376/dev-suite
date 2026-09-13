@@ -103,9 +103,9 @@ When a document, resume, or report must fit a strict physical page budget (e.g.,
 For every candidate line or paragraph $e$, compute its value score $V(e)$:
 $$V(e) = W_r \cdot R(e) + W_u \cdot U(e) + W_d \cdot D(e)$$
 
-* **$R(e)$ — Target Relevance (0.0–1.0)**: Exact keyword and concept match against the target specification, client brief, or job posting.
-* **$U(e)$ — Information Uniqueness (0.0–1.0)**: Demonstrates a skill, metric, or capability not duplicated elsewhere in the document.
-* **$D(e)$ — Cross-Dependency (0.0–1.0)**: Whether other sections (cover letters, executive summaries, references) explicitly cite or rely on this entry.
+* **$R(e)$ : Target Relevance (0.0–1.0)**: Exact keyword and concept match against the target specification, client brief, or job posting.
+* **$U(e)$ : Information Uniqueness (0.0–1.0)**: Demonstrates a skill, metric, or capability not duplicated elsewhere in the document.
+* **$D(e)$ : Cross-Dependency (0.0–1.0)**: Whether other sections (cover letters, executive summaries, references) explicitly cite or rely on this entry.
 
 ### Trimming Algorithm
 1. Compute $V(e)$ for all candidate lines across all sections.

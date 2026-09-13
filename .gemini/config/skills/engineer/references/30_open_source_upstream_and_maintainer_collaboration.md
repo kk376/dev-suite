@@ -69,7 +69,7 @@ Communication with upstream maintainers must be warm, direct, and free of automa
 ### B. Language, Voice & Maintainer Bot-Fatigue Defense
 Maintainers are experiencing extreme cognitive fatigue from automated AI PR descriptions, synthetic issue comments, and bot-generated RFCs. Protect contribution credibility by strictly enforcing the Humanizer standards:
 - **Zero Banned AI Vocabulary**: Never use *delve, leverage, fundamentally, streamline, harness, unlock, foster, tapestry, game-changer, beacon, testament, bespoke, landscape, pivotal, in today's fast-paced world*.
-- **Em-Dash Density Cap**: Strictly ≤ 1 em dash (`—`) per 100 words. Replace with standard commas, colons, or parentheses.
+- **Total Zero-Tolerance Em-Dash Ban**: Strictly 0 em dashes (`—`) and en dashes (`–`). Never use em dashes or en dashes in maintainer discussions, PR descriptions, or comments. Unspaced em dashes (`word—word`) and spaced em dashes are an immediate AI tell that triggers maintainer bot-fatigue and flags contributions as machine-generated. Use standard commas, colons, parentheses, or clean separate sentences.
 - **Specific Numbers Over Adjectives**: Always provide concrete benchmarks (*"reduces cold start by 1.8ms"*, *"cuts allocations by 42%"*) rather than empty adjectives (*"significantly improves performance"*).
 - **Proper Technical Capitalization**: Enforce exact casing (*Rust, Linux, Wayland, Fedora, GNOME, POSIX*).
 - **Strip Robotic Compound Hyphens**: Use natural separate words where appropriate (write *"on demand"* instead of *"on-demand"*, *"fit to view"* instead of *"fit-to-view"*, *"hot reloading"* instead of *"hot-reloading"*).
