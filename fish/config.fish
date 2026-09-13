@@ -25,6 +25,7 @@ alias ls 'eza --group-directories-first --classify --icons --git'
 alias cat 'bat --paging=never --style=plain'
 alias less 'bat --paging=always --pager="less -R"'
 alias la 'ls -la'
+alias oc 'opencode'
 
 # --- Git Shortcuts ---
 alias gs 'git status -sb'
