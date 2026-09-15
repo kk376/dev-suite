@@ -7,14 +7,16 @@ description: >-
   collaboration protocols, high-performance canvas & viewport rendering, contract-first API governance, zero-downtime database
   migrations, token & context budgeting, adversarial dual review loops, pre-push CI/CD workflow simulation & GitHub Actions
   remote verification, technical search architecture (Technical SEO, Schema.org JSON-LD graphs, GEO/AEO/LLMO citation physics,
-  Google E-E-A-T quality governance, agent-friendly DOM, pSEO topic clusters, CI/CD SEO drift gates), and deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics,
+  Google E-E-A-T quality governance, agent-friendly DOM, pSEO topic clusters, CI/CD SEO drift gates), deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics,
+  runtime containment (directory scope-locking, two-tier destructive command gates), structured decision briefs (D<N> triad, accepted shortcut debt tracking),
+  evidence-based CSO security audits, continuous checkpointing, and sub-second persistent browser daemon architecture,
   alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid
   layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
 ---
 
 # Universal Master Engineering & Design Skill
 
-A unified, production-grade standard for software engineering craftsmanship, deep system architecture, defensive zero-trust security, upstream open-source maintainer collaboration, high-performance canvas/document viewing, contract-first API design, zero-downtime database migrations, and UI/UX design excellence. Synthesizes decades of software design principles (Ousterhout, Beck, Evans, Pragmatic Programmer) with **74 real-world production design systems** across 8 archetypes, the **17-category Vibe-Check defensive security standard**, and high-leverage agent operating patterns from **ECC Universal**.
+A unified, production-grade standard for software engineering craftsmanship, deep system architecture, defensive zero-trust security, upstream open-source maintainer collaboration, high-performance canvas/document viewing, contract-first API design, zero-downtime database migrations, and UI/UX design excellence. Synthesizes decades of software design principles (Ousterhout, Beck, Evans, Pragmatic Programmer) with **74 real-world production design systems** across 8 archetypes, the **17-category Vibe-Check defensive security standard**, and high-leverage agent operating patterns from **gstack** and **ECC Universal**.
 
 ---
 
@@ -110,6 +112,13 @@ Route incoming requests to their targeted operational discipline:
 | "AI operation budget / Cancellation deadline / SQLite contention" | Monotonic Deadlines & Async Contention | `ai-budget` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
 | "Server actions security / Next.js waterfalls" | Server Action Zero-Trust & Web Perf | `nextjs-security` / `nextjs-perf` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
 | "Swiss design system / Brutalist minimal / Design context" | Swiss International Style & Context | `swiss-design` | [`40_diff_based_generation_and_ai_operation_budgets.md`](./references/40_diff_based_generation_and_ai_operation_budgets.md) |
+| "Lock directory edits / Freeze module / Confinement" | Scope-Lock Boundary | `freeze` / `unfreeze` | [`06_tdd_and_implementation.md`](./references/06_tdd_and_implementation.md) |
+| "Intercept destructive commands / Guardrails / Careful" | Destructive Command Interceptor | `careful` / `guard` | [`11_merge_conflicts_and_git_guardrails.md`](./references/11_merge_conflicts_and_git_guardrails.md) |
+| "Structured decision / Trade-off brief / D<N> / ELI10" | Decision Brief Architecture | `decision-brief` / `D<N>` | [`02_grilling_and_discovery.md`](./references/02_grilling_and_discovery.md) |
+| "Technical debt tracking / Accepted shortcuts / Ceiling" | Accepted Shortcuts Trail | `shortcut-ledger` | [`05_spec_and_ticket_slicing.md`](./references/05_spec_and_ticket_slicing.md) |
+| "Evidence before assurance / Threat model / Exploit proof" | Evidence-Based CSO Audit | `cso-audit` / `threat-model` | [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) |
+| "Sub-second browser daemon / ARIA locators / External refs" | Persistent Browser Daemon | `browser-daemon` / `$B` | [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) |
+| "Continuous checkpoints / Restore negative context / WIP" | Checkpoint & Context Recovery | `checkpoint` / `context-restore` | [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) |
 
 ---
 
@@ -154,7 +163,7 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 ### 4. Vertical Tracer-Bullet Slicing & Brownfield Mining (`to-tickets`, `spec-mine`)
 - Break specifications into thin, end-to-end vertical slices touching all layers (schema, domain logic, API/CLI, UI, tests).
 - Every ticket must be independently verifiable and sized to fit a single clean context window (~100k tokens).
-- Maintain an explicit dependency DAG (`Blocked by: #ticket`). Enforce the **Expand–Contract pattern** for wide refactors.
+- Maintain an explicit dependency DAG (`Blocked by: #ticket`). Enforce the **Expand-Contract pattern** for wide refactors.
 - For brownfield codebases, use the **Sample and Expand** protocol to extract flat Requirement and Invariant assertions anchored by code identifiers.
 
 ### 5. Test-Driven Development & De-Sloppify Pass (`tdd`, `de-sloppify`)
@@ -164,7 +173,7 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 ### 6. Disciplined Bug Diagnostics (`diagnosing-bugs`)
 - **Phase 1 (Tight Feedback Loop)**: Refuse to hypothesize until you have **one fast, deterministic, agent-runnable command** that goes red on this exact symptom.
 - **Phase 2 (Minimization)**: Strip away extraneous code until only the load-bearing reproduction remains.
-- **Phase 3 (Falsifiable Hypotheses)**: Formulate 3–5 hypotheses: *"If X is the cause, changing Y will make symptom Z disappear."*
+- **Phase 3 (Falsifiable Hypotheses)**: Formulate 3 to 5 hypotheses: *"If X is the cause, changing Y will make symptom Z disappear."*
 - **Phase 4 (Targeted Instrumentation)**: Tagged logs with unique markers (`[DEBUG-3a7b]`) at architectural boundaries.
 - **Phase 5 & 6 (Fix, Regression Test & Clean)**: Write regression tests, fix root cause, and purge debug markers.
 
@@ -227,11 +236,11 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 ### 16. Search Architecture, Generative Engine Optimization (GEO) & SEO Drift Gates (`seo-architecture`, `geo-optimize`, `seo-drift`)
 - **Dual Discovery Spectrum**: Build for traditional search engines (status code contracts, deterministic canonical URLs, dynamic XML sitemaps) and AI answer engines (Perplexity, ChatGPT Search, Claude, Google AI Overviews).
 - **JSON-LD Semantic Graphs**: Connect application entities (`Organization`, `SoftwareApplication`, `TechArticle`, `BreadcrumbList`, `FAQPage`) within a unified `@graph` schema.
-- **Passage-Level Citability (GEO)**: Inverted-pyramid passage structures, self-contained atomic definitions in the first 40–60 words, tabular data presentation, and explicit AI bot policies (`GPTBot`, `ClaudeBot`, `PerplexityBot`).
+- **Passage-Level Citability (GEO)**: Inverted-pyramid passage structures, self-contained atomic definitions in the first 40 to 60 words, tabular data presentation, and explicit AI bot policies (`GPTBot`, `ClaudeBot`, `PerplexityBot`).
 - **Pre-Push SEO Drift Invariant**: Enforce automated CI/CD testing against the 17 SEO Drift Rules to prevent accidental drops of canonical tags, OpenGraph metadata, schema syntax, or heading hierarchies.
 
 ### 17. LLM Evals, Rubric Engineering & 4-Pillar Candidate/Portfolio Assessment (`evals-rubric`, `candidate-eval`, `portfolio-audit`)
-- **The 4-Pillar Candidate Evaluation Model**: Objective 100-point rubric assessing Open Source & Upstream Impact (0–35), Self Projects & Systems Complexity (0–30), Production Engineering (0–20), and Technical Skills (0–15).
+- **The 4-Pillar Candidate Evaluation Model**: Objective 100-point rubric assessing Open Source & Upstream Impact (0 to 35), Self Projects & Systems Complexity (0 to 30), Production Engineering (0 to 20), and Technical Skills (0 to 15).
 - **Unbiased Rubric Engineering**: Strictly decouple evaluations from candidate demographics, university brand prestige, and GPA; require extracted code evidence for all score awards and itemized deduction citations.
 - **External Signal Ground-Truth Verification**: Cross-verify self-reported claims against the GitHub API (stargazer tiers, commit velocity, external PR contributions vs self-forks) to eliminate inflated claims and cloned tutorial spam.
 - **Adversarial Document Sanitization**: Defend evaluation pipelines against prompt injection attacks (invisible white text, zero-font coordinates, delimiter smuggling) in user-submitted PDF/markdown documents.
@@ -263,6 +272,19 @@ Match the aesthetic and visual soul of your product to battle-tested design syst
 - **Server Actions Public POST Invariant**: Treat Next.js Server Actions as public HTTP POST endpoints. Never trust call-site UI visibility; always enforce authentication and tenant IDOR authorization inside the server action body.
 - **Swiss International Minimal Standard**: Modernist precision featuring `rounded-none` geometry, hard physical offset shadows, 3-font typographic hierarchy, and `.impeccable.md` design manifests to prevent generic AI UI slop.
 
+### 22. Runtime Containment, Structured Decision Briefs & Evidence-Based Assurance (`careful`, `freeze`, `decision-brief`, `cso`, `browser-daemon`)
+- **Scope-Lock Directory Boundaries (`freeze`, `unfreeze`)**: Prevent agent boundary drift in large monorepos and multi-package repositories by locking write tools (`Write`, `Edit`) strictly to the active task subdirectory. Fail-closed: unresolvable paths or escaping symlinks are rejected.
+- **Two-Tier Destructive Command Matrix (`careful`, `guard`)**: Intercept shell execution with clear policy separation:
+  - *HIGH Tier (Hard Deny)*: Unconditional block on catastrophic, unrecoverable actions (`rm -rf /`, `rm -rf ~`, `rm -rf $HOME`, force-pushes to default branches `main`/`master`).
+  - *MEDIUM Tier (Interactive Gate)*: Require explicit human confirmation for destructive mutations (`DROP TABLE`, `TRUNCATE`, `git reset --hard`, `git checkout .`, `kubectl delete`, `docker system prune`).
+  - *Safe Whitelist*: Zero-warning execution for disposable build caches and compilation targets (`node_modules`, `.next`, `dist`, `__pycache__`, `.cache`, `build`, `target`, `.turbo`, `coverage`).
+- **Structured Decision Briefs (`decision-brief`, `D<N>`)**: Ban unstructured, open-ended question prose. Present architectural forks using the strict Decision Brief format: Grounding sentence, ELI10 (plain English naming real stakes), Stakes if wrong, explicit Recommendation with rationale, Completeness rating (10/7/3), pros and cons (minimum 2 pros and 1 con per option, >= 40 chars each), dual-scale effort estimation (`human: ~2 days / agent: ~15 min`), and Net trade-off synthesis.
+- **The Split-Never-Drop Rule**: When a design space contains 5 or more viable options, never silently drop, merge, or truncate them. Batch them into coherent sub-groups or split into sequential sub-decisions (`D1.1`, `D1.2`) with explicit dependency checks.
+- **Accepted Shortcuts Trail (`shortcut-ledger`)**: Deliberate engineering trade-offs (Completeness <= 7/10) mandate immediate inline code annotations in the same commit: `// shortcut(dec-<id>): <ceiling>, upgrade when <trigger>`. Retrospectives and reviews harvest these into an auditable debt ledger.
+- **Evidence-Based CSO Security Verification (`cso-audit`, `threat-model`)**: Enforce "Evidence Before Assurance". Security defects require a 5-Part Threat Model (Attacker Persona, Entrypoint Vector, Boundary Crossed, Concrete Impact, Falsification Challenge) verified against the Tri-State Evidence Hierarchy (Hypothesis -> Static AST Trace -> Runtime Witness). Audits run under the Private Zero-Leak Standard with zero external telemetry sinks.
+- **Continuous Checkpoints & Negative Knowledge Persistence (`checkpoint`, `context-restore`)**: Auto-commit completed logical units using structured `WIP:` messages with `[engineer-context]` recording `Decisions`, `Remaining`, and `Tried` (failed hypotheses). Reading recent commit metadata restores context in under 300 tokens after context compaction.
+- **Sub-Second Persistent Browser Daemon (`browser-daemon`, `$B`)**: Background headless Chromium daemon communicating over local HTTP loopback (`127.0.0.1:PORT`) delivering 100 to 200ms tool latency with persistent login sessions and tabs. Address page elements via non-destructive external ARIA locators (`@e1`, `@c1`) rather than DOM mutation (preventing CSP, hydration, and shadow DOM failures). Enforce physical port separation between local command and external tunnel sockets.
+
 ---
 
 ## Detailed Reference Catalog
@@ -271,25 +293,25 @@ Explore the full 40 operational references in the [`references/`](./references/)
 
 ### Engineering, Security & Workflow Protocols
 - [`01_lifecycle_and_routing.md`](./references/01_lifecycle_and_routing.md) - Master lifecycle, triage router, and setup.
-- [`02_grilling_and_discovery.md`](./references/02_grilling_and_discovery.md) - Grilling methodologies, frontier discovery, 4-Voice Decision Council, and prototyping spikes.
+- [`02_grilling_and_discovery.md`](./references/02_grilling_and_discovery.md) - Grilling methodologies, frontier discovery, 4-Voice Decision Council, Structured Decision Briefs (D<N>), and prototyping spikes.
 - [`03_domain_modeling_and_adrs.md`](./references/03_domain_modeling_and_adrs.md) - Domain glossaries, `CONTEXT.md`, and 3-gate ADR rules.
 - [`04_deep_module_architecture.md`](./references/04_deep_module_architecture.md) - Deep vs shallow modules, seams, and adapters.
-- [`05_spec_and_ticket_slicing.md`](./references/05_spec_and_ticket_slicing.md) - Formal specs, tracer-bullet tickets, DAG dependencies, expand-contract, and brownfield spec mining.
-- [`06_tdd_and_implementation.md`](./references/06_tdd_and_implementation.md) - Red-green-refactor, seam testing, implementation loop, and the De-Sloppify cleanup pass.
+- [`05_spec_and_ticket_slicing.md`](./references/05_spec_and_ticket_slicing.md) - Formal specs, tracer-bullet tickets, DAG dependencies, expand-contract, brownfield spec mining, and Accepted Shortcuts Trail debt ledger.
+- [`06_tdd_and_implementation.md`](./references/06_tdd_and_implementation.md) - Red-green-refactor, seam testing, implementation loop, De-Sloppify cleanup pass, Scope-Lock directory boundaries (freeze), and continuous checkpointing.
 - [`07_two_axis_code_review.md`](./references/07_two_axis_code_review.md) - Standards & Spec code review rubrics, 17-category security gate, Fowler smells catalog, silent failure audit, and adversarial dual review ("Santa Method").
-- [`08_bug_diagnostics_protocol.md`](./references/08_bug_diagnostics_protocol.md) - 6-Phase systematic bug diagnosis and Heisenbug resolution.
+- [`08_bug_diagnostics_protocol.md`](./references/08_bug_diagnostics_protocol.md) - 6-Phase systematic bug diagnosis, Iron Laws of root-cause investigation, and negative knowledge retention.
 - [`09_architecture_survey_and_refactoring.md`](./references/09_architecture_survey_and_refactoring.md) - Architecture hotspot scanning and deletion tests.
 - [`10_wayfinder_and_triage.md`](./references/10_wayfinder_and_triage.md) - Wayfinding through foggy initiatives and issue triage state machines.
-- [`11_merge_conflicts_and_git_guardrails.md`](./references/11_merge_conflicts_and_git_guardrails.md) - Hunk-by-hunk conflict resolution and git safety guardrails.
+- [`11_merge_conflicts_and_git_guardrails.md`](./references/11_merge_conflicts_and_git_guardrails.md) - Hunk-by-hunk conflict resolution, Two-Tier Destructive Command Matrix (careful/guard), and signed commits.
 - [`12_productivity_and_communication.md`](./references/12_productivity_and_communication.md) - Handoffs, questionnaires, wait-what, teaching, and humanizer writing.
 - [`13_interactive_wizards_and_scripts.md`](./references/13_interactive_wizards_and_scripts.md) - Interactive bash wizards, secret entry, toolchain automation.
 - [`14_packaging_and_distribution_pipelines.md`](./references/14_packaging_and_distribution_pipelines.md) - Multi-distro release pipelines (PPA, Copr, AUR, Homebrew, WinGet), pre-push CI/CD simulation, and GitHub Actions remote verification.
-- [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) - Defensive zero-trust engineering, 17 vibe-check security invariants, automated audit loop, and manual penetration verification.
+- [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) - Defensive zero-trust engineering, 17 vibe-check security invariants, automated audit loop, and Chief Security Officer (CSO) evidence-based verification.
 - [`30_open_source_upstream_and_maintainer_collaboration.md`](./references/30_open_source_upstream_and_maintainer_collaboration.md) - Open source upstream RFCs, maintainer collaboration, prototype maturation, thread consolidation, and monorepo guardrails.
-- [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) - High-performance canvas and document viewer architecture, viewport on demand rendering, bounded LRUs, zero-allocation drag selection, and instanced quad painting.
+- [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) - High-performance canvas and document viewer architecture, viewport on demand rendering, bounded LRUs, zero-allocation drag selection, and sub-second persistent browser daemon architecture.
 - [`32_contract_first_api_and_event_schemas.md`](./references/32_contract_first_api_and_event_schemas.md) - Contract-first API & event schema governance, consumer-first task modeling, OpenAPI/Protobuf typegen, and breaking change detection.
 - [`33_zero_downtime_database_migrations.md`](./references/33_zero_downtime_database_migrations.md) - Zero-downtime database migrations, Postgres non-blocking DDL, concurrent indexing, expand-contract schema evolution, and chunked DML backfills.
-- [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) - Context window budgeting, MCP tool schema costs, CLI-first execution, tiered response depth, and memory compaction.
+- [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) - Context window budgeting, MCP tool schema costs, CLI-first execution, tiered response depth, and git metadata context restoration.
 - [`35_search_architecture_seo_and_geo.md`](./references/35_search_architecture_seo_and_geo.md) - Search architecture, Technical SEO, Schema.org JSON-LD semantic graphs, Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), LLMO citation physics, Google E-E-A-T quality governance, agent-friendly web architecture, AISEO spam demotion gates, programmatic topic clusters, and CI/CD SEO drift gates.
 - [`36_evals_rubric_engineering_and_candidate_assessment.md`](./references/36_evals_rubric_engineering_and_candidate_assessment.md) - Deterministic LLM evaluation pipelines (Evals), unbiased rubric engineering, 4-pillar candidate/portfolio scoring, GitHub API external signal harvesting, and adversarial document prompt injection defense.
 - [`37_document_layout_physics_and_pdf_verification.md`](./references/37_document_layout_physics_and_pdf_verification.md) - Document layout physics, bounding-box geometry checks, dual-layer ATS/parser testing, knapsack relevance-weighted trimming, and offline SVG dashboards.
@@ -318,6 +340,7 @@ Explore the full 40 operational references in the [`references/`](./references/)
 ## Acknowledgements & Upstream Attribution
 
 The `engineer` standard synthesizes foundational protocols, design systems, and security guardrails from the open-source community:
+- **[garrytan/gstack](https://github.com/garrytan/gstack)** (MIT License): Runtime containment (freeze/careful), Two-Tier Destructive Command Matrix, structured Decision Briefs (D<N>), accepted shortcut tracking, evidence-based CSO security verification, and persistent browser daemon architecture.
 - **[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)** (MIT License): Design system archetypes, brand tokens, and OKLCH palette formulas.
 - **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License): Engineering lifecycle workflows, deep module discipline, frontier grilling, and two-axis code review.
 - **[benavlabs/vibe-check](https://github.com/benavlabs/vibe-check)** (MIT License): 17-category zero-trust defensive security invariants and automated audit loops.

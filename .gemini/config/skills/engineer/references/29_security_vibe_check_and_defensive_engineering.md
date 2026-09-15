@@ -110,7 +110,7 @@ The Master Engineering Standard enforces a **Zero-Trust, Fail-Closed Security Ar
 ### 10. RATE LIMITING & BRUTE-FORCE DEFENSE (Medium)
 - **Invariant**: Authentication and resource-intensive endpoints must enforce deterministic rate limits.
 - **Rules**:
-  - Auth endpoints (`/api/auth/login`, `/api/auth/register`, `/api/auth/reset-password`) must limit attempts (recommended: max 5–10 requests per 15-minute window per IP/account).
+  - Auth endpoints (`/api/auth/login`, `/api/auth/register`, `/api/auth/reset-password`) must limit attempts (recommended: max 5 to 10 requests per 15-minute window per IP/account).
   - Return `429 Too Many Requests` with a standard `Retry-After` header when thresholds are exceeded.
   - Do not trust `X-Forwarded-For` blindly; configure proxy trust hops (`app.set('trust proxy', 1)`) to avoid client IP header spoofing.
 
@@ -288,3 +288,31 @@ curl -s -I -H "Origin: https://evil-attacker.com" "https://yourapp.com/api/user/
 npm audit --production || pip-audit || cargo audit
 # PASS: 0 vulnerabilities found
 ```
+
+---
+
+## Chief Security Officer (CSO) Evidence-Based Verification (`cso`)
+
+Security assurance cannot rely on static checklists or unverified LLM claims. The CSO Protocol enforces **"Evidence Before Assurance"**: an issue is not a finding until its exploitability is demonstrated through code trace or active reproduction.
+
+### The 5-Part Threat Specification
+Every security defect reported during audit or review must be formally structured with these five components:
+1. **Attacker Persona**: Who is the threat actor? (e.g. unauthenticated internet visitor, compromised tenant user, malicious dependency, local operator).
+2. **Entrypoint & Vector**: What exact route, function parameter, header, or file handles the untrusted input?
+3. **Trust Boundary Crossed**: What security domain or privilege boundary is breached? (e.g. client to server, tenant A to tenant B, web process to host OS).
+4. **Concrete Impact**: What is the observable business or system damage? (e.g. exfiltration of plaintext credentials, arbitrary code execution, unauthorized funds transfer).
+5. **Falsification Challenge**: What specific counter-evidence or patch would prove this vulnerability invalid or mitigated?
+
+### Tri-State Evidence Hierarchy
+
+| Level | Evidence State | Verification Standard | Action Threshold |
+| :--- | :--- | :--- | :--- |
+| **Level 1** | **Hypothesis** | Surface heuristic or pattern-match (e.g. grep match on `dangerouslySetInnerHTML`). | Informational only. Cannot block release or claim a defect without tracing data flow. |
+| **Level 2** | **Static AST Trace** | Source-level call path tracing showing tainted untrusted input reaching the sink without sanitization. | Confirmed defect. Blocks release; requires architectural remediation or input validation. |
+| **Level 3** | **Runtime Witness** | Reproducible exploit payload executed against an isolated local environment or test harness. | Critical vulnerability. Requires emergency remediation, regression test witness, and patch verification. |
+
+### Private Zero-Leak Audit Standard
+During security audits, penetration probes, or vulnerability reviews:
+1. **Zero External Sinks**: Never send source code, discovered tokens, vulnerability reproduction scripts, or exploit payloads to shared external telemetry, third-party analytics, or public model sinks.
+2. **Offline-First Scanners**: Run local linters and advisory checks (`cargo audit`, `npm audit`, `trivy`, `gitleaks`) with local vulnerability databases.
+3. **Redaction of Sensitive Tokens**: When logging audit outputs or creating local reports, all discovered tokens, keys, and session cookies must be masked (e.g. `sk_live_...[REDACTED]`).

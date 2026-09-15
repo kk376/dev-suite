@@ -12,15 +12,15 @@ Every agent invocation starts with substantial fixed overhead before any user me
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                          CONTEXT WINDOW ALLOCATION                          │
 └─────────────────────────────────────────────────────────────────────────────┘
-│ System Prompt & Agent Identity     │ ~3,000 – 6,000 tokens                  │
+│ System Prompt & Agent Identity     │ ~3,000 to 6,000 tokens                 │
 │ Active MCP Server Tool Schemas     │ ~500 tokens PER TOOL (e.g. 50 = 25k)   │
-│ Injected Rules & Project Config   │ ~2,000 – 5,000 tokens                  │
-│ Skill Metadata Catalogs            │ ~1,500 – 4,000 tokens                  │
+│ Injected Rules & Project Config   │ ~2,000 to 5,000 tokens                 │
+│ Skill Metadata Catalogs            │ ~1,500 to 4,000 tokens                 │
 ├────────────────────────────────────┼────────────────────────────────────────┤
-│ FIXED OVERHEAD BASELINE            │ ~30,000 – 45,000 tokens (15–25%)       │
+│ FIXED OVERHEAD BASELINE            │ ~30,000 to 45,000 tokens (15% to 25%)  │
 ├────────────────────────────────────┼────────────────────────────────────────┤
-│ Working Memory (Files, Tests, Diff)│ ~80,000 – 120,000 tokens (40–60%)      │
-│ Agent Reasoning & Output Headroom  │ ~35,000 – 50,000 tokens (20–25%)       │
+│ Working Memory (Files, Tests, Diff)│ ~80,000 to 120,000 tokens (40% to 60%) │
+│ Agent Reasoning & Output Headroom  │ ~35,000 to 50,000 tokens (20% to 25%)  │
 └────────────────────────────────────┴────────────────────────────────────────┘
 ```
 
@@ -52,8 +52,8 @@ When answering inquiries or generating code, calibrate the response depth to the
 
 | Level | Target Size | Content Inclusions | Content Omissions | Trigger Intent |
 | :--- | :--- | :--- | :--- | :--- |
-| **1. Essential (25%)** | 2–4 sentences | Direct conclusion, exact code line or fix. | Zero preamble, zero tutorial, no alternative options. | "Quick answer", "TL;DR", "al 25%", "just the fix" |
-| **2. Moderate (50%)** | 1–3 paragraphs | Direct answer, load-bearing context, 1 code snippet. | Exhaustive edge cases, deep history. | Standard task prompt, default operational mode |
+| **1. Essential (25%)** | 2 to 4 sentences | Direct conclusion, exact code line or fix. | Zero preamble, zero tutorial, no alternative options. | "Quick answer", "TL;DR", "al 25%", "just the fix" |
+| **2. Moderate (50%)** | 1 to 3 paragraphs | Direct answer, load-bearing context, 1 code snippet. | Exhaustive edge cases, deep history. | Standard task prompt, default operational mode |
 | **3. Detailed (75%)** | Structured report | Complete architectural explanation, trade-offs, code example with error handling. | Redundant boilerplate or extreme edge cases. | "Help me understand", "detailed plan", "full review" |
 | **4. Exhaustive (100%)** | Complete spec/doc | Full multi-file plan, all alternatives, complete implementation, exhaustive test suite. | Nothing omitted. | "Exhaustive review", "write complete spec", "deep dive" |
 
@@ -61,7 +61,25 @@ When answering inquiries or generating code, calibrate the response depth to the
 
 ## 4. Context Hygiene & Compaction Guardrails
 
-1. **Targeted File Reads**: Never view whole 2,000-line files. Use `StartLine` and `EndLine` to read 50–100 line windows around relevant symbols.
+1. **Targeted File Reads**: Never view whole 2,000-line files. Use `StartLine` and `EndLine` to read 50 to 100 line windows around relevant symbols.
 2. **Grep Before Read**: Use `grep_search` to pinpoint exact line numbers before opening files.
 3. **Purge Debug Output**: Strip massive test logs, `stdout` dumps, and repetitive stack traces from context once the root cause is identified.
 4. **Context Serialization Before Compaction**: When approaching 75% context capacity, dump key findings and active ticket state into a markdown artifact (`scratch/session_state.md`) before triggering context compaction or spawning fresh subagents.
+
+---
+
+## 5. Context Restoration & Git Metadata Recovery (`context-restore`)
+
+When context window compaction occurs or a fresh subagent is launched, agents typically waste tens of thousands of tokens re-reading files, re-running test suites, and repeating disproved hypotheses.
+
+### Recovering Context from Commit Metadata
+Instead of re-exploring the repository from scratch:
+1. **Inspect Recent Checkpoints**:
+   ```bash
+   git log -n 5 --grep="\[engineer-context\]"
+   ```
+2. **Extract Active Knowledge**:
+   - Read the latest `Decisions:` to understand settled architectural choices without re-litigating them.
+   - Read `Remaining:` to immediately pick up the next pending vertical task.
+   - Read `Tried:` to avoid repeating failed attempts, dead-end monkey patches, or invalid diagnostic hypotheses.
+3. **Zero Token Overhead**: Reading 5 commit messages consumes under 300 tokens, instantly restoring full working state while preserving the clean context window for active implementation.

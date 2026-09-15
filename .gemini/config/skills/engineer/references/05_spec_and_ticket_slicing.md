@@ -30,7 +30,7 @@ A vertical slice cutting across every architectural layer:
 - **Independently Verifiable**: Every ticket must leave the codebase in a compilable, green-test state.
 - **Explicit Blocking DAG**: Declare blocking relationships (`Blocked by: #ticket-12`).
 
-### The Expand–Contract Migration Pattern
+### The Expand-Contract Migration Pattern
 For large refactors across many call sites:
 ```
 Phase 1 (Expand):    Introduce new seam/API alongside old. Add deprecation notice.
@@ -78,3 +78,32 @@ Avoid complex chapter hierarchies. Represent all mined behaviors as a flat list 
   - **test**: `tests/account.test.ts:test_negative_balance_blocked`
   - **Behavior**: An account balance must ALWAYS be greater than or equal to zero.
   ```
+
+---
+
+## The Accepted Shortcuts Trail & Decision Debt Ledger (`shortcut-ledger`)
+
+Engineering under real deadlines requires deliberate trade-offs. The danger is not taking shortcuts; the danger is taking shortcuts that become invisible, forgotten, and unmaintainable.
+
+### The Inline Annotation Mandate
+When a human developer selects an option with Completeness rating $\le$ 7/10 (or explicitly approves a tactical shortcut), the agent must tag every cut corner directly in code within the very same commit:
+
+```
+// Format:
+// shortcut(dec-<id>): <ceiling>, upgrade when <trigger>
+
+// Examples:
+// shortcut(dec-D3): in-memory Map only (max 10,000 items), upgrade when multi-instance horizontal scaling needed
+// shortcut(dec-D7): synchronous CSV export without job queue, upgrade when export rows exceed 50,000
+```
+
+### Invariants of the Shortcut Trail
+1. **Never Agent-Initiated**: Shortcuts are never silently taken by the agent without explicit approval via a Decision Brief (`D<N>`).
+2. **Ceiling Definition**: The marker must state its physical ceiling (e.g. max records, concurrency limit, memory budget).
+3. **Upgrade Trigger**: The marker must state the exact operational condition or metric threshold that mandates upgrading to the full architectural pattern.
+4. **Debt Ledger Harvesting**:
+   During sprint planning, code review (`code-review`), or architectural retrospectives, the debt ledger is generated automatically by scanning code annotations:
+   ```bash
+   git grep -nE "shortcut\(dec-[A-Za-z0-9_.-]+\):"
+   ```
+   This links code debt directly back to the original architectural decision brief and rationale.

@@ -116,3 +116,33 @@ Native FFI rendering engines (such as PDFium, Skia, or WebGPU) can fail due to c
   - Inform the user if an external dependency is missing.
   - Provide an actionable retry button when transient rendering fails.
   - Preserve the rest of the workspace and host application stability without panics.
+
+---
+
+## 7. Sub-Second Persistent Browser Daemon & External Locator Architecture (`browser-daemon`, `browse`)
+
+Driving a browser for automated UI testing, accessibility audits, or visual document verification can easily stall agent workflows if every command cold-starts a fresh browser instance (3 to 5 seconds latency per command, loss of login cookies, dropped localStorage, and closed tabs). High-performance agent browser automation follows a persistent daemon architecture:
+
+### The Daemon Model & Sub-Second Latency
+1. **Persistent Headless Chromium Daemon**: Run a long-lived Chromium process in the background managed by an HTTP loopback daemon (`127.0.0.1:PORT`).
+2. **Sub-Second Execution**: The first command starts the daemon (~3 seconds); every subsequent command is a lightweight HTTP call completing in 100 to 200 milliseconds.
+3. **Session State Continuity**: Logged-in session cookies, open tabs, and client storage persist cleanly across commands.
+4. **Automatic Idle Lifecycle**: The server auto-starts on first use and automatically shuts down after a bounded idle timeout (e.g. 30 minutes).
+
+### Non-Destructive External Locators vs DOM Mutation
+Many naive tools inject `data-ref="@e1"` attributes directly into the webpage DOM. This breaks on multiple fronts:
+- **Strict Content Security Policy (CSP)**: Disallows script-based DOM modifications.
+- **Hydration & Virtual DOM**: React, Vue, and Svelte reconcilers detect modified DOM nodes and unmount or crash.
+- **Shadow DOM**: Injected attributes cannot penetrate closed shadow roots.
+
+**The Solution: ARIA Locators via Accessibility Tree**:
+- Walk Chromium's internal accessibility tree (`page.accessibility.snapshot()`) and assign sequential refs (`@e1`, `@e2`, `@e3`).
+- Map each ref to an external Playwright Locator (`getByRole(role, { name }).nth(index)`). The DOM is never touched.
+- Support pointer-interactive elements (`@c1`, `@c2`): identify elements styled with `cursor: pointer` or custom `onclick` handlers that lack explicit ARIA semantics.
+- Fast Ref Staleness Detection: Before dispatching an action (click, fill), execute an async `locator.count()` probe (~5ms). If count is zero, fail immediately with a stale ref error rather than waiting for long 30-second action timeouts.
+
+### Physical Port Separation & Credential Isolation
+When pairing or tunneling browser sessions:
+- Bind local root management endpoints strictly to a private local listener (`127.0.0.1:LOCAL_PORT`).
+- Expose only scoped, allowlisted command endpoints on the tunnel listener (`127.0.0.1:TUNNEL_PORT`).
+- Never rely on HTTP headers (`X-Forwarded-For`, `Host`) to enforce security boundaries; enforce isolation through physical socket separation.

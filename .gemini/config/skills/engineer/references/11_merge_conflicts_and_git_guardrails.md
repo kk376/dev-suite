@@ -8,28 +8,59 @@
 
 ---
 
-## Git Safety Guardrails (`git-guardrails-claude-code`, `setup-pre-commit`)
-- **Dangerous Commands Blocked**:
-  - `git push --force` or `git push -f`
-  - `git reset --hard` without stash
-  - `git clean -fd`
-  - Direct commits to `main` / `master`
-- **Pre-commit Automation**: Husky + lint-staged running formatting (Prettier), typechecks (`tsc --noEmit`), and fast unit tests.
-- **Agent Hook Interceptor (`block-dangerous-git.sh`)**:
-  ```bash
-  #!/usr/bin/env bash
-  set -euo pipefail
-  INPUT=$(cat)
-  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
-  DANGEROUS_PATTERNS=("git push" "git reset --hard" "git clean -fd" "git clean -f" "git branch -D" "push --force" "reset --hard")
-  for pattern in "${DANGEROUS_PATTERNS[@]}"; do
-    if echo "$COMMAND" | grep -qE "$pattern"; then
-      echo "BLOCKED: '$COMMAND' matches dangerous pattern '$pattern'." >&2
-      exit 2
-    fi
-  done
+## Git Safety Guardrails & Two-Tier Command Matrix (`careful`, `guard`)
+
+Uncontrolled execution of destructive terminal commands risks catastrophic data loss, wiped git trees, or accidental production outages. We enforce a strict two-tier interception model:
+
+### The Two-Tier Command Matrix
+
+| Tier | Policy | Target Command Patterns | Rationale |
+| :--- | :--- | :--- | :--- |
+| **HIGH Tier** | **Hard Deny** (Unconditional Block) | `rm -rf /`, `rm -rf ~`, `rm -rf $HOME`, `git push --force origin main`, `git push -f origin master` | Irreversible catastrophic loss; never permitted under any circumstances. |
+| **MEDIUM Tier** | **Interactive Confirmation** (Requires Human Approval) | `git reset --hard`, `git checkout .`, `git restore .`, `git clean -fd`, `git clean -f`, `git branch -D`, `DROP TABLE`, `TRUNCATE`, `kubectl delete`, `docker rm -f`, `docker system prune`, non-default branch `push --force` | High-risk operations with potential data loss; must state exact blast radius and await explicit human confirmation. |
+| **Safe Whitelist** | **Automatic Approval** (Zero Warning) | `rm -rf node_modules`, `rm -rf .next`, `rm -rf dist`, `rm -rf __pycache__`, `rm -rf .cache`, `rm -rf build`, `rm -rf target`, `rm -rf .turbo`, `rm -rf coverage` | Disposable build caches and compilation targets; routine clean operations. |
+
+### Pre-Execution Interceptor Model (`check-careful.sh`)
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+INPUT=$(cat)
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+
+# 1. Check Safe Whitelist (disposable build artifacts)
+SAFE_CACHE_REGEX='^rm[[:space:]]+(-[a-zA-Z]*r[a-zA-Z]*f?[[:space:]]+|--recursive[[:space:]]+)(node_modules|\.next|dist|__pycache__|\.cache|build|target|\.turbo|coverage)(/.*)?$'
+if echo "$COMMAND" | grep -qE "$SAFE_CACHE_REGEX"; then
   exit 0
-  ```
+fi
+
+# 2. HIGH Tier: Hard Deny
+if echo "$COMMAND" | grep -qE '(rm[[:space:]]+-[a-zA-Z]*r.*[[:space:]]+(/|~|\$HOME)[[:space:]]*$|git[[:space:]]+push[[:space:]]+.*(-f|--force).*[[:space:]]+(main|master))'; then
+  echo "HARD DENY: '$COMMAND' is an unrecoverable catastrophic operation." >&2
+  exit 2
+fi
+
+# 3. MEDIUM Tier: Warn and Require Explicit Human Confirmation
+MEDIUM_PATTERNS=(
+  "git[[:space:]]+reset[[:space:]]+--hard"
+  "git[[:space:]]+clean[[:space:]]+-f"
+  "git[[:space:]]+checkout[[:space:]]+\\."
+  "git[[:space:]]+restore[[:space:]]+\\."
+  "DROP[[:space:]]+(TABLE|DATABASE)"
+  "TRUNCATE"
+  "kubectl[[:space:]]+delete"
+  "docker[[:space:]]+system[[:space:]]+prune"
+)
+
+for pattern in "${MEDIUM_PATTERNS[@]}"; do
+  if echo "$COMMAND" | grep -qiE "$pattern"; then
+    echo "GATE WARNING: '$COMMAND' is destructive. Awaiting explicit confirmation." >&2
+    exit 1
+  fi
+done
+
+exit 0
+```
 
 ---
 
