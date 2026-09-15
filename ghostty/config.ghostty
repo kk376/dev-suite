@@ -19,7 +19,7 @@ window-padding-balance = false
 window-decoration = auto
 window-theme = ghostty
 confirm-close-surface = false
-fullscreen = true
+maximize = true
 
 # --- Cursor Customization ---
 cursor-style = bar
