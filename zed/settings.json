@@ -29,7 +29,10 @@
   "terminal": {
     "dock": "bottom",
     "font_size": 15.0,
-    "font_family": "FiraCode Nerd Font"
+    "font_family": "FiraCode Nerd Font",
+    "shell": {
+      "program": "fish"
+    }
   },
   "minimap": {
     "show": "always"

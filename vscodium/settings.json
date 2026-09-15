@@ -29,8 +29,12 @@
     "terminal.integrated.fontLigatures.enabled": true,
     "window.zoomLevel": 0.5,
     "terminal.external.linuxExec": "$HOME/.local/bin/kitty",
-    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.defaultProfile.linux": "fish",
     "terminal.integrated.profiles.linux": {
+        "fish": {
+            "path": "/usr/bin/fish",
+            "icon": "terminal"
+        },
         "zsh": {
             "path": "/usr/bin/zsh",
             "icon": "terminal"
