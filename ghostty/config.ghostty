@@ -45,7 +45,7 @@ gtk-tabs-location = bottom
 gtk-wide-tabs = false
 gtk-toolbar-style = flat
 gtk-custom-css = ?~/.config/ghostty/gtk.css
-window-new-tab-position = current
+window-new-tab-position = end
 tab-inherit-working-directory = false
 working-directory = home
 
