@@ -121,11 +121,12 @@ Measure the presence of em dashes (`—`, U+2014) and en dashes (`–`, U+2013) 
 
 Empirical benchmarking against multi-tier neural AI detectors (e.g. Clever AI, GPTZero, Turnitin) reveals that technical text achieves sub-1% AI probability when anchored to low-level engineering invariants, but spikes to 50%+ AI probability on three specific syntactic patterns.
 
-#### A. The Trailing Participle Invariant
-* **Tripwire Pattern**: Sentences structured as `[Main action], [present participle tag displaying / showcasing / ensuring / highlighting X]` consistently trip detector classifiers into the 50% to 55% "mixed/synthetic" bracket.
-* **Deterministic Invariant**: Ban trailing present-participle clauses in technical bullets and documentation. Require active relative clauses or compound action verbs:
-  * ❌ *Flagged (54% AI):* "Implemented a hardware telemetry terminal component inspired by Linux CLI tools, displaying real-time specifications without layout shift."
-  * *Humanized (1% AI):* "Built an interactive CLI-style hardware telemetry terminal component that displays real-time system specifications without layout shift."
+#### A. The Trailing Participle & Noun Stack Invariant
+* **Tripwire Pattern**: Sentences structured as `[Main action], [present participle tag displaying / showcasing / ensuring / highlighting X]` or burdened by 4+ stacked modifiers/nouns (`interactive CLI-style hardware telemetry terminal component`) consistently trip detector classifiers into the 50% to 55% "mixed/synthetic" bracket.
+* **Deterministic Invariant**: Ban trailing present-participle clauses and overloaded noun stacks. Require a simple subject anchored by concrete payload metrics:
+  * ❌ *Flagged (54% AI):* "Implemented an interactive hardware telemetry terminal component inspired by Linux CLI tools, displaying real-time specifications without layout shift."
+  * ❌ *Still Flagged (54% AI due to noun stacking):* "Built an interactive CLI-style hardware telemetry terminal component that displays real-time specifications without layout shift."
+  * *Humanized (1% AI):* "Built an in-browser Linux terminal component streaming live CPU, RAM, and OS metrics with zero Cumulative Layout Shift (CLS)."
 
 #### B. The Evaluative Adjective Blacklist (Mechanism Over Praise)
 * **Tripwire Pattern**: Hollow self-praise adjectives (`robust`, `comprehensive`, `seamless`, `cutting-edge`, `state-of-the-art`, `inspired by`, `featuring`) are strong probabilistic indicators of synthetic text.
@@ -140,13 +141,14 @@ Empirical benchmarking against multi-tier neural AI detectors (e.g. Clever AI, G
   2. *Kernel & Hardware Telemetry:* e.g. `PCIe D3cold`, `nvtop.rs`, `sysfs runtime_status`, `POSIX FFI`, `ioctl`.
   3. *Exact Constants & Error Signatures:* e.g. `200ms SHUTDOWN_TIMEOUT`, `timed out waiting on app_will_quit`, `50 to 200ms bus contention interrupt spikes`.
 
-#### D. Credential & Cadence Hygiene
-* **Tripwire Pattern**: Formal administrative padding (*"Official certification verifying..."*, *"maintained continuously"*) mimics boilerplate marketing brochures.
-* **Deterministic Invariant**: Enforce direct, active credential statements and delivery records:
+#### D. Credential, Streak & Cadence Hygiene
+* **Tripwire Pattern**: Formal administrative padding (*"Official certification verifying..."*), redundant adverbs (*"consistently every day"*), and corporate delivery clichés (*"software deliveries shipped"* under headers like *"Continuous GitHub Activity"*) flag as synthetic templates.
+* **Deterministic Invariant**: Enforce authentic developer vernacular with direct git actions and concrete streak anchors:
   * ❌ *Flagged (54% AI):* "Work Smarter with AI: Official certification verifying AI-assisted engineering, pair-programming, and modern development workflows (September 2026)."
   * *Humanized (1% AI):* "Work Smarter with AI: Professional credential verifying hands-on AI pair-programming, agentic workflows, and prompt engineering (September 2026)."
   * ❌ *Flagged (54% AI):* "Continuous GitHub Activity: Daily commit streak and active open-source software delivery maintained continuously since July 30, 2026."
-  * *Humanized (1% AI):* "Continuous GitHub Activity: Daily commit history and software deliveries shipped consistently every day since July 30, 2026."
+  * ❌ *Still Flagged (54% AI due to template header & redundant adverb):* "Continuous GitHub Activity: Daily commit history and software deliveries shipped consistently every day since July 30, 2026."
+  * *Humanized (1% AI):* "GitHub Contribution Streak: Pushed code and opened pull requests every calendar day since July 30, 2026, building an unbroken public contribution record."
 
 ### The Conditional Engagement Rule
 Engage text humanization passes **only when the composite score falls into `density_tier == high`**. If text is already concise, technical, and low-slop, leave it untouched. Never perform churn rewrites.
