@@ -208,3 +208,4 @@ ATS algorithms and recruiters heavily discount unverified self-asserted claims:
 1. **Lead with Systems Complexity & Architecture**: Highlight low-level primitives (concurrency models, zero-copy parsers, memory safety invariants) over generic framework usage.
 2. **Separate Upstream Contributions from Personal Repositories**: Create a dedicated `OPEN SOURCE CONTRIBUTIONS` section detailing repository name, star tier (e.g. *50k+ Stars*), specific bug investigated, root-cause diagnosis, and upstream resolution.
 3. **Provide Concrete Verification Links**: Include direct GitHub links to pull requests, issue numbers, and crates/packages.
+4. **Enforce the Zero-Emoji Standard**: Strip all decorative emojis from profile READMEs, resumes, and project documentation. Automated candidate rubrics and senior hiring evaluators penalize decorative emoji clustering as low-signal AI slop.

@@ -112,12 +112,30 @@ Compute Type-Token Ratio over a sliding window ($W = 50$ words) to measure vocab
 $$\text{MATTR} = \frac{1}{N - W + 1} \sum_{i=1}^{N - W + 1} \frac{\text{Unique Words in Window } i}{W}$$
 
 ### 4. Punctuation Hygiene & Banned AI Tells (Em Dashes)
-Measure the presence of em dashes (`—`, U+2014) and en dashes (`–`, U+2013) in generated text:
+Measure the presence of em dashes in generated text:
 * **Zero-Tolerance Invariant**: Exactly 0 em dashes permitted in generated prose, PR comments, commit messages, or documentation.
 * Any occurrence of unspaced em dashes (`word—word`) or spaced em dashes (`word — word`) immediately flags text as machine-generated AI slop.
-* Required replacements: standard commas, colons, parentheses, or splitting into clean separate sentences with a period. Never substitute with double hyphens (`--`).
+* Required replacements: standard commas, colons, parentheses, or splitting into clean separate sentences with a period. Never substitute with double hyphens.
 
-### 5. The Empirical 1% Detector-Bypass Standard
+### 5. Zero-Emoji Standard & Technical Typography Hygiene (The Zero-Emoji Invariant)
+
+Decorative emojis in technical documentation, repository READMEs, profile READMEs, architecture specs, commit messages, or pull request descriptions are an immediate tell of machine-generated AI slop. Senior engineers, open-source maintainers, and hiring evaluators heavily discount submissions saturated with emoji decoration.
+
+#### The Zero-Emoji Invariant:
+* **Strict Prohibition**: Exactly 0 decorative emojis permitted in generated technical documentation, specs, READMEs, profile portfolios, commit messages, or PR bodies.
+* **Why It Flags as Low-Signal Slop**:
+  1. *Perplexity & Detector Tell*: AI models disproportionately prefix markdown headers and bullet points with contextually redundant emojis.
+  2. *Visual Degradation*: Emoji signposting clutters reading cadence and signals amateur, tutorial-tier scaffolding over professional craftsmanship.
+  3. *Accessibility & Terminal Rendering*: Emojis cause unpredictable monospace font pitch deviations, double-width rendering bugs, and screen-reader verbosity.
+* **Deterministic Replacement Protocol**:
+  * Replace emoji-prefixed headings with clean semantic markdown headings (e.g. replace emoji headers with direct titles like `### Featured Engineering Projects`).
+  * Replace emoji list prefixes with standard markdown unordered list items (`- Linux: ...`).
+  * Rely on clean typographic hierarchy (headings, tables, code spans, flat shields) and active verbs to structure documents.
+* **Whitelisted Exceptions**:
+  * Software specifically testing Unicode glyph metrics, terminal geometry, or double-width cell layouts.
+  * End-user product UI features where emojis are explicitly required by product specifications (e.g. chat reaction components).
+
+### 6. The Empirical 1% Detector-Bypass Standard
 
 Empirical benchmarking against multi-tier neural AI detectors (e.g. Clever AI, GPTZero, Turnitin) reveals that technical text achieves sub-1% AI probability when anchored to low-level engineering invariants, but spikes to 50%+ AI probability on three specific syntactic patterns.
 
