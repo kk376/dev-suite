@@ -148,7 +148,8 @@ Empirical benchmarking against multi-tier neural AI detectors (e.g. Clever AI, G
   * *Humanized (1% AI):* "Work Smarter with AI: Professional credential verifying hands-on AI pair-programming, agentic workflows, and prompt engineering (September 2026)."
   * ❌ *Flagged (54% AI):* "Continuous GitHub Activity: Daily commit streak and active open-source software delivery maintained continuously since July 30, 2026."
   * ❌ *Still Flagged (54% AI due to template header & redundant adverb):* "Continuous GitHub Activity: Daily commit history and software deliveries shipped consistently every day since July 30, 2026."
-  * *Humanized (1% AI):* "GitHub Contribution Streak: Pushed code and opened pull requests every calendar day since July 30, 2026, building an unbroken public contribution record."
+  * ❌ *Still Flagged (54% AI due to trailing participle ', building...'):* "GitHub Contribution Streak: Pushed code and opened pull requests every calendar day since July 30, 2026, building an unbroken public contribution record."
+  * *Humanized (1% AI):* "GitHub Contribution Streak: Pushed commits and opened pull requests every calendar day since July 30, 2026."
 
 ### The Conditional Engagement Rule
 Engage text humanization passes **only when the composite score falls into `density_tier == high`**. If text is already concise, technical, and low-slop, leave it untouched. Never perform churn rewrites.
