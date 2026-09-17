@@ -151,6 +151,18 @@ Empirical benchmarking against multi-tier neural AI detectors (e.g. Clever AI, G
   * ❌ *Still Flagged (54% AI due to abstract action & 'calendar day'):* "GitHub Contribution Streak: Pushed commits and opened pull requests every calendar day since July 30, 2026."
   * *Humanized (1% AI with Domain Anchoring):* "Public GitHub Contributions: Logged daily code commits and pull requests across Rust, TypeScript, and Linux system repositories since July 30, 2026."
 
+#### E. Sub-1% Calibration (Superlatives, Verb Coupling & Gerund Stacks)
+To eliminate minor residual AI signals (driving sentences from 3% to 4% down to sub-1%):
+1. **Purge Marketing Superlatives & Inflated Verb Pairs**:
+   * ❌ *Flagged (3% AI):* "Architected and deployed an accessible, ultra-fast portfolio web application built with React 19 hooks, strict TypeScript, and Tailwind CSS."
+   * *Sub-1% Human Fix:* "Built and deployed an accessible web portfolio with React 19 hooks, strict TypeScript, and Tailwind CSS."
+2. **Convert Descriptive Participles to Active Finite Verbs**:
+   * ❌ *Flagged (2% AI):* "Built an in-browser Linux terminal component streaming live CPU, RAM, and OS metrics with zero Cumulative Layout Shift (CLS)."
+   * *Sub-1% Human Fix:* "Built an in-browser Linux terminal component that renders CPU, RAM, and OS metrics with zero Cumulative Layout Shift (CLS)."
+3. **Dismantle Stacked Gerund Trios (The False Rule-of-Three)**:
+   * ❌ *Flagged (4% AI):* "Built a global keyboard command palette (Ctrl + K / Cmd + K) for keyboard-driven navigation, theme toggling, and instant section jumping."
+   * *Sub-1% Human Fix:* "Added a global command palette (Ctrl + K / Cmd + K) to toggle themes and navigate between portfolio sections."
+
 ### The Conditional Engagement Rule
 Engage text humanization passes **only when the composite score falls into `density_tier == high`**. If text is already concise, technical, and low-slop, leave it untouched. Never perform churn rewrites.
 
