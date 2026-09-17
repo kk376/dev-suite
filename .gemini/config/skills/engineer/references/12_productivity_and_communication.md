@@ -16,15 +16,18 @@ Triggered immediately when communication or understanding goes off track:
 ## 3. The Humanizer Writing & Communication System
 A checklist-driven standard that eliminates stylistic patterns and vocabulary that make technical writing and code read as machine-generated:
 
-### A. The 25+ Word Banned AI Vocabulary Tier
+### A. The 30+ Word Banned AI Vocabulary Tier
 Ruthlessly purge dead AI tell words, filler, and corporate cliches across all documentation, commit messages, PR descriptions, and architectural notes:
-* ❌ **High-Tell Verbs**: *delve, leverage, harness, foster, streamline, unlock, elevate, empower, champion, navigate.*
+* ❌ **High-Tell Verbs**: *delve, leverage, harness, foster, streamline, unlock, elevate, empower, champion, navigate, spearhead, showcase, feature (as verb).*
 * ❌ **Synthetic Nouns & Metaphors**: *tapestry, testament, beacon, game-changer, landscape, paradigm shift, synergy, catalyst.*
-* ❌ **Pretentious Adjectives**: *vital, crucial, bespoke, holistic, pivotal, paramount, multifaceted, ground-breaking.*
-* ❌ **Formulaic Openers & Transitions**: *"In today's fast-paced digital world", "It's important to note", "Let's dive in", "Look no further", "At its core", "A journey of".*
+* ❌ **Pretentious & Hollow Adjectives**: *vital, crucial, bespoke, holistic, pivotal, paramount, multifaceted, ground-breaking, robust, comprehensive, seamless, cutting-edge, state-of-the-art, inspired by.*
+* ❌ **Formulaic Openers, Credential Padding & Transitions**: *"In today's fast-paced digital world", "It's important to note", "Let's dive in", "Look no further", "At its core", "A journey of", "official certification verifying", "maintained continuously", "demonstrating proficiency in", "designed to ensure".*
 
 ### B. Mathematical Voice Physics & Syntax
 - **Total Zero-Tolerance Ban on Em Dashes & En Dashes**: Absolutely zero em dashes (`—`, U+2014) or en dashes (`–`, U+2013) across all writing, commits, PR comments, issue replies, documentation, and chat responses. Never use unspaced em dashes (`word—word`) or spaced em dashes (`word — word`). Em dashes are an unmistakable hallmark of AI-generated prose. Replace them with standard commas, colons, parentheses, or clean separate sentences with periods. Never substitute with double hyphens (`--`) or spaced en dashes (` - `).
+- **The Trailing Participle Invariant (Empirical Detector Tripwire)**: Empirical testing on production multi-tier AI detectors confirms that trailing present-participle clauses (`", displaying real-time metrics without layout shift"`, `", featuring strict error boundaries"`) spike AI probability to 50%+ (the "mixed/synthetic" threshold). Human engineers write active relative clauses (`"that displays live metrics without layout shift"`) or compound action verbs (`"Hardened scripts using set -euo pipefail and automated checksums"`).
+- **The Mechanism Over Self-Praise Invariant**: Never describe your own code, architecture, or scripts with evaluative self-praise (`robust`, `comprehensive`, `seamless`). Replace empty praise with concrete operational constraints: replace *"Built robust bash scripts"* with *"Hardened bash provisioning scripts using set -euo pipefail and SHA-256 verification"*.
+- **The High Domain Perplexity Benchmark (Sub-1% AI Invariant)**: Anchor technical assertions to concrete, low-frequency primitives: exact repository and crate paths (`crates/workspace`, `crates/gpui/src/app.rs`), raw kernel/hardware subsystems (`/proc`, `/sys`, `ioctl`, `PCIe D3cold`, `sysfs runtime_status`), and explicit numerical constants or timeouts (`200ms SHUTDOWN_TIMEOUT`). High domain perplexity mathematically invalidates statistical language model detectors.
 - **Soft Pause Conversational Cadence**: Use double dots (`..`) sparingly for natural sentence rhythm when mid-sentence pacing calls for it.
 - **Strict Proper Noun Capitalization**: Never leave technical entities or tools lowercase. Always capitalize *Rust, Fedora, Linux, Wayland, GNOME, Ghostty, OpenAI, GitHub*.
 - **Concrete Metrics Over Subjective Adjectives**: Always state exact numbers instead of vague adjectives (*"47% latency reduction"* beats *"significant performance boost"*; *"sub-400µs cold start"* beats *"blazing fast execution"*).

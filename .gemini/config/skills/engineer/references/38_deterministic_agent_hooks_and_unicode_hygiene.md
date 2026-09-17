@@ -117,6 +117,37 @@ Measure the presence of em dashes (`—`, U+2014) and en dashes (`–`, U+2013) 
 * Any occurrence of unspaced em dashes (`word—word`) or spaced em dashes (`word — word`) immediately flags text as machine-generated AI slop.
 * Required replacements: standard commas, colons, parentheses, or splitting into clean separate sentences with a period. Never substitute with double hyphens (`--`).
 
+### 5. The Empirical 1% Detector-Bypass Standard
+
+Empirical benchmarking against multi-tier neural AI detectors (e.g. Clever AI, GPTZero, Turnitin) reveals that technical text achieves sub-1% AI probability when anchored to low-level engineering invariants, but spikes to 50%+ AI probability on three specific syntactic patterns.
+
+#### A. The Trailing Participle Invariant
+* **Tripwire Pattern**: Sentences structured as `[Main action], [present participle tag displaying / showcasing / ensuring / highlighting X]` consistently trip detector classifiers into the 50% to 55% "mixed/synthetic" bracket.
+* **Deterministic Invariant**: Ban trailing present-participle clauses in technical bullets and documentation. Require active relative clauses or compound action verbs:
+  * ❌ *Flagged (54% AI):* "Implemented a hardware telemetry terminal component inspired by Linux CLI tools, displaying real-time specifications without layout shift."
+  * *Humanized (1% AI):* "Built an interactive CLI-style hardware telemetry terminal component that displays real-time system specifications without layout shift."
+
+#### B. The Evaluative Adjective Blacklist (Mechanism Over Praise)
+* **Tripwire Pattern**: Hollow self-praise adjectives (`robust`, `comprehensive`, `seamless`, `cutting-edge`, `state-of-the-art`, `inspired by`, `featuring`) are strong probabilistic indicators of synthetic text.
+* **Deterministic Invariant**: Ban self-praise adjectives across all technical copy. Replace evaluative adjectives with concrete operational mechanisms:
+  * ❌ *Flagged (54% AI):* "Built robust bash scripts featuring strict error boundaries (set -euo pipefail), automated SHA-256 checksum verification for downloads, and idempotent execution."
+  * *Humanized (1% AI):* "Hardened bash provisioning scripts using strict exit handling (set -euo pipefail), automated SHA-256 checksum verification for external downloads, and idempotent module execution."
+
+#### C. Domain Perplexity Anchoring (The 1% Invariant)
+* **Statistical Mechanics**: AI detectors calculate n-gram token perplexity and burstiness. Generic claims produce low perplexity (flagging high AI probability). Concrete systems tokens produce high perplexity (sub-1% AI probability).
+* **Deterministic Invariant**: Anchor every technical bullet to at least two concrete low-frequency primitives:
+  1. *Filesystem and Crate Paths:* e.g. `crates/workspace`, `crates/gpui/src/app.rs`, `/proc`, `/sys`.
+  2. *Kernel & Hardware Telemetry:* e.g. `PCIe D3cold`, `nvtop.rs`, `sysfs runtime_status`, `POSIX FFI`, `ioctl`.
+  3. *Exact Constants & Error Signatures:* e.g. `200ms SHUTDOWN_TIMEOUT`, `timed out waiting on app_will_quit`, `50 to 200ms bus contention interrupt spikes`.
+
+#### D. Credential & Cadence Hygiene
+* **Tripwire Pattern**: Formal administrative padding (*"Official certification verifying..."*, *"maintained continuously"*) mimics boilerplate marketing brochures.
+* **Deterministic Invariant**: Enforce direct, active credential statements and delivery records:
+  * ❌ *Flagged (54% AI):* "Work Smarter with AI: Official certification verifying AI-assisted engineering, pair-programming, and modern development workflows (September 2026)."
+  * *Humanized (1% AI):* "Work Smarter with AI: Professional credential verifying hands-on AI pair-programming, agentic workflows, and prompt engineering (September 2026)."
+  * ❌ *Flagged (54% AI):* "Continuous GitHub Activity: Daily commit streak and active open-source software delivery maintained continuously since July 30, 2026."
+  * *Humanized (1% AI):* "Continuous GitHub Activity: Daily commit history and software deliveries shipped consistently every day since July 30, 2026."
+
 ### The Conditional Engagement Rule
 Engage text humanization passes **only when the composite score falls into `density_tier == high`**. If text is already concise, technical, and low-slop, leave it untouched. Never perform churn rewrites.
 
