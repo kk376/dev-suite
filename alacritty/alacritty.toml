@@ -1,0 +1,143 @@
+# ==============================================================================
+# Alacritty Configuration - Tokyo Night Theme & Fira Code Profile
+# ==============================================================================
+
+[general]
+live_config_reload = true
+
+[env]
+TERM = "alacritty"
+
+# --- Window Geometry, Padding & Translucency ---
+[window]
+opacity = 0.97
+blur = true
+decorations = "Full"
+dynamic_padding = true
+startup_mode = "Maximized"
+
+[window.padding]
+x = 16
+y = 14
+
+[window.dimensions]
+columns = 0
+lines = 0
+
+# --- Typography & Font Ligatures ---
+[font]
+size = 12.0
+
+[font.normal]
+family = "FiraCode Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "FiraCode Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "FiraCode Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "FiraCode Nerd Font"
+style = "Bold Italic"
+
+[font.offset]
+x = 0
+y = 0
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+# --- Cursor Customization ---
+[cursor]
+thickness = 0.18
+blink_interval = 500
+blink_timeout = 0
+unfocused_hollow = true
+
+[cursor.style]
+shape = "Beam"
+blinking = "On"
+
+# --- Audio Bell & Shell ---
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+
+[terminal.shell]
+program = "/usr/bin/fish"
+
+# --- Mouse & Selection ---
+[selection]
+save_to_clipboard = true
+
+[mouse]
+hide_when_typing = false
+
+[[mouse.bindings]]
+mouse = "Right"
+action = "Paste"
+
+# --- Tokyo Night Color Scheme ---
+[colors.primary]
+background = "#1a1b26"
+foreground = "#c0caf5"
+
+[colors.cursor]
+text = "#1a1b26"
+cursor = "#c0caf5"
+
+[colors.selection]
+text = "#c0caf5"
+background = "#33467c"
+
+[colors.normal]
+black = "#15161e"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#a9b1d6"
+
+[colors.bright]
+black = "#414868"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#c0caf5"
+
+[colors.hints.start]
+foreground = "#1a1b26"
+background = "#e0af68"
+
+[colors.hints.end]
+foreground = "#1a1b26"
+background = "#7aa2f7"
+
+# --- Keyboard Shortcuts ---
+[keyboard]
+bindings = [
+  # Clipboard
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+
+  # OS Window Creation (Ctrl+Shift+Enter)
+  { key = "Return", mods = "Control|Shift", action = "CreateNewWindow" },
+
+  # Terminal Controls & Font Zoom
+  { key = "K", mods = "Control|Shift", action = "ClearHistory" },
+  { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Equals", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
+  { key = "Key0", mods = "Control", action = "ResetFontSize" },
+  { key = "F11", mods = "None", action = "ToggleFullscreen" },
+]

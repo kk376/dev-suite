@@ -27,7 +27,7 @@ cursor-style-blink = true
 adjust-cursor-thickness = 3
 
 # --- Select, Copy & Paste (Matching Kitty 1:1) ---
-copy-on-select = false
+copy-on-select = clipboard
 right-click-action = paste
 clipboard-paste-protection = false
 clipboard-paste-bracketed-safe = true
