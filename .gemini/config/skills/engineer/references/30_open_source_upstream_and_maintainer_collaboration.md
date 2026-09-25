@@ -101,3 +101,159 @@ Large monorepos (such as Zed, Rust, LLVM, or Linux) have strict structural and o
   - Check `git status -s` frequently; zero untracked artifacts, temporary logs, or scratch files.
   - Ensure zero duplicate pull requests, stale branches, or orphaned discussions exist across your GitHub profile.
   - Every committed change must be cryptographically signed (`git commit -S`).
+
+---
+
+## 5. Maintainer Inbound PR Review, Approval & Release Protocol
+
+When acting as an open source maintainer receiving pull requests from outside contributors, follow a disciplined protocol for triaging, testing, approving, merging, and releasing changes.
+
+### A. The GitHub Contribution Graph & Review Event Mechanics
+A frequent point of confusion for maintainers is why merging a community pull request does not increment the "Reviewed pull requests" counter or show review activity on their public GitHub profile.
+
+1. **Commit and Merge Events vs Review Events**:
+   - Merging a PR directly (via the GitHub web UI or running `gh pr merge`) emits a commit event or merge action. It does NOT emit a code review event.
+   - GitHub only records review activity on your profile when a formal review is submitted against the pull request. This emits a `PullRequestReviewEvent` via the GitHub API.
+2. **The Formal Review Invariant**:
+   - Never merge an external PR without submitting a formal review. Submitting a formal review ensures three outcomes:
+     - Public recognition of your code review and maintainer stewardship on GitHub.
+     - Formal, structured feedback to the external contributor (Approved, Changes Requested, or Commented).
+     - An immutable, auditable review record in repository history before changes land on `main`.
+
+### B. The 5-Phase Maintainer Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                   MAINTAINER INBOUND PR WORKFLOW                            │
+├───────────────────────────────┬─────────────────────────────────────────────┤
+│ 1. TRIAGE & STATIC INSPECTION │ Inspect diff, verify CI status, check scope │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 2. LOCAL CHECKOUT & AUDIT     │ Pull PR branch locally, run full test suite │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 3. FORMAL APPROVAL SUBMISSION │ Emit PullRequestReviewEvent via gh pr review│
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 4. SQUASH & MERGE LANDING     │ Land patch cleanly with author attribution  │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 5. VERSION BUMP & RELEASE     │ Update changelog, bump version, sync distros│
+└───────────────────────────────┴─────────────────────────────────────────────┘
+```
+
+#### Phase 1: Inbound Triage and Inspection
+Before touching code or pulling branches, inspect the submission for quality and safety:
+1. View PR summary and status:
+   ```bash
+   gh pr view <PR_NUMBER>
+   ```
+2. Inspect the raw diff:
+   ```bash
+   gh pr diff <PR_NUMBER>
+   ```
+3. Check continuous integration (CI) workflow status:
+   ```bash
+   gh pr checks <PR_NUMBER>
+   ```
+4. Verify safety and scope:
+   - Ensure the diff contains only intended changes. Check for extraneous build artifacts, lockfile pollution, unintended configuration changes, or hidden Unicode characters.
+   - For pull requests from first-time contributors running GitHub Actions workflows, inspect the code before approving workflow execution.
+
+#### Phase 2: Local Checkout and Verification
+Never rely exclusively on remote CI. Always verify external pull requests in your local environment:
+1. Check out the pull request into a dedicated local branch:
+   ```bash
+   gh pr checkout <PR_NUMBER>
+   ```
+2. Run the project test suite and linter:
+   - For Rust codebases:
+     ```bash
+     cargo test --all-targets
+     cargo clippy -- -D warnings
+     ```
+   - For Node / TypeScript codebases:
+     ```bash
+     pnpm test
+     pnpm lint
+     pnpm build
+     ```
+   - For Shell / Python / System utilities:
+     ```bash
+     make test
+     pytest
+     shellcheck <modified_files>
+     ```
+3. Test targeted real-world functionality locally (for example: running binary flags, verifying edge cases on local hardware, or testing system-specific probes).
+
+#### Phase 3: Formal Approval Review (Emitting Review Event)
+Once local validation passes, return to the maintainer branch or terminal and submit a formal review:
+1. Submit formal approval with a concise, factual summary of local testing:
+   ```bash
+   gh pr review <PR_NUMBER> --approve -b "LGTM: Verified locally on $(uname -s) $(uname -m). All unit and integration tests pass."
+   ```
+   *Note*: This command submits a formal review payload to the GitHub API, creating a `PullRequestReviewEvent` that credits your maintainer review activity on your public profile.
+2. If changes or cleanups are needed before merging:
+   ```bash
+   gh pr review <PR_NUMBER> --request-changes -b "Specific feedback regarding missing test or regression."
+   ```
+3. If leaving non-blocking suggestions or general comments:
+   ```bash
+   gh pr review <PR_NUMBER> --comment -b "Informational comment or non-blocking suggestion."
+   ```
+
+#### Phase 4: Squash and Merge
+Land the contribution onto the default branch:
+1. Merge the PR using squash merge to maintain a clean git history:
+   ```bash
+   gh pr merge <PR_NUMBER> --squash --delete-branch
+   ```
+   *Note*: Squash merging automatically preserves the original contributor as the commit Author, while setting you (the maintainer) as the Committer. Both parties receive appropriate git attribution.
+2. If multiple contributors collaborated on the PR, add co-authors in the commit body:
+   ```
+   Co-authored-by: Collaborator Name <collaborator@example.com>
+   ```
+
+#### Phase 5: Version Bump, Attribution & Multi-Platform Release
+After landing the PR:
+1. Pull the merged changes to your local `main` branch:
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+2. Update the version and credit the contributor in documentation:
+   - Document the bug fix or feature in `CHANGELOG.md` with explicit credit:
+     ```markdown
+     ## [0.18.1] - 2026-09-26
+     ### Fixed
+     - Corrected GPU model classification for Raphael desktop APUs (thanks to @contributor in #1).
+     ```
+   - Bump version manifests across the project (e.g. `Cargo.toml`, `package.json`, `setup.py`).
+3. Synchronize distribution packaging manifests (if applicable):
+   - RPM spec file (`kkfetch.spec`)
+   - Debian changelog (`debian/changelog`)
+   - Arch Linux PKGBUILD (`PKGBUILD`)
+   - Homebrew formula (`Formula/<package>.rb`)
+   - Windows WinGet / Chocolatey manifests
+4. Commit changes with cryptographic SSH signature:
+   ```bash
+   git add -A
+   git commit -S -m "chore(release): bump version to 0.18.1"
+   git tag -s v0.18.1 -m "Release v0.18.1"
+   git push origin main --tags
+   ```
+5. Dispatch multi-platform builds and repositories:
+   - Verify GitHub Actions release workflow execution: `gh run list`
+   - Trigger or verify Copr / PPA builds.
+   - Update Homebrew tap with release tarball checksums.
+
+### C. Maintainer GitHub CLI (`gh`) Command Reference
+
+| Action | Command | Purpose |
+| :--- | :--- | :--- |
+| **Inspect PR status** | `gh pr view <PR>` | Inspect title, body, author, labels, and state |
+| **Inspect diff** | `gh pr diff <PR>` | Review exact lines added, modified, or removed |
+| **Check CI runs** | `gh pr checks <PR>` | Check passing or failing remote CI checks |
+| **Checkout PR locally** | `gh pr checkout <PR>` | Switch to contributor branch locally for testing |
+| **Submit formal approval** | `gh pr review <PR> --approve -b "LGTM"` | Emits `PullRequestReviewEvent` on maintainer profile |
+| **Request changes** | `gh pr review <PR> --request-changes -b "..."` | Formal change request blocking merge |
+| **Leave formal comment** | `gh pr review <PR> --comment -b "..."` | Emits review comment without approving or blocking |
+| **Squash and merge** | `gh pr merge <PR> --squash --delete-branch` | Lands PR cleanly onto main and removes remote branch |
+| **Rebase and merge** | `gh pr merge <PR> --rebase --delete-branch` | Applies contributor commits directly on top of main |
+| **Close without merging** | `gh pr close <PR> -c "Reason for closing"` | Closes PR politely with maintainer explanation |
