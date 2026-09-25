@@ -131,3 +131,95 @@ Every code review pass must inspect the raw `git diff` for unprompted scope cree
    - Check for premature abstraction: Did the change introduce an abstract class, interface, or factory for code that only has one caller?
    - Check for speculative configurability: Were optional flags, unused settings, or "future-proofing" parameters added without being requested?
    - If 200 lines were added where 50 lines would achieve the same outcome without compromising correctness, request simplification.
+
+---
+
+## Working Tree Review Evidence Binding (`reviewFreshness`)
+
+A code review is only valid for the exact working tree state that was inspected. When iterative edits or multi-agent workflows touch files after a review has started or completed, the review evidence is invalidated.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    WORKING TREE REVIEW BINDING LIFECYCLE                    │
+├───────────────────────────────┬─────────────────────────────────────────────┤
+│ 1. REVIEW START FINGERPRINT   │ Stamp wtree = git rev-parse HEAD^{tree} +   │
+│                               │ working-tree dirty status before reading    │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 2. PASS EXECUTION             │ Run Standards and Spec axis checks          │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 3. CONVERGENCE & BINDING      │ If start wtree == end wtree: VERIFIED       │
+│                               │ If content changed during pass: STALE       │
+├───────────────────────────────┼─────────────────────────────────────────────┤
+│ 4. SHIP / MERGE GATE          │ Pre-ship check: active wtree == bound wtree │
+│                               │ If mismatch: block ship, require re-review  │
+└───────────────────────────────┴─────────────────────────────────────────────┘
+```
+
+### Review Freshness Invariants
+1. **Unambiguous Working Tree Fingerprint**:
+   Before initiating review analysis, capture the tree hash:
+   ```bash
+   git rev-parse HEAD^{tree}
+   git status --porcelain
+   ```
+2. **Freshness States**:
+   - `CURRENT`: Review finished clean (zero open defects) on the exact working tree currently present on disk.
+   - `STALE`: Working-tree content differs from the reviewed content (subsequent commits, edits, or file additions occurred).
+   - `UNVERIFIED`: Incomplete pass, unresolved findings, or review conducted without a recorded start fingerprint.
+3. **The Zero-Stale-Ship Gate**:
+   Never merge or release code when review evidence is `STALE` or `UNVERIFIED`. Any modification made to address review feedback requires an updated pass that re-verifies the resulting tree.
+
+---
+
+## The Shared-Code Extraction Rubric (Anti-Speculative Helper Governance)
+
+When considering extracting duplicated code into a shared helper or library, apply this 5-rule governance rubric to avoid premature coupling:
+
+1. **Prove the Callers**:
+   - Require at least two verified, first-party authored source locations (functions and line numbers).
+   - Only an architectural planning review may consider proposed future callers, and those must be explicitly labeled as unverified assumptions.
+   - Similar syntactic names or formatting alone do not establish equivalent behavior. Generated code, vendor code, and third-party copies do not qualify as callers.
+2. **Reuse Before Extracting**:
+   - Inspect existing helper modules, utility packages, and project dependencies first.
+   - Compare behavior, inputs, outputs, error handling, side effects, security requirements, and runtime boundaries.
+   - Preserve domain differences that callers genuinely need. Do not bridge separate microservices or isolated deployments without an established shared contract.
+3. **Keep the Helper Small**:
+   - Specify the helper destination, explicit interface contract, callers to migrate, and smallest adoption sequence.
+   - Ban option-heavy helpers (functions taking flags like `isUser`, `skipValidation`, `formatMode`). Avoid coupling unrelated components.
+   - Explicitly define the blast radius: what breaks across callers if the shared helper fails?
+4. **Account for the Whole Change (Net Code Math)**:
+   - Account for lines removed versus lines added across implementation, tests, and call-site updates:
+     $$\text{Net Savings} = \text{Lines Removed} - \text{Lines Added}$$
+   - Count moved code on both sides. Exclude vendor or generated lines. If net savings are negative or negligible, the abstraction is not earning its keep.
+5. **Rank Useful Changes**:
+   - Prioritize concrete reliability gains and net savings over stylistic preference.
+   - Reject similarities where contracts diverge, and reject abstractions whose maintenance overhead exceeds duplicate lines.
+
+---
+
+## Maintainability Specialist Review Checklist
+
+In every review pass, audit for these non-functional code decay signals:
+
+### 1. Dead Code and Unused Imports
+- Variables assigned but never read in the modified files.
+- Functions or methods defined but never invoked across the repository (verified via project-wide grep).
+- Imports and requires that are no longer referenced after the change.
+- Commented-out code blocks: must be removed outright.
+
+### 2. Magic Literals and String Coupling
+- Bare numeric literals used in business logic (thresholds, timeouts, retry limits, byte boundaries): extract to named constants.
+- Error message strings used as conditionals or query filters elsewhere in the codebase.
+- Hardcoded URLs, ports, or internal hosts that must be environment configuration.
+
+### 3. Stale Comments and Docstrings
+- Comments that describe previous behavior after the code was modified.
+- TODO or FIXME comments referencing completed tasks or closed issues.
+- Function docstrings with parameter lists that do not match the current signature.
+- ASCII architectural diagrams in source comments that no longer match runtime flow.
+
+### 4. Conditional Side Effects
+- Control flow branching on a condition where one branch forgets a required side effect (e.g. cache invalidation, metric recording, or audit emission).
+- Log messages claiming an operation succeeded when the operation was conditionally skipped.
+- State transitions where one branch updates related records but alternative branches leave them orphaned.
+- Event emissions that only fire on happy paths, leaving error and edge paths unrecorded.

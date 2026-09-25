@@ -62,6 +62,31 @@ done
 exit 0
 ```
 
+### Quoted Destructive SQL & Shell Wrapper Interception (`sql-guard`)
+
+Destructive SQL commands frequently evade simple regex filters when wrapped in quotation marks and passed as arguments to database client binaries, or when chained through shell wrappers.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    SQL CLIENT QUOTE & WRAPPER UNWRAPPING                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 1. UNWRAP LEADING WRAPPERS: sudo, doas, env (-C / --chdir / VAR=val), sh -c │
+│ 2. DETECT TARGET SQL CLIENT: psql, mysql, mariadb, sqlite3, duckdb, pgcli   │
+│ 3. STRIP DATA STRING LITERALS: Exclude 'literal', "ident", $$block$$        │
+│ 4. INTERCEPT DESTRUCTIVE TOKENS: DROP TABLE/DATABASE, TRUNCATE, DELETE FROM │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **Target Database Clients**:
+   The guard intercepts commands targeting `psql`, `postgres`, `mysql`, `mariadb`, `sqlite3`, `sqlite`, `sqlcmd`, `pgcli`, `mycli`, `duckdb`, and `bq`.
+2. **Wrapper Peeling**:
+   The interceptor peels leading wrapper layers (`sudo -u <user>`, `doas`, `env -i`, `env -C <dir>`, `VAR=value` assignments, and nested `sh -c` / `bash -c` strings) to resolve the real underlying binary.
+3. **Literal Stripping Invariant**:
+   To prevent false positives when reading or auditing data, the detector strips single-quoted string literals (`'...'`), double-quoted identifiers, and dollar-quoted blocks (`$$...$$` or `$tag$...$tag$`). For example:
+   - `psql -c "DROP TABLE users"` is intercepted as destructive DDL.
+   - `psql -c "SELECT 'drop table' FROM audit_log"` is permitted as a safe query.
+   - `echo "DROP TABLE users"` is permitted as non-database prose.
+
 ---
 
 ## Mandatory Cryptographic Commit Signing (`git-signed-commits`)

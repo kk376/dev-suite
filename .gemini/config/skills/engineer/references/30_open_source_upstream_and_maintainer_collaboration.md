@@ -257,3 +257,87 @@ After landing the PR:
 | **Squash and merge** | `gh pr merge <PR> --squash --delete-branch` | Lands PR cleanly onto main and removes remote branch |
 | **Rebase and merge** | `gh pr merge <PR> --rebase --delete-branch` | Applies contributor commits directly on top of main |
 | **Close without merging** | `gh pr close <PR> -c "Reason for closing"` | Closes PR politely with maintainer explanation |
+
+---
+
+### D. Visual Pull Request Body Architecture & Merge Danger Doors (`pr-body`)
+
+When crafting or reviewing pull request descriptions, enforce a high-signal, low-cognitive-load structure optimized for rapid human evaluation:
+
+```markdown
+## Summary
+
+<smallest visual representation: pseudocode, call tree, component tree, shallow file tree, or diff sketch>
+
+## Evidence
+
+- **Before:** <failing test run, previous incorrect behavior, or previous visual layout>
+  **After:** <passing test run, corrected behavior, or updated visual layout>
+
+## Merge Danger
+
+**Door:** <one-way or two-way>
+<description of reversibility and rollback cost>
+
+**Blast Radius:** <Isolated | Component-Level | Module-Wide | System-Wide>
+<potential ramifications across consumers, mobile viewports, or downstream services>
+```
+
+#### 1. The Smallest Visual Summary Anchor
+Always lead with the most compact visual representation that answers the reviewer's questions before they read the diff:
+- **Pseudocode for Algorithmic & State Logic**:
+  ```text
+  on(save)
+    if content is unchanged:
+      return cached result
+    write new content
+    invalidate cache
+    return fresh result
+  ```
+- **Call Tree for Runtime Control Flow**:
+  ```text
+  submitOrder
+    createOrderRecord
+      validateInventory
+      chargePaymentGateway
+    dispatchConfirmationEmail
+  ```
+- **Component Tree for UI Hierarchy & Boundaries**:
+  ```tsx
+  <BillingPortal>
+    <PlanSelector activeTier={tier} />
+    <PaymentMethodForm onComplete={handleToken} />
+    <InvoiceHistoryTable />
+  </BillingPortal>
+  ```
+- **Shallow File Tree for Module Restructuring**:
+  ```text
+  src/
+  ├── transport/       # handles HTTP and WebSocket transport
+  ├── auth/            # owns token verification and sessions
+  └── telemetry/       # records audit events and metrics
+  ```
+- **Diff Sketch for State Transitions**:
+  ```diff
+   on(event)
+  -  sendRawPayload(event)
+  +  if isAuthorized(event.sender):
+  +    sendEncryptedPayload(event)
+  ```
+
+#### 2. Before / After Evidence Pairs
+Concrete proof that the change works as intended:
+- **Execution Evidence (A-Tier)**: Exact terminal output showing the test failing before the fix, and passing after the fix.
+- **Visual Evidence (S-Tier)**: Clean side-by-side screenshots or video captures for all UI, layout, and styling changes.
+
+#### 3. Merge Danger & Reversibility Classification
+Review every PR against its reversibility cost:
+- **One-Way Doors**: Irreversible or hard-to-reverse changes:
+  - Destructive database migrations (dropping columns, truncating tables).
+  - Breaking public API contract changes that impact third-party consumers.
+  - State format modifications that corrupt existing client caches or serialized blobs.
+  - Requires explicit rollback runbooks and architectural consensus before merging.
+- **Two-Way Doors**: Easily reversible changes:
+  - Additive endpoints, internal refactors, styling updates, documentation fixes.
+  - Can be rolled back with a single clean git revert.
+- **Blast Radius**: Explicitly evaluate scope of impact across consumers, mobile viewports, responsive layouts, and dependent packages.

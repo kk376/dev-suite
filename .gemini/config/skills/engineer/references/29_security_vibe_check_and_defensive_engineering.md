@@ -99,6 +99,7 @@ The Master Engineering Standard enforces a **Zero-Trust, Fail-Closed Security Ar
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   ```
 - Configure in Express via `helmet()`, in Next.js via `headers()` in `next.config.js`, or in FastAPI/Axum via dedicated header middleware.
+- **HSTS Preload Gate Warning**: Only recommend `preload` if the maintainer confirms every subdomain is strictly HTTPS, because domain removal from browser preload lists takes months.
 
 ### 9. CROSS-ORIGIN RESOURCE SHARING (CORS) (High)
 - **Invariant**: Never configure wildcard `*` CORS policies on APIs handling user credentials.
@@ -106,6 +107,7 @@ The Master Engineering Standard enforces a **Zero-Trust, Fail-Closed Security Ar
   - Maintain an explicit, declarative allowlist of authorized frontend domain origins (e.g. `['https://app.example.com', 'https://staging.example.com']`).
   - Never combine `Access-Control-Allow-Origin: *` with `Access-Control-Allow-Credentials: true`.
   - Never reflect the incoming `Origin` request header back without explicit validation against the allowlist.
+  - **CDN & Storage Bucket Header Audit**: Inspect deployed response headers on static hosting and CDN storage buckets (S3, CloudFront, R2). Hosting platforms frequently inject `Access-Control-Allow-Origin: *` automatically even if application server code denies it.
 
 ### 10. RATE LIMITING & BRUTE-FORCE DEFENSE (Medium)
 - **Invariant**: Authentication and resource-intensive endpoints must enforce deterministic rate limits.
@@ -146,13 +148,22 @@ The Master Engineering Standard enforces a **Zero-Trust, Fail-Closed Security Ar
   - Store files on an isolated cloud object storage domain (AWS S3, Cloudflare R2, Google Cloud Storage) with private ACLs and pre-signed access URLs.
   - Enforce server-side size limits (e.g. max 5MB for avatars, 25MB for PDFs).
 
-### 15. SECURE ERROR HANDLING & LEAK PREVENTION (Low/Medium)
-- **Invariant**: Production error responses must never expose internal infrastructure details.
+### 15. SECURE ERROR HANDLING & DIAGNOSTIC ENDPOINT LOCKDOWN (High)
+- **Invariant**: Production error responses and diagnostic endpoints must never expose internal infrastructure details.
 - **Rules**:
   - Implement a global catch-all error handling middleware.
   - Production responses must return opaque, generic error contracts: `{"error": "An unexpected error occurred", "code": "INTERNAL_SERVER_ERROR"}`.
   - Never leak stack traces, database schema details, file system paths, or library versions in API responses.
-  - Disable debug mode / development diagnostic pages in production (`DEBUG = False`, `NODE_ENV = 'production'`).
+  - Disable debug mode and development diagnostic pages in production (`DEBUG = False`, `NODE_ENV = 'production'`).
+  - **Framework Diagnostic Endpoint Lockdown**: Disable or place behind high-privilege administrative authentication all default documentation and debug surfaces in production:
+    - FastAPI: `/docs`, `/redoc`, `/openapi.json`
+    - Swagger UI / OpenAPI: `/swagger-ui`, `/api-docs`
+    - GraphQL: Disable public introspection queries and GraphQL Playground / GraphiQL to prevent full schema graph harvesting.
+    - Spring Boot: `/actuator/env`, `/actuator/heapdump`, `/actuator/beans`
+    - Python / Flask: Werkzeug interactive debugger (prevents remote code execution via debugger PIN bypass)
+    - Django: `DEBUG=True` diagnostic traceback pages
+    - PHP: `phpinfo()`, `/server-status`
+    - All diagnostic endpoints must return `404 Not Found` or require strict admin auth in production configuration.
 
 ### 16. CRYPTOGRAPHIC PASSWORD HASHING (Medium)
 - **Invariant**: Passwords must be hashed using modern, memory-hard cryptographic key derivation functions.
