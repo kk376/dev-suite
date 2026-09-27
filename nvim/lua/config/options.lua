@@ -34,4 +34,7 @@ opt.timeoutlen = 300     -- Time in milliseconds to wait for a mapped sequence
 -- Splits & Windows
 opt.splitright = true    -- Put new vertical splits to the right of current
 opt.splitbelow = true    -- Put new horizontal splits below current
-opt.wrap = false         -- Display lines as one long line (no auto wrap)
+-- Word Wrap (Soft wrap matching VS Code and Zed ergonomics)
+opt.wrap = true          -- Enable soft line wrapping
+opt.linebreak = true     -- Break lines at word boundaries rather than mid-word
+opt.breakindent = true   -- Maintain line indentation on wrapped lines
