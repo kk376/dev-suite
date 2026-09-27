@@ -23,6 +23,10 @@ Personal developer suite, environment configurations, multi-distro packaging aut
   - `settings.json` — Dark Modern theme, FiraCode Nerd Font ligatures, always-on word wrap, multiple tabs, and Emmet snippet integration.
   - `keybindings.json` — Windows-style duplicate line shortcuts (`Shift+Alt+Down` and `Shift+Alt+Up`) bypassing Linux GNOME Mutter workspace shortcuts.
   - `snippets/` & `emmet/` — Dark mode HTML boilerplate snippets and Emmet configs.
+- `nvim/`: Neovim complete configuration:
+  - `init.lua`: Main entrypoint loading options and lazy.nvim plugin loader.
+  - `lua/config/`: Ergonomic options (relative line numbers, 2-space indentation, smartcase, system clipboard sync) and lazy.nvim setup.
+  - `lua/plugins/`: Frosted glass Noctalia theme (`noctalia.nvim`) reading wallpaper palette tokens with transparent background, plus treesitter syntax parsers.
 - `system/` — Linux kernel sysctl parameters (`99-zram.conf`) and zram-generator configurations (`zram-generator.conf`).
 - `glab/` — GitLab CLI (`glab`) configuration (`config.yml`, `aliases.yml`) configured for SSH git protocol, dark glamour markdown rendering, and GitLab.com integration.
 - `scripts/` — Full system and packaging credential backup and restore helpers (`backup_full_system.sh`, `backup_packaging_keys.sh`, `restore_packaging_keys.sh`).
