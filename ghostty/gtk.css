@@ -1,25 +1,31 @@
-/* --- Tokyo Night Tab Bar (Matching Kitty 1:1) --- */
+/* --- Tab Bar: Seamless with terminal background, no grey bar --- */
 
+/* Make the entire tab bar container transparent so it blends
+   with the terminal background. No visible grey strip. */
 tabbar,
 tabbar .box,
-tabbar tabbox {
-    background-color: #1a1b26;
+tabbar tabbox,
+tabbar .start-action,
+tabbar .end-action {
+    background: transparent;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 tabbar {
-    border-top: 1px solid #24283b;
-    min-height: 26px;
-    margin-top: 0px;
-    padding-top: 0px;
+    min-height: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 tabbar tabbox {
     padding-top: 2px;
     padding-bottom: 2px;
-    min-height: 26px;
+    min-height: 0px;
 }
 
-/* Hide default separator line & drop indicator */
+/* Hide default separator line and drop indicator */
 tabbar tabbox > separator {
     opacity: 0;
 }
@@ -28,7 +34,7 @@ tabbar tabbox > revealer > indicator {
     opacity: 0;
 }
 
-/* Inactive Tab (Kitty #24283b background, #787c99 text) */
+/* Inactive Tab */
 tabbar tab,
 tabbar tabbox > tabboxchild tab {
     background-color: #24283b;
@@ -45,7 +51,7 @@ tabbar tab:hover:not(:selected) {
     color: #c0caf5;
 }
 
-/* Active Tab (Kitty vibrant #7aa2f7 background, #16161e text) */
+/* Active Tab */
 tabbar tab:selected,
 tabbar tab:selected:hover,
 tabbar tabbox > tabboxchild tab:selected {
@@ -95,4 +101,19 @@ tabbar tab button.image-button:not(.tab-indicator) image {
     padding: 0px;
     margin: 0px;
     -gtk-icon-size: 0px;
+}
+
+/* Kill the bottom toolbar background that causes the grey strip */
+toolbar,
+.toolbar,
+.bottom-bar,
+actionbar,
+actionbar > revealer > box {
+    background: transparent;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    min-height: 0px;
+    padding: 0px;
+    margin: 0px;
 }

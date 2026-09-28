@@ -83,14 +83,14 @@ function record --description "Record screen with audio and MP4 faststart optimi
         case desktop system
             set -l default_sink (pactl get-default-sink 2>/dev/null)
             if test -n "$default_sink"
-                set audio_args -a "$default_sink.monitor" -C aac
+                set audio_args --audio="$default_sink.monitor" -C aac
             else
-                set audio_args -a -C aac
+                set audio_args --audio -C aac
             end
         case none mute
             set audio_args
         case "*"
-            set audio_args -a -C aac
+            set audio_args --audio -C aac
     end
 
     set -l raw (mktemp -u --suffix=.mp4 /tmp/wf_rec_XXXXXX)
