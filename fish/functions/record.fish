@@ -34,16 +34,17 @@ function record --description "Record screen with audio and MP4 faststart optimi
             set audio_args --audio -C aac
     end
 
-    set -l raw (mktemp -u --suffix=.mp4 /tmp/wf_rec_XXXXXX)
     echo "Starting screen recording: $target (Audio: $audio_mode)"
     echo "Press Ctrl+C to stop recording."
 
-    wf-recorder -c libx264 -x yuv420p -r 60 -p crf=20 -p preset=veryfast $audio_args -f $raw
+    wf-recorder -c libx264 -x yuv420p -r 60 -p crf=20 -p preset=veryfast $audio_args -f "$target"
 
-    if test -f $raw
+    if test -f "$target"; and type -q ffmpeg
         echo "Applying faststart stream optimization..."
-        ffmpeg -v error -y -i $raw -c copy -movflags +faststart $target
-        rm -f $raw
-        echo "Saved optimized stream recording to: $target"
+        set -l tmp_opt (mktemp -u --suffix=.mp4 /tmp/faststart_XXXXXX)
+        if ffmpeg -v error -y -i "$target" -c copy -movflags +faststart "$tmp_opt"
+            mv "$tmp_opt" "$target"
+            echo "Saved optimized stream recording to: $target"
+        end
     end
 end
