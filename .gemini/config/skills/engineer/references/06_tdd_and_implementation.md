@@ -105,3 +105,52 @@ Skill: /engineer
 2. **Never Commit Broken Tests**: Checkpoints must leave the codebase in a compilable state with passing or expected test assertions. Never commit broken syntax or half-edited files.
 3. **Negative Knowledge Retention (`Tried:`)**: Always record failed approaches and why they failed. This preserves negative knowledge across context compaction and prevents subsequent agent turns or subagents from looping on known dead ends.
 4. **Squash at Merge / Ship**: When the feature is complete and verified, intermediate `WIP:` commits are squashed into a clean, signed production commit adhering to standard conventional commit specifications.
+
+---
+
+## Code Comment Anti-Slop Hygiene Protocol (`comments`, `comment-hygiene`)
+
+AI coding assistants frequently pollute codebases with redundant, noisy, and decorative comments that obscure production logic. Every comment must pass rigorous purpose and density gates.
+
+### Scope Guardrail for Comment Refactoring
+When assigned to clean or edit comments:
+- **Comments Only**: Modify or remove comments exclusively.
+- **Strict Code Preservation**: Never modify executable code, variable names, function signatures, control flow, imports, indentation, or whitespace. When in doubt, preserve the executable code untouched.
+
+### The 7 Banned Comment Anti-Patterns
+1. **Decorative Separators**: Banner dividers constructed from repeated characters, ASCII boxes, or uppercase labels (e.g. `// ==================`, `/* ----- ROUTES ----- */`).
+2. **Restating the Obvious**: Comments that echo what the immediate line of code already expresses (e.g. `// Initialize counter` above `let counter = 0;`, `// User class` above `class User`).
+3. **Workflow Narration**: Narrating procedural steps as numbered checklists (e.g. `// Step 1: Validate input`, `// Step 2: Query database`, `// Next, send response`). Control flow is visible directly in the code structure.
+4. **Empty Category Labels**: Generic labels that carry zero technical information (e.g. `// Core logic`, `// Helper function`, `// Important: please read`).
+5. **Vague Placeholders**: Non-actionable TODO comments expressing generic desires rather than concrete issues (e.g. `// TODO: Optimize this`, `// TODO: Add more validation`). A TODO must state the exact task and context required to act on it.
+6. **Signature Echoes**: Docstrings or JSDoc blocks that merely restate parameter names and types without adding semantic context (e.g. `@param price The price of the item`).
+7. **Decorative Emojis**: Using emojis as icons or status markers in code comments. Keep all technical commentary in plain text.
+
+### The One-Line Constraint Rule
+Cut over-explained comments down to the underlying constraint:
+- State the platform trap, silent failure mode, protocol invariant, or performance consideration in a single concise line.
+- Use a second line only if it introduces an independent, necessary operational fact. Never expand comments into multi-paragraph essays or reasoning chains.
+
+### Comments That Must Be Preserved
+Never strip or abbreviate comments that articulate:
+- Domain business logic rules and policy constraints
+- Architectural design decisions and trade-offs
+- Cryptographic and zero-trust security invariants
+- Memory or CPU performance boundaries
+- Asynchronous concurrency and locking guarantees
+- Protocol and wire-format requirements
+- Hardware, operating system, or compiler bug workarounds
+- Edge cases and defensive pre-conditions
+
+### Code Comment Checklist
+Review all modified files against these criteria:
+- Every comment introduces information not visible in the code itself (R-31).
+- Zero decorative ASCII banners or divider lines.
+- Zero obvious restatements of code identifiers or signatures.
+- Zero procedural step-by-step narration.
+- Zero non-actionable or vague TODOs.
+- Zero decorative emojis.
+- Comment density is balanced (logical block level rather than line-by-line).
+- Length respects the one-line constraint rule.
+- Executable code and structure remained completely untouched.
+

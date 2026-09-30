@@ -9,9 +9,10 @@ description: >-
   remote verification, technical search architecture (Technical SEO, Schema.org JSON-LD graphs, GEO/AEO/LLMO citation physics,
   Google E-E-A-T quality governance, agent-friendly DOM, pSEO topic clusters, CI/CD SEO drift gates), deterministic LLM evals & 4-pillar candidate/portfolio assessment rubrics,
   runtime containment (directory scope-locking, two-tier destructive command gates), structured decision briefs (D<N> triad, accepted shortcut debt tracking),
-  evidence-based CSO security audits, continuous checkpointing, and sub-second persistent browser daemon architecture,
-  alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4, component blueprints, fluid
-  layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
+  evidence-based CSO security audits, continuous checkpointing, sub-second persistent browser daemon architecture,
+  38-invariant anti-slop design filters & liveliness dials (ENERGY/RHYTHM/MOTION), anti-slop technical copywriting, code comment hygiene,
+  and WCAG contrast anti-hallucination standards, alongside 74 production design systems across 8 archetypes, OKLCH token engines, Tailwind v3/v4,
+  component blueprints, fluid layout architecture, spring motion physics, WCAG AAA accessibility, and Core Web Vitals performance.
 ---
 
 # Universal Master Engineering & Design Skill
@@ -119,6 +120,11 @@ Route incoming requests to their targeted operational discipline:
 | "Evidence before assurance / Threat model / Exploit proof" | Evidence-Based CSO Audit | `cso-audit` / `threat-model` | [`29_security_vibe_check_and_defensive_engineering.md`](./references/29_security_vibe_check_and_defensive_engineering.md) |
 | "Sub-second browser daemon / ARIA locators / External refs" | Persistent Browser Daemon | `browser-daemon` / `$B` | [`31_canvas_document_viewer_and_viewport_rendering.md`](./references/31_canvas_document_viewer_and_viewport_rendering.md) |
 | "Continuous checkpoints / Restore negative context / WIP" | Checkpoint & Context Recovery | `checkpoint` / `context-restore` | [`34_context_budget_and_token_efficiency.md`](./references/34_context_budget_and_token_efficiency.md) |
+| "Anti-slop design filter / 38 invariants / Liveliness dials" | Anti-Slop Design & Craftsmanship | `anti-slop` / `design-filter` / `liveliness-dials` | [`41_anti_slop_design_filter_and_craftsmanship_standard.md`](./references/41_anti_slop_design_filter_and_craftsmanship_standard.md) |
+| "Anti-slop copywriting / AI prose tells / Human voice" | Anti-Slop Technical Copywriting | `anti-slop-copy` / `prose-filter` | [`42_anti_slop_copywriting_and_prose_standard.md`](./references/42_anti_slop_copywriting_and_prose_standard.md) |
+| "Code comment hygiene / Purge noisy comments" | Comment Hygiene Protocol | `comments` / `comment-hygiene` | [`06_tdd_and_implementation.md`](./references/06_tdd_and_implementation.md) |
+| "Mobile layout reflow / Touch geometry / Tap targets" | Mobile Reflow & Responsive Geometry | `mobile-reflow` / `tap-targets` | [`25_design_component_blueprints_and_recipes.md`](./references/25_design_component_blueprints_and_recipes.md) |
+| "Contrast math / Relative luminance / Grey-on-grey check" | Contrast Anti-Hallucination | `contrast-check` / `a11y-contrast` | [`27_design_accessibility_and_performance.md`](./references/27_design_accessibility_and_performance.md) |
 
 ---
 
@@ -341,12 +347,15 @@ Explore the full 40 operational references in the [`references/`](./references/)
 - [`26_design_motion_and_microinteractions.md`](./references/26_design_motion_and_microinteractions.md) - Spring physics, easing curves, and Framer Motion code.
 - [`27_design_accessibility_and_performance.md`](./references/27_design_accessibility_and_performance.md) - WCAG AAA rules, contrast verification, and performance checklist.
 - [`28_design_terminal_ui_and_cli_geometry.md`](./references/28_design_terminal_ui_and_cli_geometry.md) - Terminal UI, ANSI visible width calculations, 2-column layout engines, and zero-fork kernel probers.
+- [`41_anti_slop_design_filter_and_craftsmanship_standard.md`](./references/41_anti_slop_design_filter_and_craftsmanship_standard.md) - Anti-slop design filter, 38 invariants across Hard Gates, Purpose Gates, and Quality Locks, Keystone Rule R-31, Three Dials (ENERGY, RHYTHM, MOTION), and Delivery Gate.
+- [`42_anti_slop_copywriting_and_prose_standard.md`](./references/42_anti_slop_copywriting_and_prose_standard.md) - 12 AI writing tells, human voice refactoring, R-02 em dash hard gate, negative parallelism, aphorism formulas, signposting announcements, and chatbot closers.
 
 ---
 
 ## Acknowledgements & Upstream Attribution
 
 The `engineer` standard synthesizes foundational protocols, design systems, and security guardrails from the open-source community:
+- **[miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop)** (MIT License): 38 anti-slop design invariants, Three Dials (ENERGY, RHYTHM, MOTION), copywriting anti-tells, code comment hygiene, and WCAG contrast anti-hallucination standards.
 - **[garrytan/gstack](https://github.com/garrytan/gstack)** (MIT License): Runtime containment (freeze/careful), Two-Tier Destructive Command Matrix, structured Decision Briefs (D<N>), accepted shortcut tracking, evidence-based CSO security verification, and persistent browser daemon architecture.
 - **[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)** (MIT License): Design system archetypes, brand tokens, and OKLCH palette formulas.
 - **[mattpocock/skills](https://github.com/mattpocock/skills)** (MIT License): Engineering lifecycle workflows, deep module discipline, frontier grilling, and two-axis code review.

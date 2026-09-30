@@ -16,7 +16,8 @@ MD_LINK = re.compile(r"\[.*?\]\(((?:\.\.?/)*[A-Za-z0-9_.\-]+(?:/[A-Za-z0-9_.\-]+
 
 CONCEPTUAL_FILES = {
     "CONTEXT.md", "TODO.md", "CONTRIBUTING.md", "ARCHITECTURE.md",
-    "README.md", ".impeccable.md", "scratch/session_state.md"
+    "README.md", ".impeccable.md", "scratch/session_state.md", "CHANGELOG.md",
+    "DESIGN.md"
 }
 
 def documents() -> list[Path]:

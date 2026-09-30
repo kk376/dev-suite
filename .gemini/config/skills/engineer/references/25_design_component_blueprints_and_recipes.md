@@ -226,3 +226,33 @@ export const WindowSimulator: React.FC<{
   );
 };
 ```
+
+---
+
+## 6. Mobile Reflow Physics & Continuous Responsive Architecture
+
+Mobile responsiveness is not an afterthought or desktop layout shrunk down. It is a distinct, intentional reflow of content, hierarchy, and geometry.
+
+### 1. Eliminating Two-State Layouts
+Avoid binary layouts that offer only a stacked phone column and a wide desktop grid. This leaves the 600px to 1024px tablet band broken with either over-stretched stacks or cramped multi-column grids.
+- Implement continuous 3-stage reflow: single column for narrow viewports, two-column intermediate grid for mid-tier widths, and full multi-column layout only when width permits.
+- Verify layouts by continuously dragging viewports through the entire width range rather than checking two static device presets.
+
+### 2. Content-Driven Breakpoint Placement
+- Place breakpoints at the exact viewport widths where content readability degrades, lines break awkwardly, or cards collide.
+- Never anchor breakpoints to specific vendor hardware dimensions (such as 375px or 414px). Layouts must adapt to fluid widths across any device.
+
+### 3. Fluid Sizing & Dynamic Viewport Units
+- **Fluid Typography**: Use `clamp()` functions to smoothly scale heading and display type between mobile and desktop scales (e.g. `clamp(1.5rem, 4vw + 1rem, 3rem)`).
+- **Viewport Height Hygiene**: Avoid `100vh` on mobile viewports because mobile browser address bars cause overflow and vertical clipping. Use `min-h-[100dvh]` or allow containers to size to `auto`.
+- **Proportional Padding**: Scale section padding down on narrow canvases (e.g. reducing 96px desktop padding to 32px or 48px on mobile).
+
+### 4. Touch Geometry Standard (WCAG 2.5.5 / 2.5.8)
+- **Minimum Tap Target**: All buttons, links, toggles, and interactive elements must measure at least 44x44px in their touch bounding box (`min-w-[44px] min-h-[44px]`), using transparent padding if the visual icon is smaller.
+- **Target Separation**: Maintain a minimum 8px buffer between adjacent touch targets to eliminate accidental taps.
+- **Touch Parity**: Never rely on hover-only interactions (such as hover tooltips or menus). Every hover state must have an explicit tap/click toggle equivalent.
+
+### 5. Mobile Navigation & Safe Areas
+- **Discoverable Controls**: Avoid bare, unlabeled hamburger icons. Provide clear text labels (such as "Menu") or retain top-priority primary actions in a compact header or bottom bar.
+- **Occlusion Prevention**: When rendering fixed bottom navigation bars, reserve bottom padding on the scroll container (`pb-20` plus `env(safe-area-inset-bottom)`) so the final items or submit buttons are never occluded.
+
