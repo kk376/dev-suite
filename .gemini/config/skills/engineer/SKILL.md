@@ -367,4 +367,6 @@ The `engineer` standard synthesizes foundational protocols, design systems, and 
 - **[MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)** (MIT License): Bounding-box document layout physics, dual-layer ATS/parser verification, knapsack relevance-weighted trimming, and offline dashboard architecture.
 - **[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover)** (MIT License): Deterministic agent harness hooks (`PostToolUse`), atomic sibling swap file modification, Layer A invisible Unicode/Trojan Source scrubbing, and zero-LLM mathematical stylometry.
 - **[srbhr/Resume-Matcher](https://github.com/srbhr/Resume-Matcher)** (Apache License 2.0): Diff-based AI generation contracts, anti-hallucination invariants, monotonic ContextVar deadline budgeting, Server Action security, and Swiss International design system architecture.
+- **[emmabostian/developer-portfolios](https://github.com/emmabostian/developer-portfolios)**: Curated collection of developer portfolios, design showcases, and engineering portfolio benchmarks used for candidate assessment and portfolio inspiration.
+
 
