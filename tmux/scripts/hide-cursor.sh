@@ -1,8 +1,11 @@
 #!/bin/sh
 # Hide or show terminal cursor for tmux copy-mode
-# Usage: hide-cursor.sh <in_mode> <tty>
+# $1: pane_in_mode (1 = entering copy-mode, 0 = exiting)
+# $2: client_tty (/dev/pts/X)
 if [ "$1" = "1" ]; then
-    printf '\033[?25l' > "$2"
+    [ -n "$2" ] && [ -w "$2" ] && printf '\033[?25l' > "$2" 2>/dev/null
+    tmux set -p cursor-colour "#070722" 2>/dev/null
 else
-    printf '\033[?25h' > "$2"
+    [ -n "$2" ] && [ -w "$2" ] && printf '\033[?25h' > "$2" 2>/dev/null
+    tmux set -p -u cursor-colour 2>/dev/null
 fi
