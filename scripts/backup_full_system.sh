@@ -50,6 +50,12 @@ if [ -d "$HOME/.config/glab-cli" ]; then
     echo "  ✓ Copied ~/.config/glab-cli (GitLab CLI auth & config)"
 fi
 
+if [ -f "$HOME/.config/osc/oscrc" ]; then
+    mkdir -p "$BACKUP_DEST/credentials/osc"
+    cp "$HOME/.config/osc/oscrc" "$BACKUP_DEST/credentials/osc/"
+    echo "  ✓ Copied ~/.config/osc/oscrc (openSUSE OBS config)"
+fi
+
 # 2. Encrypted packaging keys archive
 echo ""
 echo "[2/4] Creating encrypted packaging-backup.zip..."
@@ -57,6 +63,7 @@ STAGE_DIR=$(mktemp -d)
 trap 'rm -rf "$STAGE_DIR"' EXIT
 cp "$BACKUP_DEST/credentials/gpg_secret_keys.asc" "$STAGE_DIR/packaging-gpg-keys.asc" 2>/dev/null || true
 cp "$HOME/.config/copr" "$STAGE_DIR/copr-config.backup" 2>/dev/null || true
+cp "$HOME/.config/osc/oscrc" "$STAGE_DIR/oscrc.backup" 2>/dev/null || true
 cp "$HOME/.ssh/id_ed25519" "$STAGE_DIR/id_ed25519" 2>/dev/null || true
 cp "$HOME/.ssh/id_ed25519.pub" "$STAGE_DIR/id_ed25519.pub" 2>/dev/null || true
 cp -r "$HOME/.config/glab-cli" "$STAGE_DIR/glab-cli" 2>/dev/null || true

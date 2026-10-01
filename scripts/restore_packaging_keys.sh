@@ -54,7 +54,15 @@ if [ -d "$RESTORE_DIR/glab-cli" ]; then
     find "$HOME/.config/glab-cli" -type f -exec chmod 600 {} +
 fi
 
+# 5. Restore openSUSE OBS configuration
+if [ -f "$RESTORE_DIR/oscrc.backup" ]; then
+    echo "Restoring openSUSE OBS config to ~/.config/osc/oscrc..."
+    mkdir -p "$HOME/.config/osc"
+    cp "$RESTORE_DIR/oscrc.backup" "$HOME/.config/osc/oscrc"
+    chmod 600 "$HOME/.config/osc/oscrc"
+fi
+
 echo ""
 echo "✅ All packaging keys and credentials restored successfully!"
-echo "Run 'copr-cli whoami', 'gpg -K', and 'glab auth status' to verify."
+echo "Run 'copr-cli whoami', 'gpg -K', 'glab auth status', and 'osc ls home:kk376' to verify."
 
