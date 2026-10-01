@@ -26,6 +26,7 @@ alias cat 'bat --paging=never --style=plain'
 alias less 'bat --paging=always --pager="less -R"'
 alias la 'ls -la'
 alias oc 'opencode'
+alias gpu_clean 'ollama stop qwen2.5-coder:3b'
 
 # --- Git Shortcuts ---
 alias gs 'git status -sb'
