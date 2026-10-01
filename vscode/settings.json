@@ -98,6 +98,8 @@
         "markdown": false,
         "scminput": false
     },
+    "chat.defaultModel": "qwen2.5-coder:3b",
+    "inlineChat.defaultModel": "qwen2.5-coder:3b",
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },

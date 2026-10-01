@@ -110,6 +110,10 @@ cp opencode/opencode.json ~/.config/opencode/opencode.json
 # Deploy zero-latency warmup & auto-unload launcher wrapper
 mkdir -p ~/.local/bin
 cp opencode/opencode ~/.local/bin/opencode && chmod +x ~/.local/bin/opencode
+
+# Deploy VS Code Chat language models configuration
+mkdir -p ~/.config/Code/User
+cp vscode/chatLanguageModels.json ~/.config/Code/User/chatLanguageModels.json
 ```
 
 ---

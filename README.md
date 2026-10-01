@@ -23,6 +23,7 @@ Personal developer suite, environment configurations, multi-distro packaging aut
   - `settings.json` — Dark Modern theme, FiraCode Nerd Font ligatures, always-on word wrap, multiple tabs, and Emmet snippet integration.
   - `keybindings.json` — Windows-style duplicate line shortcuts (`Shift+Alt+Down` and `Shift+Alt+Up`) bypassing Linux GNOME Mutter workspace shortcuts.
   - `snippets/` & `emmet/` — Dark mode HTML boilerplate snippets and Emmet configs.
+  - `chatLanguageModels.json`: Native offline VS Code Chat provider definition for local Ollama Qwen 2.5 Coder 3B (20k context window, zero telemetry).
 - `nvim/`: Neovim complete configuration:
   - `init.lua`: Main entrypoint loading options and lazy.nvim plugin loader.
   - `lua/config/`: Ergonomic options (relative line numbers, 2-space indentation, smartcase, system clipboard sync) and lazy.nvim setup.
@@ -56,6 +57,9 @@ mkdir -p ~/.local/bin && cp ~/code/dev-suite/opencode/opencode ~/.local/bin/open
 mkdir -p ~/.config/systemd/user && cp ~/code/dev-suite/ollama/ollama.service ~/.config/systemd/user/ollama.service
 systemctl --user daemon-reload && systemctl --user enable --now ollama
 ollama create qwen2.5-coder:3b -f ~/code/dev-suite/ollama/Modelfile.qwen2.5-coder-3b
+
+# Deploy VS Code Chat language models
+mkdir -p ~/.config/Code/User && cp ~/code/dev-suite/vscode/chatLanguageModels.json ~/.config/Code/User/chatLanguageModels.json
 
 # Apply WSL configs
 sudo cp ~/code/dev-suite/wsl.conf /etc/wsl.conf

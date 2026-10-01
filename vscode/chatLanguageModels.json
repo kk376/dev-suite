@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Ollama (Local)",
+    "vendor": "customendpoint",
+    "apiKey": "ollama",
+    "apiType": "chat-completions",
+    "models": [
+      {
+        "id": "qwen2.5-coder:3b",
+        "name": "Qwen 2.5 Coder 3B (20k Max VRAM)",
+        "url": "http://127.0.0.1:11434/v1/chat/completions",
+        "toolCalling": true,
+        "vision": false,
+        "maxInputTokens": 20480,
+        "maxOutputTokens": 4096
+      }
+    ]
+  }
+]
