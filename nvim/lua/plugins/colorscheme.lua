@@ -1,37 +1,29 @@
 -- ==============================================================================
--- Colorscheme Configuration (Noctalia Frosted Glass & Catppuccin Fallback)
+-- Colorscheme Configuration (Tokyo Night for GNOME Desktop)
 -- ==============================================================================
 
 return {
   {
-    "keremimo/noctalia.nvim",
-    name = "noctalia",
+    "folke/tokyonight.nvim",
+    name = "tokyonight",
     lazy = false,    -- Load immediately during startup so colorscheme is present
     priority = 1000, -- Highest priority to ensure it loads before other UI plugins
     opts = {
-      palette_path = vim.fn.expand("~/.config/noctalia/colors.json"),
-      auto_reload = true,
+      style = "night",
       transparent = true,
-      terminal_colors = true,
       styles = {
         comments = { italic = true },
         keywords = { italic = true },
         functions = {},
         variables = {},
+        sidebars = "transparent",
+        floats = "transparent",
       },
     },
     config = function(_, opts)
-      require("noctalia").setup(opts)
-      vim.cmd.colorscheme("noctalia")
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight")
     end,
   },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = true,
-    opts = {
-      flavour = "mocha",
-      transparent_background = true,
-    },
-  },
 }
+
