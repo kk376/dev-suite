@@ -7,16 +7,15 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "context_servers": {
-    "mcp-server-code-runner": {
-      "enabled": false
-    }
-  },
+  "cli_default_open_behavior": "existing_window",
   "disable_ai": true,
   "agent": {
-    "sidebar_side": "right",
-    "favorite_models": [],
-    "model_parameters": []
+    "default_model": {
+      "provider": "ollama",
+      "model": "qwen2.5-coder:3b",
+      "enable_thinking": false
+    },
+    "dock": "right"
   },
   "project_panel": {
     "dock": "left",
@@ -27,7 +26,7 @@
     "restore_on_startup": "last_session"
   },
   "terminal": {
-    "dock": "bottom",
+    "dock": "right",
     "font_size": 15.0,
     "font_family": "FiraCode Nerd Font",
     "shell": {
