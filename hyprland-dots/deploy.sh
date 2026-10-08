@@ -46,6 +46,8 @@ main() {
     deploy_link "$SCRIPT_DIR/dotfiles/noctalia/plugins" "$CONFIG_DIR/noctalia/plugins"
     deploy_link "$SCRIPT_DIR/dotfiles/noctalia/palettes/noctalia.json" "$CONFIG_DIR/noctalia/palettes/noctalia.json"
     deploy_link "$SCRIPT_DIR/dotfiles/noctalia/scripts/sync-gtk-theme.sh" "$CONFIG_DIR/noctalia/scripts/sync-gtk-theme.sh"
+    deploy_link "$SCRIPT_DIR/dotfiles/noctalia/scripts/toggle-emoji.sh" "$CONFIG_DIR/noctalia/scripts/toggle-emoji.sh"
+    chmod +x "$SCRIPT_DIR/dotfiles/noctalia/scripts/toggle-emoji.sh"
 
     # Ghostty Terminal
     deploy_link "$SCRIPT_DIR/dotfiles/ghostty/config.ghostty" "$CONFIG_DIR/ghostty/config.ghostty"
