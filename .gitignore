@@ -6,3 +6,7 @@
 *.pem
 *.key
 *.secret
+
+# Bytecode cache
+__pycache__/
+*.py[cod]
