@@ -39,6 +39,9 @@ main() {
     deploy_link "$SCRIPT_DIR/dotfiles/hypr/scripts/screenshot.sh" "$CONFIG_DIR/hypr/scripts/screenshot.sh"
     deploy_link "$SCRIPT_DIR/dotfiles/hypr/scripts/bt_battery_sync.py" "$CONFIG_DIR/hypr/scripts/bt_battery_sync.py"
     deploy_link "$SCRIPT_DIR/dotfiles/hypr/scripts/app_menu.sh" "$CONFIG_DIR/hypr/scripts/app_menu.sh"
+    deploy_link "$SCRIPT_DIR/dotfiles/hypr/scripts/exit.sh" "$CONFIG_DIR/hypr/scripts/exit.sh"
+    deploy_link "$SCRIPT_DIR/dotfiles/hypr/scripts/session_teardown_listener.py" "$CONFIG_DIR/hypr/scripts/session_teardown_listener.py"
+    chmod +x "$SCRIPT_DIR/dotfiles/hypr/scripts/exit.sh" "$SCRIPT_DIR/dotfiles/hypr/scripts/session_teardown_listener.py"
 
     # Noctalia Shell
     deploy_link "$SCRIPT_DIR/dotfiles/noctalia/config.toml" "$CONFIG_DIR/noctalia/config.toml"
@@ -87,11 +90,28 @@ main() {
     deploy_link "$SCRIPT_DIR/dotfiles/gtk-4.0/settings.ini" "$CONFIG_DIR/gtk-4.0/settings.ini"
     deploy_link "$SCRIPT_DIR/dotfiles/gtk-4.0/noctalia.css" "$CONFIG_DIR/gtk-4.0/noctalia.css"
 
-    # Audio & System Environment
+    # Audio & Hardware Drop-ins
     deploy_link "$SCRIPT_DIR/dotfiles/wireplumber/wireplumber.conf.d/50-bluez.conf" "$CONFIG_DIR/wireplumber/wireplumber.conf.d/50-bluez.conf"
     deploy_link "$SCRIPT_DIR/system/environment.d/10-vulkan-hybrid.conf" "$CONFIG_DIR/environment.d/10-vulkan-hybrid.conf"
-    deploy_link "$SCRIPT_DIR/system/environment.d/20-gtk-theme.conf" "$CONFIG_DIR/environment.d/20-gtk-theme.conf"
+
+    # Systemd Session Target & Isolated Services
     deploy_link "$SCRIPT_DIR/dotfiles/systemd/user/hyprland-session.target" "$CONFIG_DIR/systemd/user/hyprland-session.target"
+    deploy_link "$SCRIPT_DIR/dotfiles/systemd/user/hyprland-workspace-compactor.service" "$CONFIG_DIR/systemd/user/hyprland-workspace-compactor.service"
+    deploy_link "$SCRIPT_DIR/dotfiles/systemd/user/hyprland-bt-battery.service" "$CONFIG_DIR/systemd/user/hyprland-bt-battery.service"
+    mkdir -p "$CONFIG_DIR/systemd/user/hyprland-session.target.wants"
+    ln -sf "$CONFIG_DIR/systemd/user/hyprland-bt-battery.service" "$CONFIG_DIR/systemd/user/hyprland-session.target.wants/hyprland-bt-battery.service"
+
+    # Clean up compactor from wants (it is supervised directly by hyprland.lua) and legacy generic graphical-session wants
+    rm -f "$CONFIG_DIR/systemd/user/hyprland-session.target.wants/hyprland-workspace-compactor.service"
+    rm -f "$CONFIG_DIR/systemd/user/graphical-session.target.wants/hyprland-workspace-compactor.service"
+    rm -f "$CONFIG_DIR/systemd/user/graphical-session.target.wants/hyprland-bt-battery.service"
+
+    # dconf shutdown timeout drop-in to prevent 45s hangs on logout
+    mkdir -p "$CONFIG_DIR/systemd/user/dconf.service.d"
+    cat << 'EOF' > "$CONFIG_DIR/systemd/user/dconf.service.d/timeout.conf"
+[Service]
+TimeoutStopSec=2s
+EOF
 
     # Appearance Profile Switchers & Shell Aliases
     deploy_link "$SCRIPT_DIR/scripts/hypr-profile.sh" "$LOCAL_BIN/hypr-profile.sh"
