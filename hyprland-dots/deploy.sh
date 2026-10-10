@@ -67,7 +67,6 @@ main() {
 
     # Tmux
     deploy_link "$SCRIPT_DIR/dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
-    deploy_link "$SCRIPT_DIR/dotfiles/tmux/ghostty-tmux.conf" "$CONFIG_DIR/tmux/ghostty-tmux.conf"
 
     # Editors & Dev
     deploy_link "$SCRIPT_DIR/dotfiles/btop/btop.conf" "$CONFIG_DIR/btop/btop.conf"
