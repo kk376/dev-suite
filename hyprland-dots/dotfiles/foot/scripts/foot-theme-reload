@@ -94,10 +94,7 @@ def build_osc_payload(colors, alpha_pct):
     # Background: OSC 11 with transparency extension
     bg = clean_hex(colors.get("background"))
     if bg:
-        if alpha_pct >= 100:
-            seqs.append(f"\033]11;#{bg}\033\\")
-        else:
-            seqs.append(f"\033]11;[{alpha_pct}]#{bg}\033\\")
+        seqs.append(f"\033]11;[{alpha_pct}]#{bg}\033\\")
 
     # Cursor color: OSC 12
     cursor = clean_hex(colors.get("cursor"))
