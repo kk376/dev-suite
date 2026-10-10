@@ -10,15 +10,19 @@ A comprehensive standard for distributing native binaries, libraries, and applic
 ┌───────────────────────┬─────────────────────────┬───────────────────────────┐
 │ Ecosystem             │ Manifest Location       │ Automation Pipeline       │
 ├───────────────────────┼─────────────────────────┼───────────────────────────┤
-│ Ubuntu / Debian       │ packaging/debian/       │ Launchpad PPA (debuild +  │
-│                       │ (control, rules)        │ dput)                     │
-│ Fedora / RHEL         │ packaging/rpm/          │ Fedora Copr (copr-cli)    │
-│                       │ (*.spec)                │                           │
+│ Ubuntu / Debian       │ packaging/debian/       │ Launchpad PPA (dpkg +     │
+│                       │ (control, rules)        │ dput / FTP upload)        │
+│ openSUSE (Tumbleweed  │ packaging/opensuse/     │ openSUSE OBS (osc CLI +   │
+│ / Leap)               │ (*.spec, _service)      │ download_url service)     │
+│ Fedora / RHEL / CentOS│ packaging/rpm/          │ Fedora Copr (copr-cli +   │
+│ (Rocky / AlmaLinux)   │ (*.spec)                │ EPEL 9/10 chroots)        │
 │ Arch Linux            │ packaging/arch/         │ AUR (makepkg, .SRCINFO)   │
 │                       │ (PKGBUILD)              │                           │
 │ macOS / Linux         │ packaging/homebrew/     │ Homebrew Tap Formula      │
 │                       │ (*.rb)                  │                           │
-│ Windows 10/11         │ packaging/winget/       │ Microsoft WinGet PKGs     │
+│ Windows (Scoop)       │ packaging/scoop/        │ Scoop Bucket Manifest     │
+│                       │ (*.json)                │                           │
+│ Windows (WinGet)      │ packaging/winget/       │ Microsoft WinGet PKGs     │
 │                       │ (*.yaml)                │ (wingetcreate)            │
 │ Android               │ packaging/termux/       │ Termux Packages Repo      │
 │                       │ (build.sh)              │                           │
@@ -32,26 +36,116 @@ A comprehensive standard for distributing native binaries, libraries, and applic
 ## 2. Channel-Specific Release Protocols
 
 ### A. Ubuntu Launchpad PPA (Debian Source Packages)
-1. Update `packaging/debian/changelog` with standard version string (e.g. `0.7.0-1~ppa1~noble`).
-2. Build vendored source tree with `.cargo/config.toml` redirecting crates.io to `vendor/`.
-3. Sign source package with maintainer GPG key:
-   ```bash
-   debuild -S -sa -d -k"<GPG_KEY_ID>" -p"gpg --batch --passphrase <PASSPHRASE> --pinentry-mode loopback"
-   ```
-4. Upload changes archive to Launchpad:
-   ```bash
-   dput ppa:<USER>/<PPA_NAME> <PACKAGE>_<VERSION>_source.changes
-   ```
 
-### B. Fedora Copr (RPM Builds)
+#### 1. Lifecycle and Revisions
+- Initial release for a version uses revision `1~ppa1~<dist>` (example: `0.19.0-1~ppa1~noble`).
+- Any bug fix or re-upload for that same upstream release version MUST bump the revision to `1~ppa2~<dist>`, `1~ppa3~<dist>`, etc.
+
+#### 2. The Immutable Orig Tarball and Cryptographic DSC Invariant
+- Launchpad permanently records the `.orig.tar.gz` binary and its SHA256 checksum upon the initial `ppa1` upload.
+- Launchpad strictly rejects any revision upload (`ppa2+`) whose `.dsc` specifies a different size or checksum for `orig.tar.gz`:
+  `Rejected: File <pkg>_<ver>.orig.tar.gz already exists, but uploaded version has different contents`.
+- Revision Upload Protocol:
+  1. Always verify if `orig.tar.gz` is already in the Launchpad pool (query `https://launchpad.net/~<USER>/+archive/ubuntu/<PPA>/+files/<PKG>_<VER>.orig.tar.gz`).
+  2. If present, download the exact binary from Launchpad librarian.
+  3. Unpack that exact archive into the build staging tree so upstream source files match byte for byte.
+  4. Overlay the updated `debian/` directory on top of the unpacked tree.
+  5. Build using `dpkg-buildpackage -S -sd -nc -d -k"<GPG_KEY>"` so that `.orig.tar.gz` is excluded from `.changes`, while the `.dsc` references the identical SHA256 checksum recorded in Launchpad.
+
+#### 3. Offline Vendoring and Lockfile Drift Defense
+- Launchpad buildds run in network-isolated environments (`--offline`).
+- If `Cargo.lock` pins a crate version but the vendored source contains a different version, Cargo fails with candidate mismatch.
+- In `debian/rules`, under `override_dh_auto_build`, implement dynamic lockfile alignment checks before running `cargo build --release --offline`:
+  ```makefile
+  override_dh_auto_build:
+  	mkdir -p .cargo
+  	cp debian/vendor-config.toml .cargo/config.toml
+  	find vendor -name Cargo.toml -exec sed -i -e 's/edition = "2024"/edition = "2021"/' -e 's/rust-version = "1.85"/rust-version = "1.74"/' {} +
+  	if grep -q 'version = "1.1.0"' vendor/clap_lex/Cargo.toml 2>/dev/null; then \
+  		sed -i '/name = "clap_lex"/,/checksum =/ { s/version = "1.0.0"/version = "1.1.0"/; s/<OLD_HASH>/<NEW_HASH>/; }' Cargo.lock; \
+  	fi
+  	cargo build --release --offline
+  ```
+
+#### 4. Ubuntu 24.04 (Noble) Cargo 1.75 Compatibility
+- Ubuntu 24.04 LTS ships Cargo 1.75, which fails on Rust Edition 2024 or `rust-version = "1.85+"`.
+- Patch vendored crates by downgrading `edition = "2024"` to `2021` and stripping `rust-version`.
+- Clear file hashes in `.cargo-checksum.json` while preserving package hashes so Cargo accepts modified manifests without checksum errors.
+
+---
+
+### B. openSUSE Open Build Service (OBS)
+
+#### 1. Manifest Architecture
+- Spec file: `packaging/opensuse/<name>.spec` defining `Version: X.Y.Z`, `Release: 0`, and offline source layout.
+- Service manifest: `packaging/opensuse/_service` using `download_url` to pull upstream release tarballs.
+- Offline dependencies: `packaging/opensuse/vendor.tar.zst` containing pre-vendored crates compressed with Zstandard.
+
+#### 2. The Critical _service Version Synchronization Invariant
+- When bumping `Version:` in `<name>.spec`, you MUST simultaneously update `<param name="path">` and `<param name="filename">` inside `_service`.
+- If `_service` is left with a stale tag (example: `v0.18.3.tar.gz`), OBS will fetch the old archive while `%prep` searches for `<name>-0.19.0.tar.gz`, failing with:
+  `error: File /home/abuild/rpmbuild/SOURCES/<name>-<version>.tar.gz: No such file or directory`.
+- When using helper scripts, always ensure `_service` is checked out, updated, and committed alongside the spec file.
+
+#### 3. Offline Build Configuration
+- In `%prep`, unpack `vendor.tar.zst` using `tar -I zstd -xf %{SOURCE1}`.
+- Configure `.cargo/config.toml` to redirect crates.io:
+  ```toml
+  [source.crates-io]
+  replace-with = "vendored-sources"
+
+  [source.vendored-sources]
+  directory = "vendor"
+  ```
+- Invoke builds strictly with `--offline` (`cargo build --release --offline`).
+
+#### 4. 32-bit Architecture Portability Safeguard
+- In C and libc bindings, integer types vary by target architecture. For example, `tm_gmtoff` in `libc::tm` is `c_long` (32-bit integer on `i586`, 64-bit on `x86_64`).
+- Avoid direct assignment to fixed 64-bit types. Always explicitly cast (`tm.tm_gmtoff as i64`) to guarantee compilation on 32-bit chroots.
+
+#### 5. OBS Automation Workflow
+```bash
+osc -A https://api.opensuse.org checkout <PROJECT> <PACKAGE>
+cp packaging/opensuse/<name>.spec <PROJECT>/<PACKAGE>/
+cp packaging/opensuse/vendor.tar.zst <PROJECT>/<PACKAGE>/
+cp packaging/opensuse/_service <PROJECT>/<PACKAGE>/
+cd <PROJECT>/<PACKAGE>
+osc addremove
+osc commit -m "Release version <VERSION>"
+osc results
+```
+
+---
+
+### C. Fedora & RHEL / CentOS Stream Copr (RPM Builds)
 1. Bump `Version: X.Y.Z` in `packaging/rpm/<name>.spec`.
 2. Push git release tag so GitHub archive is live.
-3. Trigger build across all active Fedora chroots:
+3. For enterprise distributions (RHEL 9, RHEL 10, Rocky Linux, AlmaLinux), enable EPEL chroots (`epel-9-x86_64`, `epel-9-aarch64`, `epel-10-x86_64`, `epel-10-aarch64`).
+4. Trigger build across all active chroots:
    ```bash
    copr-cli build-package --name <name> <USER>/<REPO>
    ```
 
-### C. Homebrew Tap (Formulae)
+---
+
+### D. Windows Scoop & WinGet
+
+#### 1. Scoop Bucket Manifest
+- Maintain JSON manifest at `bucket/<name>.json`.
+- On release, compute SHA256 of the Windows release zip or tarball.
+- Update `version`, `url`, and `hash` fields.
+- Commit and push to custom scoop bucket repository.
+
+#### 2. Microsoft WinGet
+- Test or generate manifests using `wingetcreate`:
+  ```powershell
+  wingetcreate update <Publisher.Package> --version <VERSION> --urls <RELEASE_ZIP_URL>
+  ```
+- Submit pull request to `microsoft/winget-pkgs`.
+
+---
+
+### E. Homebrew Tap (Formulae)
 1. Compute SHA256 of the release tarball:
    ```bash
    curl -sL "https://github.com/<USER>/<REPO>/archive/refs/tags/v<VERSION>.tar.gz" | sha256sum
@@ -59,12 +153,14 @@ A comprehensive standard for distributing native binaries, libraries, and applic
 2. Update `url` and `sha256` in `Formula/<name>.rb`.
 3. Commit and push to `homebrew-tap` repository `main` branch.
 
-### D. Microsoft WinGet
-1. Test or generate manifests using `wingetcreate`:
-   ```powershell
-   wingetcreate update <Publisher.Package> --version <VERSION> --urls <RELEASE_ZIP_URL>
-   ```
-2. Submit pull request to `microsoft/winget-pkgs`.
+---
+
+### F. Arch Linux User Repository (AUR)
+1. Update `pkgver=<VERSION>` and reset `pkgrel=1` in `PKGBUILD`.
+2. Compute source SHA256 checksums with `updpkgsums`.
+3. Generate metadata: `makepkg --printsrcinfo > .SRCINFO`.
+4. Test local build with `makepkg -sfc`.
+5. Commit and push to AUR git repository.
 
 ---
 

@@ -295,10 +295,29 @@ curl -s -I -H "Origin: https://evil-attacker.com" "https://yourapp.com/api/user/
 # PASS: Origin rejected or no access-control-allow-origin header
 # FAIL: Access-Control-Allow-Origin: * or echoes back attacker origin with credentials
 
-# 10. Dependency Vulnerability Audit
-npm audit --production || pip-audit || cargo audit
-# PASS: 0 vulnerabilities found
 ```
+
+---
+
+## Automated Black-Box Live Endpoint Scanner (`check_live_security.py`)
+
+To eliminate manual probe errors and automate deployment audits against running staging or production environments, the skill provides a dependency-free Python 3 standard library scanner at [`scripts/check_live_security.py`](file:///home/kk376/code/dev-suite/.gemini/config/skills/engineer/scripts/check_live_security.py):
+
+```bash
+# Scan a live staging, local dev, or production web application
+python3 scripts/check_live_security.py https://app.example.com --api https://api.example.com/health
+
+# Output machine-readable JSON for CI/CD gates
+python3 scripts/check_live_security.py https://app.example.com --json
+
+# Limit checks to specific categories (secrets, frontend, csrf, headers, cors, errors)
+python3 scripts/check_live_security.py https://app.example.com --only headers,cors,secrets
+```
+
+### Scanner Verification Invariants
+1. **Immediate Credential Rotation Gate**: If the scanner reports an exposed sensitive file (`.env`, `.git/config`, database dumps, private keys), notify the human operator immediately to rotate credentials. Never print secret token values in terminal output.
+2. **Evidence Before Modification**: Every scanner failure reports `evidence`, `url`, and `fix`. Trace the root source in code (middleware, framework route, or hosting configuration such as `nginx.conf`, `Caddyfile`, `vercel.json`, `netlify.toml`) before applying changes.
+3. **Exit Code Conventions**: Exit code 0 represents clean verification with zero failures; exit code 1 denotes at least one security failure; exit code 2 indicates an unreachable endpoint.
 
 ---
 

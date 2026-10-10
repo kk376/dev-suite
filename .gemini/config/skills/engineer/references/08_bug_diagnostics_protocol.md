@@ -27,8 +27,9 @@
 
 ### Phase 5: Root Cause Fix & Regression Test
 - Write a permanent automated regression test at the true public seam.
+- **Forced Mutation Verification**: If you forced the red state by mutating code or an existing fixture, run `git diff` against a pristine copy to prove that the mutation actually landed before trusting the failure. Never mistake a silent no-op edit for a valid red test.
 - Implement the root-cause fix (never apply surface-level monkey-patches).
-- Verify the regression test transitions from RED $	o$ GREEN.
+- Verify the regression test transitions from RED to GREEN.
 
 ### Phase 6: Verification & Tag Cleanup
 - Run the full suite to guarantee zero side-effects.

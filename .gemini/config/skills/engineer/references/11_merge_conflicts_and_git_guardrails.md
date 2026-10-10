@@ -107,7 +107,25 @@ Destructive SQL commands frequently evade simple regex filters when wrapped in q
   - Run linters and shellcheck across all changed scripts and test files.
 - **Verify on Remote**:
   - Always execute `gh run list --repo <user>/<repo>` and `gh run watch <id>` immediately after push.
-  - Zero-Red-Pipeline Invariant: Never deliver a task or claim completion until remote CI displays `✓ completed success`.
+  - Zero-Red-Pipeline Invariant: Never deliver a task or claim completion until remote CI displays [SUCCESS] completed success.
 
+---
 
+## Git Hook Redirection and Argument Injection Defense (`hook-guard`)
 
+Adversarial prompts, rogue scripts, or malicious sub-processes may attempt to bypass local Git hooks and verification gates using configuration overrides or shell wrappers. We enforce strict prevention against three primary circumvention vectors:
+
+### 1. Configuration Include and Hook Redirection Overrides
+Git allows dynamic configuration injection via command-line arguments and environment variables. Attackers or flawed tools may attempt to redirect `core.hookspath` away from `.git/hooks` to `/dev/null` or an empty directory:
+- Direct flags: `git -c core.hookspath=/dev/null commit` or `git --config-env=core.hookspath=...`
+- Transitive include injection: `git -c include.path=/tmp/bypass.conf commit` or `git -c includeIf.gitdir:**/.path=...`
+- Environment variables: `GIT_CONFIG_PARAMETERS`, `GIT_CONFIG_COUNT`, `GIT_CONFIG_KEY_<N>`, and `GIT_CONFIG_VALUE_<N>`.
+- Policy: Hard deny any command containing `core.hookspath`, `include.path`, `includeif.*.path`, or `GIT_CONFIG_*` overrides targeting commit, push, or rebase operations.
+
+### 2. Wrapper Split-String Evasion
+When command monitoring regexes inspect only leading tokens, wrappers can conceal destructive flags:
+- Vector: `env -S "git commit --no-verify -m bypass"` or `env --split-string="git push --force origin main"`.
+- Policy: Unpack shell wrappers and parse inner argument arrays. Any `env -S` or `env --split-string` invocation bundling `--no-verify` or `--force` is immediately blocked.
+
+### 3. Tracked-Secret Rename Bypass
+Renaming a template file like `.env.example` to `.env` tracks the file directly past `.gitignore`. Pre-commit hooks installed by [`scripts/git_guardrails.sh`](file:///home/kk376/code/dev-suite/.gemini/config/skills/engineer/scripts/git_guardrails.sh) must invoke [`scripts/check_no_secrets.py`](file:///home/kk376/code/dev-suite/.gemini/config/skills/engineer/scripts/check_no_secrets.py) to block tracked secret commits.

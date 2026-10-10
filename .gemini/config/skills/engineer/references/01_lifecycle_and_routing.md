@@ -58,3 +58,20 @@ Run setup once per repository to configure:
 1. **Issue Tracker**: GitHub Issues (`gh`), Linear (`linear`), or local markdown files (`.tickets/` or `TODO.md`).
 2. **Triage Labels**: Define the triage labels used in the repo (e.g. `triage:unreviewed`, `triage:ready`, `triage:blocked`).
 3. **Docs Directory**: Set the canonical documentation path (e.g. `docs/`, `docs/adr/`, `CONTEXT.md`, `security/`, `schemas/`).
+
+---
+
+## Host Runtime & Tool Interoperability Standard
+
+When skills, subagents, or automated workflows operate across diverse host environments (such as Claude Code, Codex, OpenAI Swarm, and Google Antigravity), tool call vocabularies must map deterministically without tool hallucinations:
+
+| Canonical Host Tool Concept | Claude / Codex Vocabulary | Google Antigravity Primitive (`agy`) | Operation Invariant |
+| :--- | :--- | :--- | :--- |
+| **Command Execution** | `Bash` / `Terminal` | `run_command` | Execute shell commands synchronously or track long-running jobs via background task management. |
+| **File Read** | `FileRead` / `Read` | `view_file` | Read files with line-indexed slicing (`StartLine`, `EndLine`). Check truncation indicators. |
+| **File Creation** | `FileWrite` / `Write` | `write_to_file` | Atomically write new files. Set `Overwrite: true` explicitly when replacing complete files. |
+| **Surgical Code Edit** | `FileEdit` / `Edit` | `replace_file_content` | Make exact substring replacements at unique line ranges. No speculative changes. |
+| **Subagent Delegation** | `Agent` / `Subagent` | `invoke_subagent` | Launch isolated subagent conversations (`flash`, `pro`, or `inherit`). |
+| **User Clarification** | `AskUserQuestion` | `ask_question` | Present structured multiple-choice questions with explicit selectable options. |
+| **Web Content Fetch** | `WebFetch` / `Curl` | `read_url_content` | Fetch static markdown and HTML documentation via HTTP. |
+| **Web Search** | `WebSearch` / `Google` | `search_web` | Perform search queries across documentation domains. |

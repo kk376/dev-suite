@@ -40,60 +40,72 @@ Evaluating complex artifacts (such as engineering portfolios, technical candidat
 Based on production-proven technical screening methodologies (such as the HackerRank evaluation architecture), technical capability is evaluated across 4 orthogonal dimensions totaling 100 points:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                      THE 4-PILLAR CANDIDATE SCORING MODEL (100 PTS)                     │
-├─────────────────────────┬─────────────────────────┬───────────────────┬─────────────────┤
-│ 1. OPEN SOURCE (0–35)   │ 2. SELF PROJECTS (0–30) │ 3. PRODUCTION (20)│ 4. SKILLS (15)  │
-├─────────────────────────┼─────────────────────────┼───────────────────┼─────────────────┤
-│ Upstream PRs, 1000+ star│ Original systems tools, │ Real deployments, │ Multi-language, │
-│ repos, maintainership,  │ multi-layer apps, active│ scale, CI/CD,     │ systems depth,  │
-│ Linux/Rust ecosystem    │ users, low-level design │ cloud & database  │ algorithms, CS  │
-└─────────────────────────┴─────────────────────────┴───────────────────┴─────────────────┘
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                           THE 5-PILLAR CANDIDATE SCORING MODEL (110 PTS MAX)                          │
+├───────────────────────┬───────────────────────┬───────────────────┬─────────────────┬─────────────────┤
+│ 1. OPEN SOURCE (0-35) │ 2. SELF PROJECTS(0-30)│ 3. PRODUCTION (20)│ 4. SKILLS (15)  │ 5. AI FLUENCY(10│
+├───────────────────────┼───────────────────────┼───────────────────┼─────────────────┼─────────────────┤
+│ Upstream PRs, 1000+   │ Original systems,     │ Real deployments, │ Multi-language, │ Eval suites,    │
+│ star repos, maintainer│ multi-layer apps,     │ scale, CI/CD,     │ systems depth,  │ reliability, RAG│
+│ status, Linux/Rust    │ active users, systems │ cloud & database  │ algorithms, CS  │ chunking physics│
+└───────────────────────┴───────────────────────┴───────────────────┴─────────────────┴─────────────────┘
 ```
 
-### Pillar 1: Open Source & Upstream Impact (0–35 Points)
+### Pillar 1: Open Source & Upstream Impact (0 to 35 Points)
 *Critical Rule: Having personal repositories on GitHub does NOT constitute open-source contribution. True open-source contribution means contributing to OTHER people's codebases.*
 
-- **High Tier (25–35 pts)**:
+- **High Tier (25 to 35 pts)**:
   - Meaningful code contributions or upstream bug fixes to popular, high-profile projects (1,000+ stars on GitHub/GitLab).
   - Recognized programs: Google Summer of Code (GSoC), Linux Foundation mentorships, official maintainer status.
   - Upstream diagnostic depth: Filing deep, reproducible bug reports with profiling traces and architectural RFCs acknowledged by core maintainers.
-- **Medium Tier (15–24 pts)**:
+- **Medium Tier (15 to 24 pts)**:
   - Contributions to active community tools or moderate-sized open-source repositories.
   - Active participation in collaborative issue resolution and accepted pull requests.
-- **Low Tier (5–10 pts)**:
+- **Low Tier (5 to 10 pts)**:
   - Purely personal repositories with zero contributions to external projects.
-  - Hacktoberfest participation consisting solely of minor documentation or typo fixes (capped at 3–5 pts).
-- **Very Low Tier (0–4 pts)**:
+  - Hacktoberfest participation consisting solely of minor documentation or typo fixes (capped at 3 to 5 pts).
+- **Very Low Tier (0 to 4 pts)**:
   - Zero open-source activity or public code footprint.
 
-### Pillar 2: Self Projects & Systems Complexity (0–30 Points)
-- **High Tier (20–30 pts)**:
+### Pillar 2: Self Projects & Systems Complexity (0 to 30 Points)
+- **High Tier (20 to 30 pts)**:
   - Architecturally complex systems: compilers, CLI telemetry tools, WASM extensions, database engines, or custom protocols.
   - Multi-technology stacks with clean seams and separation of concerns.
   - Real-world adoption: tools actively used by external developers, packaging across distributions (Crates.io, PyPI, AUR, Copr).
-- **Medium Tier (10–19 pts)**:
+- **Medium Tier (10 to 19 pts)**:
   - Complete, functional full-stack applications with solid test coverage, clean documentation, and well-structured APIs.
-- **Low Tier (0–9 pts)**:
+- **Low Tier (0 to 9 pts)**:
   - Trivial tutorial clones (Todo lists, basic weather apps, unmodified boilerplate) with no novel engineering contribution.
 
-### Pillar 3: Production Engineering & Experience (0–20 Points)
-- **High Tier (15–20 pts)**:
+### Pillar 3: Production Engineering & Experience (0 to 20 Points)
+- **High Tier (15 to 20 pts)**:
   - Production deployments with real user traffic, zero-downtime database migrations, automated CI/CD pipelines, and observability (metrics, structured logs, tracing).
   - High availability architecture, fault tolerance, and defensive zero-trust security.
-- **Medium Tier (8–14 pts)**:
+- **Medium Tier (8 to 14 pts)**:
   - Experience in staging environments, Docker containerization, cloud hosting, and basic CI verification.
-- **Low Tier (0–7 pts)**:
+- **Low Tier (0 to 7 pts)**:
   - Code runs only locally on localhost; no deployment experience or operational awareness.
 
-### Pillar 4: Technical Skills & Core CS Fundamentals (0–15 Points)
-- **High Tier (11–15 pts)**:
+### Pillar 4: Technical Skills & Core CS Fundamentals (0 to 15 Points)
+- **High Tier (11 to 15 pts)**:
   - Diverse, complementary language mastery (e.g. Systems: Rust/C/Go + Scripting: Python/Bash + Querying: SQL).
   - Deep grasp of memory safety, concurrency, POSIX FFI, operating system telemetry (`/proc`, `/sys`), and algorithms.
-- **Medium Tier (6–10 pts)**:
+- **Medium Tier (6 to 10 pts)**:
   - Solid fluency in a primary language and standard frameworks.
-- **Low Tier (0–5 pts)**:
+- **Low Tier (0 to 5 pts)**:
   - Surface-level exposure limited to basic syntax.
+
+### Pillar 5: AI Fluency & Production AI Systems Architecture (0 to 10 Points)
+- **High Tier (8 to 10 pts)**:
+  - Substantive systems implementing LLM APIs, agent orchestration, tool calling, model evaluations, fine-tuning, or multimodal pipelines.
+  - Demonstrates reliability controls: deterministic JSON/Pydantic schemas, retry backoff, context token budgets, RAG semantic chunking, and automated eval benchmarks.
+- **Medium Tier (4 to 7 pts)**:
+  - Meaningful AI-enabled features with implementation evidence (streaming UI, prompt templating, token usage tracking).
+- **Low Tier (1 to 3 pts)**:
+  - Surface-level tool mentions or trivial tutorial chatbots, basic completion wrappers, or copy-pasted API calls with zero defensive controls.
+- **Zero Tier (0 pts)**:
+  - Zero evidence of building with, evaluating, or deploying AI-assisted systems.
 
 ---
 
