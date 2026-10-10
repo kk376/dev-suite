@@ -65,6 +65,10 @@ main() {
     deploy_link "$SCRIPT_DIR/dotfiles/foot/scripts/foot-theme-reload" "$LOCAL_BIN/foot-theme-reload"
     chmod +x "$SCRIPT_DIR/dotfiles/foot/scripts/foot-theme-reload"
 
+    # Tmux
+    deploy_link "$SCRIPT_DIR/dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
+    deploy_link "$SCRIPT_DIR/dotfiles/tmux/ghostty-tmux.conf" "$CONFIG_DIR/tmux/ghostty-tmux.conf"
+
     # Editors & Dev
     deploy_link "$SCRIPT_DIR/dotfiles/btop/btop.conf" "$CONFIG_DIR/btop/btop.conf"
     deploy_link "$SCRIPT_DIR/dotfiles/nvim/init.lua" "$CONFIG_DIR/nvim/init.lua"
