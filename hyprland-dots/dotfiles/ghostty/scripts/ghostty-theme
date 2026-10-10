@@ -134,7 +134,7 @@ def apply_theme(theme_name):
     except Exception:
         subprocess.run(["pkill", "-SIGUSR2", "ghostty"], check=False)
 
-    # Sync Foot and tmux theme
+    # Sync Foot theme
     sync_foot_theme(theme_name)
 
     print(f"Theme switched to: {theme_name} (bg: {bg_hex}, opacity: {opacity})")

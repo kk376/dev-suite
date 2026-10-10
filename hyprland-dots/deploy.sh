@@ -60,12 +60,10 @@ main() {
     deploy_link "$SCRIPT_DIR/dotfiles/ghostty/scripts/ghostty-theme" "$LOCAL_BIN/ghostty-theme"
     deploy_link "$SCRIPT_DIR/dotfiles/ghostty/scripts/ghostty-theme" "$LOCAL_BIN/term-theme"
 
-    # Foot Terminal & tmux
+    # Foot Terminal
     deploy_link "$SCRIPT_DIR/dotfiles/foot/foot.ini" "$CONFIG_DIR/foot/foot.ini"
     deploy_link "$SCRIPT_DIR/dotfiles/foot/scripts/foot-theme-reload" "$LOCAL_BIN/foot-theme-reload"
     chmod +x "$SCRIPT_DIR/dotfiles/foot/scripts/foot-theme-reload"
-    deploy_link "$SCRIPT_DIR/dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
-    deploy_link "$SCRIPT_DIR/dotfiles/tmux/ghostty-tmux.conf" "$CONFIG_DIR/tmux/ghostty-tmux.conf"
 
     # Editors & Dev
     deploy_link "$SCRIPT_DIR/dotfiles/btop/btop.conf" "$CONFIG_DIR/btop/btop.conf"

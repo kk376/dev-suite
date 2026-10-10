@@ -15,7 +15,6 @@ from pathlib import Path
 HOME = Path.home()
 FOOT_INI = HOME / ".config" / "foot" / "foot.ini"
 DEFAULT_THEME = HOME / ".config" / "foot" / "themes" / "noctalia"
-TMUX_THEME = HOME / ".config" / "tmux" / "themes" / "noctalia.conf"
 
 
 def get_active_theme_path(theme_arg=None):
@@ -195,33 +194,10 @@ def dispatch_to_ptys(payload, ptys):
     return count
 
 
-def reload_tmux_theme():
-    tmux_tmpdir = os.environ.get("TMUX_TMPDIR", f"/tmp/tmux-{os.getuid()}")
-    socket_paths = glob.glob(os.path.join(tmux_tmpdir, "*"))
-    for sock in socket_paths:
-        if os.path.exists(sock):
-            try:
-                if TMUX_THEME.is_file():
-                    subprocess.run(
-                        ["tmux", "-S", sock, "source-file", str(TMUX_THEME)],
-                        capture_output=True,
-                        check=False,
-                    )
-                subprocess.run(
-                    ["tmux", "-S", sock, "refresh-client", "-S"],
-                    capture_output=True,
-                    check=False,
-                )
-            except Exception:
-                pass
-
-
 def main():
     theme_arg = sys.argv[1] if len(sys.argv) > 1 else None
     theme_path = get_active_theme_path(theme_arg)
     if not theme_path or not theme_path.is_file():
-        # Fall back gracefully if no theme file found
-        reload_tmux_theme()
         return
 
     alpha_pct = get_alpha_percentage()
@@ -230,10 +206,9 @@ def main():
 
     ptys = discover_ptys()
     dispatched = dispatch_to_ptys(payload, ptys)
-    reload_tmux_theme()
 
     theme_name = theme_path.name
-    print(f"[PASS] Foot + tmux colors reloaded: {theme_name} (alpha: {alpha_pct}%, targets: {dispatched})")
+    print(f"[PASS] Foot colors reloaded: {theme_name} (alpha: {alpha_pct}%, targets: {dispatched})")
 
 
 if __name__ == "__main__":
