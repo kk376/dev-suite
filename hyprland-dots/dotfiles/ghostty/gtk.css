@@ -38,7 +38,7 @@ revealer.bottom-bar.flat,
 .bottom-bar,
 .bottom-bar.raised,
 .bottom-bar.flat {
-    background-color: rgba(16, 19, 28, 0.9);
+    background-color: rgba(18, 19, 28, 0.90);
     background-image: none;
     border: none;
     border-color: transparent;
@@ -165,7 +165,7 @@ tabbar tab:selected:hover,
 tabbar tabbox > tabboxchild tab:selected,
 tabbar tabbox > tabboxchild tab:selected:hover {
     background-color: #a9aefe;
-    color: #070722;
+    color: #e2e1ef;
     border-radius: 5px;
     margin: 1px 2px;
     padding: 2px 5px;
@@ -182,7 +182,7 @@ tabbar tab:selected label,
 tabbar tab:selected title,
 tabbar tab:selected:hover label,
 tabbar tab:selected:hover title {
-    color: #070722;
+    color: #e2e1ef;
     font-size: 11px;
     font-weight: bold;
     padding: 0px 1px;
