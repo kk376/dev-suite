@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# foot-tmux - Launch a standalone foot terminal running an isolated tmux session
-set -euo pipefail
-
-exec foot /usr/bin/tmux new-session -c "$HOME" "$@"

@@ -601,7 +601,6 @@ wallpaper_scheme = "m3-tonal-spot"
         "btop",
         "cava",
         "emacs",
-        "foot",
         "gtk3",
         "gtk4",
         "ghostty",
@@ -691,7 +690,6 @@ wallpaper_scheme = "m3-tonal-spot"
         "rio",
         "superfile",
         "surgedm",
-        "tmux",
         "yazi"
     ]
     enable_builtin_templates = true
